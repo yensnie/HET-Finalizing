@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 using Tobii.Research;
 using UnityEngine.SceneManagement;
 
