@@ -5,7 +5,7 @@ public class EyeHandler : MonoBehaviour
 {
     private IEyeTracker eyeTracker;
 
-    private ScreenBasedCalibration screenBasedCalibration;
+    // private ScreenBasedCalibration screenBasedCalibration;
 
     private Vector3 currentPosition;
 
@@ -31,7 +31,7 @@ public class EyeHandler : MonoBehaviour
             // --- connect 1st eye tracker
             eyeTracker = trackers[0];
             // --- assign the tracker to calibration
-            screenBasedCalibration = new ScreenBasedCalibration(eyeTracker);
+            // screenBasedCalibration = new ScreenBasedCalibration(eyeTracker);
         }
     }
     void Start()
