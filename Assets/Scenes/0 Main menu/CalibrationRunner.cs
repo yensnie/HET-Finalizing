@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using Tobii.Research;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CalibrationRunner : MonoBehaviour
 {
@@ -8,6 +9,24 @@ public class CalibrationRunner : MonoBehaviour
     private IEyeTracker eyeTracker;
 
     // private ScreenBasedCalibration screenBasedCalibration;
+
+    [SerializeField]
+    private Image calibrationPoint;
+
+    [SerializeField]
+    private Canvas calibrationCanvas;
+
+    [SerializeField]
+    private Image panel;
+
+    private bool isCalibrating
+    {
+        set 
+        {
+            calibrationCanvas.gameObject.SetActive(value);
+            panel.color = value ? Color.black : new Color(0, 0, 0, 0);
+        }
+    }
 
     void Awake()
     {
@@ -30,6 +49,8 @@ public class CalibrationRunner : MonoBehaviour
             // --- assign the tracker to calibration
             // screenBasedCalibration = new ScreenBasedCalibration(eyeTracker);
         }
+
+        isCalibrating = false;
     }
 
     void Update()
@@ -55,6 +76,7 @@ public class CalibrationRunner : MonoBehaviour
     // <BeginExample>
     private IEnumerator Calibrate(IEyeTracker eyeTracker)
     {
+        isCalibrating = true;
         // Create a calibration object.
         var calibration = new ScreenBasedCalibration(eyeTracker);
         // Enter calibration mode.
@@ -73,6 +95,7 @@ public class CalibrationRunner : MonoBehaviour
         {
             // Show an image on screen where you want to calibrate.
             Debug.Log(string.Format("Show point on screen at ({0}, {1})", point.X, point.Y));
+            calibrationPoint.rectTransform.anchoredPosition = new Vector2(Screen.width * point.X, Screen.height * (1 - point.Y));
             // Wait a little for user to focus.
             yield return new WaitForSeconds(.7f);
             // Collect data.
@@ -84,15 +107,19 @@ public class CalibrationRunner : MonoBehaviour
                 calibration.CollectData(point);
             }
         }
+
         // Compute and apply the calibration.
         CalibrationResult calibrationResult = calibration.ComputeAndApply();
         Debug.Log(string.Format("Compute and apply returned {0} and collected at {1} points.",
             calibrationResult.Status, calibrationResult.CalibrationPoints.Count));
+
         // Analyze the data and maybe remove points that weren't good.
         calibration.DiscardData(new NormalizedPoint2D(0.1f, 0.1f));
+
         // Redo collection at the discarded point.
         Debug.Log(string.Format("Show point on screen at ({0}, {1})", 0.1f, 0.1f));
         calibration.CollectData(new NormalizedPoint2D(0.1f, 0.1f));
+
         // Compute and apply again.
         calibrationResult = calibration.ComputeAndApply();
         Debug.Log(string.Format("Second compute and apply returned {0} and collected at {1} points.",
@@ -100,5 +127,6 @@ public class CalibrationRunner : MonoBehaviour
         // See that you're happy with the result.
         // The calibration is done. Leave calibration mode.
         calibration.LeaveCalibrationMode();
+        isCalibrating = false;
     }
 }
