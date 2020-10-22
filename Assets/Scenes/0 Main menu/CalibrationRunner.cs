@@ -33,14 +33,17 @@ public class CalibrationRunner : MonoBehaviour
         EyeTrackerCollection trackers = EyeTrackingOperations.FindAllEyeTrackers();
         foreach (IEyeTracker eyeTracker in trackers)
         {
-            Debug.Log(string.Format(
-                "Adress: {0}, Name: {1}, Mode: {2}, Serial number: {3}, Firmware version: {4}",
-                eyeTracker.Address,
-                eyeTracker.DeviceName,
-                eyeTracker.Model,
-                eyeTracker.SerialNumber,
-                eyeTracker.FirmwareVersion
-                ));
+            Debug.Log(
+                string.Format
+                (
+                    "Adress: {0}, Name: {1}, Mode: {2}, Serial number: {3}, Firmware version: {4}",
+                    eyeTracker.Address,
+                    eyeTracker.DeviceName,
+                    eyeTracker.Model,
+                    eyeTracker.SerialNumber,
+                    eyeTracker.FirmwareVersion
+                )
+            );
         }
         if (trackers.Count > 0)
         {
@@ -60,9 +63,6 @@ public class CalibrationRunner : MonoBehaviour
             Calibrate(eyeTracker);
         }
     }
-    // ------------------------------- find eye tracker
-
-
 
     // ------------------------------- calibration
     IEnumerator Execute(IEyeTracker eyeTracker)
