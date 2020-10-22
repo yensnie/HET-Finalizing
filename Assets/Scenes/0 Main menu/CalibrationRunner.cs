@@ -25,6 +25,7 @@ public class CalibrationRunner : MonoBehaviour
         {
             calibrationCanvas.gameObject.SetActive(value);
             panel.color = value ? Color.black : new Color(0, 0, 0, 0);
+            Debug.Log(string.Format("is being calibrate: {0}", value.ToString()));
         }
     }
 
@@ -49,8 +50,7 @@ public class CalibrationRunner : MonoBehaviour
         {
             // --- connect 1st eye tracker
             eyeTracker = trackers[0];
-            // --- assign the tracker to calibration
-            // screenBasedCalibration = new ScreenBasedCalibration(eyeTracker);
+            Debug.Log("did get the eye tracker");
         }
 
         isCalibrating = false;
