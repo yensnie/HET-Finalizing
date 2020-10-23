@@ -60,7 +60,7 @@ public class CalibrationRunner : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.C) && (eyeTracker != null))
         {
-            Calibrate(eyeTracker);
+            StartCoroutine(Calibrate(eyeTracker));
         }
     }
 
@@ -73,7 +73,7 @@ public class CalibrationRunner : MonoBehaviour
         }
         yield break;
     }
-    // <BeginExample>
+    //TODO: if call the IEnumerator function directly, will not happen, need to read about this
     private IEnumerator Calibrate(IEyeTracker eyeTracker)
     {
         isCalibrating = true;
