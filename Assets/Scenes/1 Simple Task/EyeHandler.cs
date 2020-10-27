@@ -56,7 +56,8 @@ public class EyeHandler : MonoBehaviour
         var combinedEyeGazePoint = (
             Utility.ToVector2(e.LeftEye.GazePoint.PositionOnDisplayArea) +
             Utility.ToVector2(e.RightEye.GazePoint.PositionOnDisplayArea)
-            ) / 2f;
+        ) / 2f;
+
         var position = Camera.main.ScreenToWorldPoint(
             new Vector3(Screen.width * combinedEyeGazePoint.x, Screen.height * (1 - combinedEyeGazePoint.y), 10)
         );    // the z should be 10 cuz the camera currently has z value -10
