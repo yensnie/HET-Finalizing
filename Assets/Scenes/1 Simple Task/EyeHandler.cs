@@ -20,25 +20,30 @@ public class EyeHandler : MonoBehaviour
     }
     void Start()
     {
-        try {
+        try
+        {
             eyeTracker.GazeDataReceived += GazeDataReceivedFromTracker;
-        } catch {}
-        
+        }
+        catch { }
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (currentPosition != null) {
-            transform.position = new Vector2(currentPosition.x, currentPosition.y); 
+        if (currentPosition != null)
+        {
+            transform.position = new Vector2(currentPosition.x, currentPosition.y);
         }
     }
 
     void OnDestroy()
     {
-        try {
+        try
+        {
             eyeTracker.GazeDataReceived -= GazeDataReceivedFromTracker;
-        } catch {}
+        }
+        catch { }
     }
 
     private void GazeDataReceivedFromTracker(object sender, GazeDataEventArgs e)
@@ -49,7 +54,7 @@ public class EyeHandler : MonoBehaviour
         }
 
         var combinedEyeGazePoint = (
-            Utility.ToVector2(e.LeftEye.GazePoint.PositionOnDisplayArea) + 
+            Utility.ToVector2(e.LeftEye.GazePoint.PositionOnDisplayArea) +
             Utility.ToVector2(e.RightEye.GazePoint.PositionOnDisplayArea)
             ) / 2f;
         var position = Camera.main.ScreenToWorldPoint(

@@ -2,31 +2,37 @@
 
 public class ColliderHandle : MonoBehaviour
 {
-    private void registerSelectedObject() {
+    private void registerSelectedObject()
+    {
         EyeOnlyRunner.selectedObj = this.gameObject;
     }
 
-    private void deRegisterSelectedObject() {
+    private void deRegisterSelectedObject()
+    {
         this.gameObject.GetComponent<SpriteRenderer>().sprite = GameObject.Find("GameRunner").GetComponent<EyeOnlyRunner>().white;
         EyeOnlyRunner.selectedObj = null;
         EyeOnlyRunner.headSelectedObj = null;
     }
 
-    private void registerHeadSelectedObject() {
+    private void registerHeadSelectedObject()
+    {
         // only work if in head-eye mode and this is the selected object already
         if (Global.currentState != TrialState.HeadEye) { return; }
-        if (EyeOnlyRunner.selectedObj == this.gameObject) {
+        if (EyeOnlyRunner.selectedObj == this.gameObject)
+        {
             EyeOnlyRunner.headSelectedObj = this.gameObject;
         }
     }
 
-    private void deRegisterHeadSelectedObject() {
+    private void deRegisterHeadSelectedObject()
+    {
         if (Global.currentState != TrialState.HeadEye) { return; }
-        if (EyeOnlyRunner.selectedObj == this.gameObject) {
+        if (EyeOnlyRunner.selectedObj == this.gameObject)
+        {
             this.gameObject.GetComponent<SpriteRenderer>().sprite = GameObject.Find("GameRunner").GetComponent<EyeOnlyRunner>().blue;
             EyeOnlyRunner.headSelectedObj = null;
         }
-        
+
     }
 
     /// <summary>
@@ -36,11 +42,11 @@ public class ColliderHandle : MonoBehaviour
     /// <param name="other">The other Collider2D involved in this collision.</param>
     void OnTriggerStay2D(Collider2D other)
     {
-        if (other.gameObject.name.Equals("eyeCursor")) 
+        if (other.gameObject.name.Equals("eyeCursor"))
         {
             registerSelectedObject();
         }
-        if (other.gameObject.name.Equals("headCursor")) 
+        if (other.gameObject.name.Equals("headCursor"))
         {
             registerHeadSelectedObject();
         }
@@ -53,11 +59,11 @@ public class ColliderHandle : MonoBehaviour
     /// <param name="other">The other Collider2D involved in this collision.</param>
     void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.name.Equals("eyeCursor")) 
+        if (other.gameObject.name.Equals("eyeCursor"))
         {
             deRegisterSelectedObject();
         }
-        if (other.gameObject.name.Equals("headCursor")) 
+        if (other.gameObject.name.Equals("headCursor"))
         {
             deRegisterHeadSelectedObject();
         }

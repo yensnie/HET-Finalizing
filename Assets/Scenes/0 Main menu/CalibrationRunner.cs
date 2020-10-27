@@ -21,7 +21,7 @@ public class CalibrationRunner : MonoBehaviour
     private Image panel;
 
     private CalibrationThread calibrationThread;
-    
+
     private Tobii.Research.Unity.CalibrationPoint pointScript;
 
     private bool isCalibrating
@@ -58,7 +58,8 @@ public class CalibrationRunner : MonoBehaviour
 
     void OnDisable()
     {
-        if (calibrationThread != null) {
+        if (calibrationThread != null)
+        {
             calibrationThread.StopThread();
             calibrationThread = null;
         }
@@ -103,7 +104,8 @@ public class CalibrationRunner : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
 
-        if (!calibrationThread.Running) {
+        if (!calibrationThread.Running)
+        {
             Debug.LogError("Failed to start calibration thread");
             calibrationThread.StopThread();
             calibrationThread = null;
@@ -138,7 +140,7 @@ public class CalibrationRunner : MonoBehaviour
             yield return new WaitForSeconds(.7f);
 
             var resultCollection = calibrationThread.CollectData(new CalibrationThread.Point(vector));
-            
+
             yield return StartCoroutine(waitForResult(resultCollection));
 
             if (resultCollection.Status == CalibrationStatus.Failure)
@@ -162,13 +164,13 @@ public class CalibrationRunner : MonoBehaviour
     }
 
     private IEnumerator waitForResult(CalibrationThread.MethodResult result)
+    {
+        // Wait for the thread to finish the blocking call.
+        while (!result.Ready)
         {
-            // Wait for the thread to finish the blocking call.
-            while (!result.Ready)
-            {
-                yield return new WaitForSeconds(0.02f);
-            }
-
-            Debug.Log(result);
+            yield return new WaitForSeconds(0.02f);
         }
+
+        Debug.Log(result);
+    }
 }

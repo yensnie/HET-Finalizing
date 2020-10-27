@@ -14,12 +14,12 @@ public class EyeOnlyRunner : MonoBehaviour
     public Sprite[] spriteList;     // list of sprites for patterns
 
     public float timeLeft = 30;     // the trial time left, will counted down right from start
-    
+
     // after this amount of time when eye gaze hit the objects, it will be counted as "lock" (eye only scenario)
     private float eyeLockTime = 2;
 
     // after this amount of seconds when selecting, active confirmation result (correct or incorrect) 
-    private float confirmTime = 2;  
+    private float confirmTime = 2;
 
     private int currentRandomIndex = -1;    // the saved sprite index of the main object
 
@@ -53,7 +53,8 @@ public class EyeOnlyRunner : MonoBehaviour
         // then chose one of them randomly as the main object to compare
         this.getRandomMainObjSprite();
 
-        if (Global.currentState == TrialState.Eye) {
+        if (Global.currentState == TrialState.Eye)
+        {
             GameObject.Find("headCursor").SetActive(false);
         }
     }
@@ -69,7 +70,8 @@ public class EyeOnlyRunner : MonoBehaviour
             }
         }
 
-        switch (Global.currentState) {
+        switch (Global.currentState)
+        {
             case TrialState.Eye:
                 updateInEyeOnly();
                 break;
@@ -108,11 +110,12 @@ public class EyeOnlyRunner : MonoBehaviour
 
     // change to the main menu
     public void changeScene(string scene)
-    { 
+    {
         SceneManager.LoadScene(scene);
     }
 
-    private void updateInEyeOnly() {
+    private void updateInEyeOnly()
+    {
         // // trial time count down (in total)
         // timeLeft -= Time.deltaTime;
         // if (timeLeft <= 0) {
@@ -120,11 +123,11 @@ public class EyeOnlyRunner : MonoBehaviour
         // } else {
         //     //Debug.Log(timeLeft);
         // }
-        if (selectedObj != null) 
+        if (selectedObj != null)
         {
             selectedObj.GetComponent<SpriteRenderer>().sprite = blue;
-        } 
-        else 
+        }
+        else
         {
             eyeLockTime = 2;
             confirmTime = 2;
@@ -132,41 +135,45 @@ public class EyeOnlyRunner : MonoBehaviour
         }
         // the selected pattern must be one of the pattern in the provided patterns list, so compare to find out its index
         int selectedIndex = System.Array.IndexOf(subFrame, selectedObj);
-        
-        if (selectedIndex == -1) 
-        { 
-            try 
+
+        if (selectedIndex == -1)
+        {
+            try
             {
                 selectedObj.GetComponent<SpriteRenderer>().sprite = white;
             }
-            catch {}
+            catch { }
             selectedObj = null;
             eyeLockTime = 2;
             confirmTime = 2;
-            return; 
+            return;
         }
 
         //eye lock time counting down, but will reset and stop the next seps if there is no selected object
         eyeLockTime -= Time.deltaTime;
         //  when the lock time is over, start the confirm time
-        if (eyeLockTime <= 0) 
+        if (eyeLockTime <= 0)
         {
-            selectedObj.GetComponent<SpriteRenderer>().sprite =  yellow;
+            selectedObj.GetComponent<SpriteRenderer>().sprite = yellow;
 
             confirmTime -= Time.deltaTime;
-            if (confirmTime <= 0.0) 
+            if (confirmTime <= 0.0)
             {
                 selectedObj.GetComponent<SpriteRenderer>().sprite = (selectedIndex == currentRandomIndex) ? green : red;
             }
-        } 
+        }
     }
 
-    private void updateInHeadEye() {
+    private void updateInHeadEye()
+    {
         // trial time count down (in total)
         timeLeft -= Time.deltaTime;
-        if (timeLeft <= 0) {
+        if (timeLeft <= 0)
+        {
             //TODO: put the trail to end state
-        } else {
+        }
+        else
+        {
             //Debug.Log(timeLeft);
         }
 
@@ -176,7 +183,7 @@ public class EyeOnlyRunner : MonoBehaviour
             {
                 selectedObj.GetComponent<SpriteRenderer>().sprite = yellow;
             }
-            else 
+            else
             {
                 selectedObj.GetComponent<SpriteRenderer>().sprite = blue;
             }
@@ -187,26 +194,28 @@ public class EyeOnlyRunner : MonoBehaviour
 
         int headSelectedIndex = System.Array.IndexOf(subFrame, headSelectedObj);
 
-        if (selectedIndex == -1 || headSelectedIndex == -1) 
-        { 
+        if (selectedIndex == -1 || headSelectedIndex == -1)
+        {
             confirmTime = 2;
-            return; 
+            return;
         }
 
-        if (selectedIndex == headSelectedIndex) {
+        if (selectedIndex == headSelectedIndex)
+        {
             confirmTime -= Time.deltaTime;
-            if (confirmTime <= 0.0) 
+            if (confirmTime <= 0.0)
             {
-                selectedObj.GetComponent<SpriteRenderer>().sprite = 
+                selectedObj.GetComponent<SpriteRenderer>().sprite =
                     (selectedIndex == currentRandomIndex) ? green : red;
             }
         }
     }
 
-    private void getRandomMainObjSprite() {
+    private void getRandomMainObjSprite()
+    {
 
         System.Random random = new System.Random();
-        int randomIndex = random.Next(0,spriteList.Length - 1);
+        int randomIndex = random.Next(0, spriteList.Length - 1);
 
         // when the random main object has been chosen, save its index from the pattern's sprites array
         currentRandomIndex = randomIndex;
@@ -215,62 +224,15 @@ public class EyeOnlyRunner : MonoBehaviour
         objMain.GetComponent<SpriteRenderer>().sprite = spriteList[randomIndex];
     }
 
-    private void fillSubObjectWithRandomSprite() {
+    private void fillSubObjectWithRandomSprite()
+    {
         // first, shuffle the order of the sprites array
         Utility.reshuffle(spriteList);
 
         // finally, fill them into the pattern objects
-        for (int index = 0; index < subObj.Length; index++) {
+        for (int index = 0; index < subObj.Length; index++)
+        {
             subObj[index].GetComponent<SpriteRenderer>().sprite = spriteList[index];
-        }
-    }
-}
-
-class Utility {
-    /// <summary>
-    /// shuffle the elements in an array
-    /// </summary>
-    public static void reshuffle<T>(T[] array) {
-        for (int index = 0; index < array.Length; index++) {
-            T temp = array[index];
-            int random = Random.Range(index, array.Length);
-            array[index] = array[random];
-            array[random] = temp;
-        }
-    }
-
-    public static Vector2 ToVector2(NormalizedPoint2D value)
-    {
-        return new Vector2(value.X, value.Y);
-    }
-
-    public static Vector3 ToVector3(Point3D point)
-    {
-        return new Vector3(point.X, point.Y, point.Z);
-    }
-    
-    public static void getFirstEyeTracker(System.Action<IEyeTracker> handle) {
-        EyeTrackerCollection trackers = EyeTrackingOperations.FindAllEyeTrackers();
-        foreach (IEyeTracker eyeTracker in trackers)
-        {
-            Debug.Log(
-                string.Format
-                (
-                    "Adress: {0}, Name: {1}, Mode: {2}, Serial number: {3}, Firmware version: {4}",
-                    eyeTracker.Address,
-                    eyeTracker.DeviceName,
-                    eyeTracker.Model,
-                    eyeTracker.SerialNumber,
-                    eyeTracker.FirmwareVersion
-                )
-            );
-        }
-        if (trackers.Count > 0)
-        {
-            // --- connect 1st eye tracker
-            var eyeTracker = trackers[0];
-            Debug.Log("did get the eye tracker");
-            handle(eyeTracker);
         }
     }
 }
