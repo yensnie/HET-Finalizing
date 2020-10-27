@@ -58,13 +58,12 @@ public class CalibrationRunner : MonoBehaviour
             eyeTracker = trackers[0];
             Debug.Log("did get the eye tracker");
         }
-
-        isCalibrating = false;
     }
 
     void Start()
     {
         pointScript = calibrationPoint.GetComponent<Tobii.Research.Unity.CalibrationPoint>();
+        isCalibrating = false;
     }
 
     void Update()
