@@ -64,7 +64,7 @@ public class CalibrationRunner : MonoBehaviour
 
     void Start()
     {
-        pointScript = calibrationPoint.GetComponent<CalibrationPoint>();
+        pointScript = calibrationPoint.GetComponent<Tobii.Research.Unity.CalibrationPoint>();
     }
 
     void Update()
