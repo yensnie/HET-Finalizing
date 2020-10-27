@@ -21,12 +21,15 @@ public class CalibrationRunner : MonoBehaviour
     private Image panel;
 
     private CalibrationThread calibrationThread;
+    
+    private Tobii.Research.Unity.CalibrationPoint pointScript;
 
     private bool isCalibrating
     {
         set
         {
             calibrationCanvas.gameObject.SetActive(value);
+            pointScript.gameObject.SetActive(value);
             panel.color = value ? Color.black : new Color(0, 0, 0, 0);
             Debug.Log(string.Format("is being calibrate: {0}", value.ToString()));
         }
@@ -57,6 +60,11 @@ public class CalibrationRunner : MonoBehaviour
         }
 
         isCalibrating = false;
+    }
+
+    void Start()
+    {
+        pointScript = calibrationPoint.GetComponent<CalibrationPoint>();
     }
 
     void Update()
@@ -134,6 +142,7 @@ public class CalibrationRunner : MonoBehaviour
             // Debug.Log(string.Format("Show point on screen at ({0}, {1})", point.X, point.Y));
             var vector = Utility.ToVector2(point);
             calibrationPoint.rectTransform.anchoredPosition = new Vector2(Screen.width * vector.x, Screen.height * (1 - vector.y));
+            pointScript.StartAnim();
             Debug.Log(string.Format("Show point on screen at ({0}, {1})", Screen.width * vector.x, Screen.height * (1 - vector.y)));
 
             // Wait a little for user to focus.
