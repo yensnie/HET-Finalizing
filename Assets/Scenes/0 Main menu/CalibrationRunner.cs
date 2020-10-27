@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Tobii.Research;
+using Tobii.Research.Unity;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,9 +20,11 @@ public class CalibrationRunner : MonoBehaviour
     [SerializeField]
     private Image panel;
 
+    private CalibrationThread calibrationThread;
+
     private bool isCalibrating
     {
-        set 
+        set
         {
             calibrationCanvas.gameObject.SetActive(value);
             panel.color = value ? Color.black : new Color(0, 0, 0, 0);
@@ -77,12 +80,43 @@ public class CalibrationRunner : MonoBehaviour
     private IEnumerator Calibrate(IEyeTracker eyeTracker)
     {
         isCalibrating = true;
-        
-        // Create a calibration object.
-        var calibration = new ScreenBasedCalibration(eyeTracker);
 
-        // Enter calibration mode.
-        calibration.EnterCalibrationMode();
+        // // Create a calibration object.
+        // var calibration = new ScreenBasedCalibration(eyeTracker);
+
+        // // Enter calibration mode.
+        // calibration.EnterCalibrationMode();
+
+        if (calibrationThread != null)
+        {
+            calibrationThread.StopThread();
+            calibrationThread = null;
+        }
+
+        calibrationThread = new CalibrationThread(eyeTracker, true);
+
+        // Only continue if the calibration thread is running.
+        for (int i = 0; i < 10; i++)
+        {
+            if (calibrationThread.Running)
+            {
+                break;
+            }
+
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        if (!calibrationThread.Running) {
+            Debug.LogError("Failed to start calibration thread");
+            calibrationThread.StopThread();
+            calibrationThread = null;
+            isCalibrating = false;
+            yield break;
+        }
+
+        var result = calibrationThread.EnterCalibrationMode();
+
+        yield return StartCoroutine(WaitForResult(result));
 
         // Define the points on screen we should calibrate at.
         // The coordinates are normalized, i.e. (0.0f, 0.0f) is the upper left corner and (1.0f, 1.0f) is the lower right corner.
@@ -105,35 +139,38 @@ public class CalibrationRunner : MonoBehaviour
             // Wait a little for user to focus.
             yield return new WaitForSeconds(.7f);
 
-            // Collect data.
-            CalibrationStatus status = calibration.CollectData(point);
-            if (status != CalibrationStatus.Success)
+            var collectionResult = calibrationThread.CollectData(new CalibrationThread.Point(vector));
+            
+            yield return StartCoroutine(WaitForResult(collectionResult));
+
+            if ( collectionResult.Status == CalibrationStatus.Failure)
             {
-                // Try again if it didn't go well the first time.
-                // Not all eye tracker models will fail at this point, but instead fail on ComputeAndApply.
-                calibration.CollectData(point);
+                Debug.Log("There was an error gathering data for this calibration point: " + vector);
             }
         }
 
         // Compute and apply the calibration.
-        CalibrationResult calibrationResult = calibration.ComputeAndApply();
-        Debug.Log(string.Format("Compute and apply returned {0} and collected at {1} points.",
-            calibrationResult.Status, calibrationResult.CalibrationPoints.Count));
+        var computeResult = calibrationThread.ComputeAndApply();
 
-        // Analyze the data and maybe remove points that weren't good.
-        calibration.DiscardData(new NormalizedPoint2D(0.1f, 0.1f));
+        yield return StartCoroutine(WaitForResult(computeResult));
 
-        // Redo collection at the discarded point.
-        Debug.Log(string.Format("Show point on screen at ({0}, {1})", 0.1f, 0.1f));
-        calibration.CollectData(new NormalizedPoint2D(0.1f, 0.1f));
+        var leaveResult = calibrationThread.LeaveCalibrationMode();
 
-        // Compute and apply again.
-        calibrationResult = calibration.ComputeAndApply();
-        Debug.Log(string.Format("Second compute and apply returned {0} and collected at {1} points.",
-            calibrationResult.Status, calibrationResult.CalibrationPoints.Count));
-        // See that you're happy with the result.
-        // The calibration is done. Leave calibration mode.
-        calibration.LeaveCalibrationMode();
+        yield return StartCoroutine(WaitForResult(leaveResult));
+
+        calibrationThread.StopThread();
+        calibrationThread = null;
         isCalibrating = false;
     }
+
+    private IEnumerator WaitForResult(CalibrationThread.MethodResult result)
+        {
+            // Wait for the thread to finish the blocking call.
+            while (!result.Ready)
+            {
+                yield return new WaitForSeconds(0.02f);
+            }
+
+            Debug.Log(result);
+        }
 }

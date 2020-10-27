@@ -18,7 +18,6 @@ public class ColliderHandle : MonoBehaviour
         if (EyeOnlyRunner.selectedObj == this.gameObject) {
             EyeOnlyRunner.headSelectedObj = this.gameObject;
         }
-        
     }
 
     private void deRegisterHeadSelectedObject() {
