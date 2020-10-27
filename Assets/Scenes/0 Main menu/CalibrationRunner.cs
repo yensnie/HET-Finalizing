@@ -130,21 +130,23 @@ public class CalibrationRunner : MonoBehaviour
         foreach (var point in pointsToCalibrate)
         {
             // Show an image on screen where you want to calibrate.
-            // Debug.Log(string.Format("Show point on screen at ({0}, {1})", point.X, point.Y));
             var vector = Utility.ToVector2(point);
             calibrationRepresentPoint.rectTransform.anchoredPosition = 
                 new Vector2(Screen.width * vector.x, Screen.height * (1 - vector.y));
+            
+            // start animation
             pointScript.StartAnim();
-            Debug.Log(string.Format("Show point on screen at ({0}, {1})", 
-                                    Screen.width * vector.x, Screen.height * (1 - vector.y)));
 
-            // Wait a little for user to focus.
-            yield return new WaitForSeconds(.7f);
+            // Wait for animation.
+            yield return new WaitForSeconds(1f);
 
+             // As of this writing, adding a point takes about 175 ms. A failing add can take up to 3000 ms.
             var resultCollection = calibrationThread.CollectData(new CalibrationThread.Point(vector));
 
+            // Wait for the call to finish
             yield return StartCoroutine(waitForResult(resultCollection));
 
+            // React to the result of adding a point.
             if (resultCollection.Status == CalibrationStatus.Failure)
             {
                 Debug.Log("There was an error gathering data for this calibration point: " + vector);
@@ -154,14 +156,20 @@ public class CalibrationRunner : MonoBehaviour
         // Compute and apply the calibration.
         var computeResult = calibrationThread.ComputeAndApply();
 
+        // Wait for the call to finish
         yield return StartCoroutine(waitForResult(computeResult));
 
+        // Leave calibration mode.
         var leaveResult = calibrationThread.LeaveCalibrationMode();
 
+         // Wait for the call to finish
         yield return StartCoroutine(waitForResult(leaveResult));
 
+        // Stop the thread.
         calibrationThread.StopThread();
         calibrationThread = null;
+
+        // finishing
         isCalibrating = false;
     }
 
