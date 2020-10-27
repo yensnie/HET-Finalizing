@@ -248,4 +248,29 @@ class Utility {
     {
         return new Vector3(point.X, point.Y, point.Z);
     }
+    
+    public static void getFirstEyeTracker(System.Action<IEyeTracker> handle) {
+        EyeTrackerCollection trackers = EyeTrackingOperations.FindAllEyeTrackers();
+        foreach (IEyeTracker eyeTracker in trackers)
+        {
+            Debug.Log(
+                string.Format
+                (
+                    "Adress: {0}, Name: {1}, Mode: {2}, Serial number: {3}, Firmware version: {4}",
+                    eyeTracker.Address,
+                    eyeTracker.DeviceName,
+                    eyeTracker.Model,
+                    eyeTracker.SerialNumber,
+                    eyeTracker.FirmwareVersion
+                )
+            );
+        }
+        if (trackers.Count > 0)
+        {
+            // --- connect 1st eye tracker
+            var eyeTracker = trackers[0];
+            Debug.Log("did get the eye tracker");
+            handle(eyeTracker);
+        }
+    }
 }
