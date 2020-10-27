@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using Tobii.Research;
-using UnityEngine.SceneManagement;
 
 public enum TrialState {
     Eye, HeadEye
@@ -14,7 +12,6 @@ public static class Global
     public class GameObjectPattern {
         public int[] order;
         public GameObject[] objects = new GameObject[4];
-
 
         public Sprite[] convertToSprites() {
             int length = this.objects.Length;
