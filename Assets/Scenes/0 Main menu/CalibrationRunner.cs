@@ -31,7 +31,6 @@ public class CalibrationRunner : MonoBehaviour
             calibrationCanvas.gameObject.SetActive(value);
             pointScript.gameObject.SetActive(value);
             panel.color = value ? Color.black : new Color(0, 0, 0, 0);
-            Debug.Log(string.Format("is being calibrate: {0}", value.ToString()));
         }
     }
 
@@ -79,12 +78,7 @@ public class CalibrationRunner : MonoBehaviour
     {
         isCalibrating = true;
 
-        // // Create a calibration object.
-        // var calibration = new ScreenBasedCalibration(eyeTracker);
-
-        // // Enter calibration mode.
-        // calibration.EnterCalibrationMode();
-
+        // check if there is a thread current running
         if (calibrationThread != null)
         {
             calibrationThread.StopThread();
