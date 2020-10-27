@@ -65,8 +65,8 @@ public class EyeHandler : MonoBehaviour
         }
 
         var combinedEyeGazePoint = (
-            ToVector2(e.LeftEye.GazePoint.PositionOnDisplayArea) + 
-            ToVector2(e.RightEye.GazePoint.PositionOnDisplayArea)
+            Utility.ToVector2(e.LeftEye.GazePoint.PositionOnDisplayArea) + 
+            Utility.ToVector2(e.RightEye.GazePoint.PositionOnDisplayArea)
             ) / 2f;
         var position = Camera.main.ScreenToWorldPoint(
             new Vector3(Screen.width * combinedEyeGazePoint.x, Screen.height * (1 - combinedEyeGazePoint.y), 10)
@@ -74,16 +74,6 @@ public class EyeHandler : MonoBehaviour
         //TODO: use something similar to LatestProcessedGazeData in the ScreenBasedPrefabDemo
 
         currentPosition = position;
-    }
-
-    private Vector2 ToVector2(NormalizedPoint2D value)
-    {
-        return new Vector2(value.X, value.Y);
-    }
-
-    private Vector3 ToVector3(Point3D point)
-    {
-        return new Vector3(point.X, point.Y, point.Z);
     }
 
     private static void CalibrationData(IEyeTracker tracker)

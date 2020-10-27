@@ -95,9 +95,12 @@ public class CalibrationRunner : MonoBehaviour
         {
             // Show an image on screen where you want to calibrate.
             Debug.Log(string.Format("Show point on screen at ({0}, {1})", point.X, point.Y));
-            calibrationPoint.rectTransform.anchoredPosition = new Vector2(Screen.width * point.X, Screen.height * (1 - point.Y));
+            var vector = Utility.ToVector2(point);
+            calibrationPoint.rectTransform.anchoredPosition = new Vector2(Screen.width * vector.x, Screen.height * (1 - vector.y));
+
             // Wait a little for user to focus.
             yield return new WaitForSeconds(.7f);
+            
             // Collect data.
             CalibrationStatus status = calibration.CollectData(point);
             if (status != CalibrationStatus.Success)

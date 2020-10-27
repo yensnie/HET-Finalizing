@@ -238,4 +238,14 @@ class Utility {
             array[random] = temp;
         }
     }
+
+    public static Vector2 ToVector2(NormalizedPoint2D value)
+    {
+        return new Vector2(value.X, value.Y);
+    }
+
+    public static Vector3 ToVector3(Point3D point)
+    {
+        return new Vector3(point.X, point.Y, point.Z);
+    }
 }
