@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using Tobii.Research;
 
-public enum TrialState {
+public enum TrialState
+{
     Eye, HeadEye
 }
 
@@ -9,23 +10,27 @@ public static class Global
 {
     public static TrialState currentState = TrialState.Eye;
 
-    public class GameObjectPattern {
+    public class GameObjectPattern
+    {
         public int[] order;
         public GameObject[] objects = new GameObject[4];
 
-        public Sprite[] convertToSprites() {
+        public Sprite[] convertToSprites()
+        {
             int length = this.objects.Length;
             if (length <= 0) { return null; }
             Sprite[] result = new Sprite[length];
-            for (int index = 0; index < length; index++) {
+            for (int index = 0; index < length; index++)
+            {
                 result[index] = this.objects[index].GetComponent<SpriteRenderer>().sprite;
             }
             return result;
         }
     }
 
-    public class GameObjectPatternGroup {
-        public GameObjectPattern[] patterns = 
+    public class GameObjectPatternGroup
+    {
+        public GameObjectPattern[] patterns =
         new GameObjectPattern[6] {
             new GameObjectPattern(),
             new GameObjectPattern(),
@@ -62,7 +67,7 @@ class Utility
         return new Vector2(value.X, value.Y);
     }
 
-        /// <summary>
+    /// <summary>
     /// turn a 3D point to a 3D vector
     /// </summary>
     public static Vector3 ToVector3(Point3D point)

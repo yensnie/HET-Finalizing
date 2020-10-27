@@ -5,8 +5,6 @@ public class EyeHandler : MonoBehaviour
 {
     private IEyeTracker eyeTracker;
 
-    // private ScreenBasedCalibration screenBasedCalibration;
-
     private Vector3 currentPosition;
 
     /// <summary>

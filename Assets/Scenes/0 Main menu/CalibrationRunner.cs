@@ -6,10 +6,7 @@ using UnityEngine.UI;
 
 public class CalibrationRunner : MonoBehaviour
 {
-
     private IEyeTracker eyeTracker;
-
-    // private ScreenBasedCalibration screenBasedCalibration;
 
     [SerializeField]
     private Image calibrationRepresentPoint;
