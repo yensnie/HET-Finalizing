@@ -77,10 +77,13 @@ public class CalibrationRunner : MonoBehaviour
     private IEnumerator Calibrate(IEyeTracker eyeTracker)
     {
         isCalibrating = true;
+        
         // Create a calibration object.
         var calibration = new ScreenBasedCalibration(eyeTracker);
+
         // Enter calibration mode.
         calibration.EnterCalibrationMode();
+
         // Define the points on screen we should calibrate at.
         // The coordinates are normalized, i.e. (0.0f, 0.0f) is the upper left corner and (1.0f, 1.0f) is the lower right corner.
         var pointsToCalibrate = new NormalizedPoint2D[] {
@@ -94,13 +97,14 @@ public class CalibrationRunner : MonoBehaviour
         foreach (var point in pointsToCalibrate)
         {
             // Show an image on screen where you want to calibrate.
-            Debug.Log(string.Format("Show point on screen at ({0}, {1})", point.X, point.Y));
+            // Debug.Log(string.Format("Show point on screen at ({0}, {1})", point.X, point.Y));
             var vector = Utility.ToVector2(point);
             calibrationPoint.rectTransform.anchoredPosition = new Vector2(Screen.width * vector.x, Screen.height * (1 - vector.y));
+            Debug.Log(string.Format("Show point on screen at ({0}, {1})", Screen.width * vector.x, Screen.height * (1 - vector.y)));
 
             // Wait a little for user to focus.
             yield return new WaitForSeconds(.7f);
-            
+
             // Collect data.
             CalibrationStatus status = calibration.CollectData(point);
             if (status != CalibrationStatus.Success)
