@@ -2318,7 +2318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7045157c5e5cc4cec80bfe074dac30e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  calibrationPoint: {fileID: 1951696878}
+  calibrationRepresentPoint: {fileID: 1951696878}
   calibrationCanvas: {fileID: 1476261831}
   panel: {fileID: 1872090816}
 --- !u!4 &858678084
