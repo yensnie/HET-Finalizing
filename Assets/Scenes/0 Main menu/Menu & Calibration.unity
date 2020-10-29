@@ -555,7 +555,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: EyeOnlySceneSimple
+          m_StringArgument: EyeEasy
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &97321928
@@ -1467,7 +1467,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 672452572}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1746904144}
+        m_MethodName: changeScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: HeadEyeEasy
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &672452572
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2096,7 +2107,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 829593906}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1746904144}
+        m_MethodName: changeScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: HeadEyeHard
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &829593906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2767,7 +2789,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: EyeOnlySceneHard
+          m_StringArgument: EyeHard
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1176537605
