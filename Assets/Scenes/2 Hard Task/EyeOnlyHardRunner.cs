@@ -40,7 +40,7 @@ public class EyeOnlyHardRunner : MonoBehaviour
         fillObjectsWithSprites();
 
         if (Global.currentState == TrialState.Eye) {
-           // GameObject.Find("headCursor").SetActive(false);
+           GameObject.Find("headCursor").SetActive(false);
         }
     }
 
