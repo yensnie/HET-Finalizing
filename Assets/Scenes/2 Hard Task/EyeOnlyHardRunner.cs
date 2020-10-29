@@ -67,7 +67,7 @@ public class EyeOnlyHardRunner : MonoBehaviour
 
     IEnumerator SessionOver()
     {
-        yield return new WaitForSeconds(60);
+        yield return new WaitForSeconds(2);
         EyeTrackingOperations.Terminate();
         countDownPanel.SetActive(true);
     }

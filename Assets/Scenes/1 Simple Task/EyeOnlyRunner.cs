@@ -84,7 +84,7 @@ public class EyeOnlyRunner : MonoBehaviour
     // Countdown timer
     IEnumerator SessionOver()
     {
-        yield return new WaitForSeconds(20);
+        yield return new WaitForSeconds(2);
         EyeTrackingOperations.Terminate();
         countDownPanel.SetActive(true);
     }
