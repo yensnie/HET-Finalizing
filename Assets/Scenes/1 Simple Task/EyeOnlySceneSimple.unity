@@ -6085,9 +6085,65 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
+<<<<<<< Updated upstream
 --- !u!50 &1683574611
 Rigidbody2D:
   serializedVersion: 4
+=======
+--- !u!114 &1924452958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924452957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d23d348b8291d4246b189596b6f3517d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objMain: {fileID: 474911973}
+  subObj:
+  - {fileID: 161706546}
+  - {fileID: 891553381}
+  - {fileID: 1372583220}
+  - {fileID: 358261259}
+  - {fileID: 340843250}
+  - {fileID: 1950139395}
+  subFrame:
+  - {fileID: 902107676}
+  - {fileID: 1716311139}
+  - {fileID: 1586741293}
+  - {fileID: 169290928}
+  - {fileID: 2048878211}
+  - {fileID: 144461227}
+  spriteList:
+  - {fileID: 21300000, guid: c38837436f9f840cd93fa6c54d9222ac, type: 3}
+  - {fileID: 21300000, guid: 915b4d03d662148f29344324abaad28a, type: 3}
+  - {fileID: 21300000, guid: f54ca1e5afa124ef9a6eaf0dd6f277b6, type: 3}
+  - {fileID: 21300000, guid: 5d46a4b8d814f47619d2d2e7737629ee, type: 3}
+  - {fileID: 21300000, guid: ee53ebade657a4b8b94b4d73b151ca90, type: 3}
+  - {fileID: 21300000, guid: 68729fa4a015344a7ae0366c89e06621, type: 3}
+  timeLeft: 30
+  white: {fileID: 21300000, guid: 5dd8d426099e34c56aa32e9f4b8eca53, type: 3}
+  blue: {fileID: 21300000, guid: abc46de68b9ce45ee90ef1d2c7312629, type: 3}
+  yellow: {fileID: 21300000, guid: 7b76609dcc7254104962d405fcb2f273, type: 3}
+  green: {fileID: 21300000, guid: 3376b23f78c7741e5b6c061cb329d5be, type: 3}
+  red: {fileID: 21300000, guid: ea605786b660b4907884785394b8c6cc, type: 3}
+  countDownPanel: {fileID: 744617444}
+  correctAttempts: 0
+  incorrectAttempts: 0
+  lastName: 
+  firstName: 
+  courseStudy: 
+  matriculationNo: 
+  lastName_InputField: {fileID: 285915203}
+  firstName_InputField: {fileID: 660908909}
+  course_InputField: {fileID: 1304181782}
+  matriculation_InputField: {fileID: 1297170412}
+--- !u!4 &1924452959
+Transform:
+>>>>>>> Stashed changes
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -8045,12 +8101,17 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1022237965}
+      objectReference: {fileID: 1924452958}
     - target: {fileID: 4583592089945261055, guid: 3bea586ce4903634684f8579efec5ab9,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
       objectReference: {fileID: 1924452958}
+    - target: {fileID: 4583592089945261055, guid: 3bea586ce4903634684f8579efec5ab9,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: getUserDetails
+      objectReference: {fileID: 0}
     - target: {fileID: 6320385073415417386, guid: 3bea586ce4903634684f8579efec5ab9,
         type: 3}
       propertyPath: m_Name
@@ -8190,6 +8251,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Finishing Up
+      objectReference: {fileID: 0}
+    - target: {fileID: 7157691798776533147, guid: 3bea586ce4903634684f8579efec5ab9,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1924452958}
+    - target: {fileID: 7157691798776533147, guid: 3bea586ce4903634684f8579efec5ab9,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: changeScene
+      objectReference: {fileID: 0}
+    - target: {fileID: 7157691798776533147, guid: 3bea586ce4903634684f8579efec5ab9,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7157691798776533147, guid: 3bea586ce4903634684f8579efec5ab9,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7157691798776533147, guid: 3bea586ce4903634684f8579efec5ab9,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_StringArgument
+      value: Menu & Calibration
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6320385073532119072, guid: 3bea586ce4903634684f8579efec5ab9, type: 3}

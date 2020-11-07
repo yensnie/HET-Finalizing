@@ -1219,7 +1219,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1746904144}
-        m_MethodName: changeScene
+        m_MethodName: toFamilirization
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Tobii.Research;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.UI;
 public class EyeOnlyHardRunner : MonoBehaviour
 {
     public static Global.GameObjectPattern selectedPatternSet;
@@ -33,6 +33,21 @@ public class EyeOnlyHardRunner : MonoBehaviour
 
     [SerializeField] private GameObject countDownPanel;
 
+    public int correctAttempts;
+    public int incorrectAttempts;
+    public bool correctAttempt;
+    public bool incorrectAttempt;
+
+    public string lastName;
+    public string firstName;
+    public string courseStudy;
+    public string matriculationNo;
+
+    public GameObject lastName_InputField;
+    public GameObject firstName_InputField;
+    public GameObject course_InputField;
+    public GameObject matriculation_InputField;
+
     void Start()
     {
         StartCoroutine(SessionOver());
@@ -41,6 +56,13 @@ public class EyeOnlyHardRunner : MonoBehaviour
 
         if (Global.currentState == TrialState.Eye) {
            // GameObject.Find("headCursor").SetActive(false);
+        }
+
+        Debug.Log(Global.observer);
+        if (Global.observer == AttemptState.Reset)
+        {
+            Global.correctAttempts = 0;
+            Global.incorrectAttempts = 0;
         }
     }
 
@@ -64,11 +86,47 @@ public class EyeOnlyHardRunner : MonoBehaviour
         }
     }
 
+    private int attempt = 0;
+    public int Attempt
+    {
+        get { return attempt; }
+        set
+        {
+            if (value > 0 && value < 2 && correctAttempt == true)
+            {
+                Global.observer = AttemptState.Correct;
+                attempt = 1;
+                correctAttempts = attempt;
+                Global.correctAttempts += attempt;
+            }
+            else if (value > 0 && value < 2 && incorrectAttempt == true)
+            {
+                Global.observer = AttemptState.Incorrect;
+                attempt = 1;
+                incorrectAttempts = attempt;
+                Global.incorrectAttempts += attempt;
+            }
+            else if ((correctAttempt == false && incorrectAttempt == false) || (correctAttempt == true && incorrectAttempt == true))
+            {
+                Global.observer = AttemptState.Unknown;
+            }
+        }
+
+    }
 
     IEnumerator SessionOver()
     {
+<<<<<<< Updated upstream
         yield return new WaitForSeconds(60);
         EyeTrackingOperations.Terminate();
+=======
+        yield return new WaitForSeconds(7);
+        GameObject.Find("eyeCursor").SetActive(false);
+        if(Global.currentState == TrialState.HeadEye)
+        {
+            GameObject.Find("headCursor").SetActive(false);
+        }
+>>>>>>> Stashed changes
         countDownPanel.SetActive(true);
     }
 
@@ -100,13 +158,20 @@ public class EyeOnlyHardRunner : MonoBehaviour
             confirmTime -= Time.deltaTime;
             if (confirmTime <= 0.0) 
             {
-                // TODO: somehow this is not work, maybe try to get the sprite name array insted
-                 var selectedPatternSetSprite = selectedPatternSet.convertToSprites();
-                 var mainObjPatternSprite = mainObjPattern.convertToSprites();
-                 selectedPatternSet.objects[0].transform.parent.gameObject.GetComponent<SpriteRenderer>().sprite = 
-                     selectedPatternSetSprite.Equals(mainObjPatternSprite) ? green : red;
                 selectedPatternSet.objects[0].transform.parent.gameObject.GetComponent<SpriteRenderer>().sprite = 
                     samePattern(selectedPatternSet, mainObjPattern) ? green : red;
+
+                // Get the user attempts for eyes only hard
+                if (samePattern(selectedPatternSet, mainObjPattern))
+                {
+                    Attempt++;
+                    correctAttempt = true;
+                }
+                else
+                {
+                    Attempt++;
+                    incorrectAttempt = true;
+                }
             }
         }
     }
@@ -149,6 +214,21 @@ public class EyeOnlyHardRunner : MonoBehaviour
             {
                 selectedPatternSet.objects[0].transform.parent.gameObject.GetComponent<SpriteRenderer>().sprite = 
                     selectedPatternSet.objects.Equals(mainObjPattern.objects) ? green : red;
+                
+                // Get the user attempts for head and eyes hard
+                if (selectedPatternSet.objects.Equals(mainObjPattern.objects))
+                {
+                    Attempt++;
+                    correctAttempt = true;
+                }
+                else
+                {
+                    Attempt++;
+                    incorrectAttempt = true;
+                }
+
+
+
             }
         }
         else
@@ -233,5 +313,22 @@ public class EyeOnlyHardRunner : MonoBehaviour
                 Debug.Log("Cannot apply for ColliderHandleHard of subframe object at index " + index);
             }
         }
+    }
+    public void getUserDetails()
+    {
+        lastName = lastName_InputField.GetComponent<Text>().text;
+        firstName = firstName_InputField.GetComponent<Text>().text;
+        courseStudy = course_InputField.GetComponent<Text>().text;
+        matriculationNo = matriculation_InputField.GetComponent<Text>().text;
+        CSVManager.appendtoFile(new string[6] {
+            lastName,
+            firstName,
+            courseStudy,
+            matriculationNo,
+            Global.correctAttempts.ToString(),
+            Global.incorrectAttempts.ToString()
+        });
+        Global.observer = AttemptState.Reset;
+        Debug.Log("Details Updated");
     }
 }

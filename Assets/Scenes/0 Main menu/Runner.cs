@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class Runner : MonoBehaviour
 {
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -23,6 +24,10 @@ public class Runner : MonoBehaviour
     }
 
     public void changeScene(string scene)
+    {
+        SceneManager.LoadScene(scene);
+    }
+    public void toFamilirization(string scene)
     {
         SceneManager.LoadScene(scene);
     }
