@@ -3,7 +3,6 @@ using UnityEngine;
 using Tobii.Research;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
 public class EyeOnlyRunner : MonoBehaviour
 {
     public static GameObject selectedObj;
@@ -47,10 +46,6 @@ public class EyeOnlyRunner : MonoBehaviour
     public GameObject course_InputField;
     public GameObject matriculation_InputField;
 
-    
-
-
-
     void Start()
     {
         StartCoroutine(SessionOver());
@@ -73,12 +68,11 @@ public class EyeOnlyRunner : MonoBehaviour
             Global.correctAttempts = 0;
             Global.incorrectAttempts = 0;
         }
-
     }
+
     // Update is called once per frame
     void Update()
     {
-
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (!Application.isEditor)
@@ -96,7 +90,6 @@ public class EyeOnlyRunner : MonoBehaviour
                 updateInHeadEye();
                 break;
         }
-        
     }
     private int attempt = 0;
     public int Attempt
@@ -116,8 +109,8 @@ public class EyeOnlyRunner : MonoBehaviour
                 Global.observer = AttemptState.Incorrect;
                 attempt = 1;
                 incorrectAttempts = attempt;
-                Global.incorrectAttempts += attempt;              
-            }            
+                Global.incorrectAttempts += attempt;
+            }
             else if ((correctAttempt == false && incorrectAttempt == false) || (correctAttempt == true && incorrectAttempt == true))
             {
                 Global.observer = AttemptState.Unknown;
@@ -129,17 +122,12 @@ public class EyeOnlyRunner : MonoBehaviour
     // Countdown timer
     IEnumerator SessionOver()
     {
-<<<<<<< Updated upstream
-        yield return new WaitForSeconds(20);
-        EyeTrackingOperations.Terminate();
-=======
         yield return new WaitForSeconds(7);
         GameObject.Find("eyeCursor").SetActive(false);
         if (Global.currentState == TrialState.HeadEye)
         {
             GameObject.Find("headCursor").SetActive(false);
         }
->>>>>>> Stashed changes
         countDownPanel.SetActive(true);
     }
 
@@ -208,9 +196,6 @@ public class EyeOnlyRunner : MonoBehaviour
                     Attempt++;
                     incorrectAttempt = true;
                 }
-                    
-
-               
             }
         }
     }
@@ -270,7 +255,6 @@ public class EyeOnlyRunner : MonoBehaviour
                     Attempt++;
                     incorrectAttempt = true;
                 }
-
             }
         }
     }

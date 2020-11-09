@@ -28,7 +28,6 @@ public class familarizationCode : MonoBehaviour
     IEnumerator SessionOver()
     {
         yield return new WaitForSeconds(4);
-        //EyeTrackingOperations.Terminate();
         countDownPanel.SetActive(true);
     }
 

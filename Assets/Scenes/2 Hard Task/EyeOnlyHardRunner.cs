@@ -4,6 +4,7 @@ using UnityEngine;
 using Tobii.Research;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+
 public class EyeOnlyHardRunner : MonoBehaviour
 {
     public static Global.GameObjectPattern selectedPatternSet;
@@ -55,7 +56,7 @@ public class EyeOnlyHardRunner : MonoBehaviour
         fillObjectsWithSprites();
 
         if (Global.currentState == TrialState.Eye) {
-           // GameObject.Find("headCursor").SetActive(false);
+           GameObject.Find("headCursor").SetActive(false);
         }
 
         Debug.Log(Global.observer);
@@ -116,17 +117,12 @@ public class EyeOnlyHardRunner : MonoBehaviour
 
     IEnumerator SessionOver()
     {
-<<<<<<< Updated upstream
-        yield return new WaitForSeconds(60);
-        EyeTrackingOperations.Terminate();
-=======
-        yield return new WaitForSeconds(7);
+        yield return new WaitForSeconds(10);
         GameObject.Find("eyeCursor").SetActive(false);
-        if(Global.currentState == TrialState.HeadEye)
+        if (Global.currentState == TrialState.HeadEye)
         {
             GameObject.Find("headCursor").SetActive(false);
         }
->>>>>>> Stashed changes
         countDownPanel.SetActive(true);
     }
 
@@ -203,33 +199,31 @@ public class EyeOnlyHardRunner : MonoBehaviour
             if (headSelectedPatternSet != null && headSelectedPatternSet == selectedPatternSet) 
             {
                 selectedPatternSet.objects[0].transform.parent.gameObject.GetComponent<SpriteRenderer>().sprite = yellow;
+                confirmTime -= Time.deltaTime;
+                if (confirmTime <= 0.0)
+                {
+                    selectedPatternSet.objects[0].transform.parent.gameObject.GetComponent<SpriteRenderer>().sprite =
+                        samePattern(selectedPatternSet, mainObjPattern) ? green : red;
+
+                    // Get the user attempts for head and eyes hard
+                    if (samePattern(selectedPatternSet, mainObjPattern))
+                    {
+                        Attempt++;
+                        correctAttempt = true;
+                    }
+                    else
+                    {
+                        Attempt++;
+                        incorrectAttempt = true;
+                    }
+                }
             } 
             else 
             {
                 selectedPatternSet.objects[0].transform.parent.gameObject.GetComponent<SpriteRenderer>().sprite = blue;
             }
 
-            confirmTime -= Time.deltaTime;
-            if (confirmTime <= 0.0)
-            {
-                selectedPatternSet.objects[0].transform.parent.gameObject.GetComponent<SpriteRenderer>().sprite = 
-                    selectedPatternSet.objects.Equals(mainObjPattern.objects) ? green : red;
-                
-                // Get the user attempts for head and eyes hard
-                if (selectedPatternSet.objects.Equals(mainObjPattern.objects))
-                {
-                    Attempt++;
-                    correctAttempt = true;
-                }
-                else
-                {
-                    Attempt++;
-                    incorrectAttempt = true;
-                }
-
-
-
-            }
+            
         }
         else
         {
@@ -314,6 +308,7 @@ public class EyeOnlyHardRunner : MonoBehaviour
             }
         }
     }
+
     public void getUserDetails()
     {
         lastName = lastName_InputField.GetComponent<Text>().text;

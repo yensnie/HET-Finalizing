@@ -25,7 +25,6 @@ public class CalibrationRunner : MonoBehaviour
     {
         set
         {
-            
             calibrationCanvas.gameObject.SetActive(value);
             pointScript.gameObject.SetActive(value);
             panel.color = value ? Color.black : new Color(0, 0, 0, 0);
@@ -34,7 +33,6 @@ public class CalibrationRunner : MonoBehaviour
 
     void Awake()
     {
-        if (this.eyeTracker != null) { Debug.Log("did have eye tracker"); }
         Utility.getFirstEyeTracker(
             handle: (eyetracker) => this.eyeTracker = eyetracker
         );
