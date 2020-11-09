@@ -5,10 +5,16 @@ public enum TrialState
 {
     Eye, HeadEye
 }
-
+public enum AttemptState
+{
+    Correct, Incorrect, Unknown, Reset
+}
 public static class Global
 {
     public static TrialState currentState = TrialState.Eye;
+    public static AttemptState observer = AttemptState.Unknown;
+    public static int correctAttempts, incorrectAttempts;
+
 
     public class GameObjectPattern
     {
@@ -40,6 +46,7 @@ public static class Global
             new GameObjectPattern(),
         };
     }
+
 }
 
 class Utility

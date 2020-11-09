@@ -2,7 +2,7 @@
 using UnityEngine;
 using Tobii.Research;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.UI;
 public class EyeOnlyRunner : MonoBehaviour
 {
     public static GameObject selectedObj;
@@ -31,16 +31,20 @@ public class EyeOnlyRunner : MonoBehaviour
 
     [SerializeField] private GameObject countDownPanel;
 
+    public int correctAttempts;
+    public int incorrectAttempts;
+    public bool correctAttempt;
+    public bool incorrectAttempt;
+
     public string lastName;
     public string firstName;
     public string courseStudy;
     public string matriculationNo;
 
-    public GameObject last_InputField;
+    public GameObject lastName_InputField;
     public GameObject firstName_InputField;
     public GameObject course_InputField;
     public GameObject matriculation_InputField;
-
 
     void Start()
     {
@@ -56,6 +60,13 @@ public class EyeOnlyRunner : MonoBehaviour
         if (Global.currentState == TrialState.Eye)
         {
             GameObject.Find("headCursor").SetActive(false);
+        }
+        //Global.observer = AttemptState.Correct;
+        Debug.Log(Global.observer);
+        if (Global.observer == AttemptState.Reset)
+        {
+            Global.correctAttempts = 0;
+            Global.incorrectAttempts = 0;
         }
     }
 
@@ -80,32 +91,44 @@ public class EyeOnlyRunner : MonoBehaviour
                 break;
         }
     }
+    private int attempt = 0;
+    public int Attempt
+    {
+        get { return attempt; }
+        set
+        {
+            if (value > 0 && value < 2 && correctAttempt == true)
+            {
+                Global.observer = AttemptState.Correct;
+                attempt = 1;
+                correctAttempts = attempt;
+                Global.correctAttempts += attempt;
+            }
+            else if (value > 0 && value < 2 && incorrectAttempt == true)
+            {
+                Global.observer = AttemptState.Incorrect;
+                attempt = 1;
+                incorrectAttempts = attempt;
+                Global.incorrectAttempts += attempt;
+            }
+            else if ((correctAttempt == false && incorrectAttempt == false) || (correctAttempt == true && incorrectAttempt == true))
+            {
+                Global.observer = AttemptState.Unknown;
+            }
+        }
+
+    }
 
     // Countdown timer
     IEnumerator SessionOver()
     {
-        yield return new WaitForSeconds(20);
-        EyeTrackingOperations.Terminate();
+        yield return new WaitForSeconds(7);
+        GameObject.Find("eyeCursor").SetActive(false);
+        if (Global.currentState == TrialState.HeadEye)
+        {
+            GameObject.Find("headCursor").SetActive(false);
+        }
         countDownPanel.SetActive(true);
-    }
-
-    // Save user details
-    public void getDetails()
-    {
-        /*lastName = last_InputField.GetComponent<Text>().text;
-        firstName = firstName_InputField.GetComponent<Text>().text;
-        courseStudy = course_InputField.GetComponent<Text>().text;
-        matriculationNo = matriculation_InputField.GetComponent<Text>().text;
-        CSVManager.appendtoFile(new string[6] {
-            lastName,
-            firstName,
-            courseStudy,
-            matriculationNo,
-            "2",
-            "4"
-        });*/
-        Debug.Log("Details updated...");
-
     }
 
     // change to the main menu
@@ -161,6 +184,18 @@ public class EyeOnlyRunner : MonoBehaviour
             {
                 selectedObj.GetComponent<SpriteRenderer>().sprite = 
                     (selectedIndex == currentRandomIndex) ? green : red;
+
+                //Get the user attempts for eyes only easy
+                if (selectedIndex == currentRandomIndex)
+                {
+                    Attempt++;
+                    correctAttempt = true;
+                }
+                else
+                {
+                    Attempt++;
+                    incorrectAttempt = true;
+                }
             }
         }
     }
@@ -208,6 +243,18 @@ public class EyeOnlyRunner : MonoBehaviour
             {
                 selectedObj.GetComponent<SpriteRenderer>().sprite =
                     (selectedIndex == currentRandomIndex) ? green : red;
+
+                //Get the user attempts for head and eye easy
+                if (selectedIndex == currentRandomIndex)
+                {
+                    Attempt++;
+                    correctAttempt = true;
+                }
+                else
+                {
+                    Attempt++;
+                    incorrectAttempt = true;
+                }
             }
         }
     }
@@ -235,5 +282,22 @@ public class EyeOnlyRunner : MonoBehaviour
         {
             subObj[index].GetComponent<SpriteRenderer>().sprite = spriteList[index];
         }
+    }
+    public void getUserDetails()
+    {
+        lastName = lastName_InputField.GetComponent<Text>().text;
+        firstName = firstName_InputField.GetComponent<Text>().text;
+        courseStudy = course_InputField.GetComponent<Text>().text;
+        matriculationNo = matriculation_InputField.GetComponent<Text>().text;
+        CSVManager.appendtoFile(new string[6] {
+            lastName,
+            firstName,
+            courseStudy,
+            matriculationNo,
+            Global.correctAttempts.ToString(),
+            Global.incorrectAttempts.ToString()
+        });
+        Global.observer = AttemptState.Reset;
+        Debug.Log("Details Updated");
     }
 }
