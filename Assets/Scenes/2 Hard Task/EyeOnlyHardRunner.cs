@@ -59,7 +59,7 @@ public class EyeOnlyHardRunner : MonoBehaviour
            GameObject.Find("headCursor").SetActive(false);
         }
 
-        Debug.Log(Global.observer);
+        // as the state is set to Reset the attempts are reseted for the next user
         if (Global.observer == AttemptState.Reset)
         {
             Global.correctAttempts = 0;
@@ -93,6 +93,8 @@ public class EyeOnlyHardRunner : MonoBehaviour
         get { return attempt; }
         set
         {
+            // as the 'value' increases as per the frame rate, imcrementing once as per the gaze state was not possible. So, if the value is greater than zero and less than 2 the loop is only called once irrespective of the frame rates.
+            // even the 'value' could have been directly used as it would only store 1 rather than storing 'attempt' as 1 and alloting it to others
             if (value > 0 && value < 2 && correctAttempt == true)
             {
                 Global.observer = AttemptState.Correct;
@@ -323,6 +325,7 @@ public class EyeOnlyHardRunner : MonoBehaviour
             Global.correctAttempts.ToString(),
             Global.incorrectAttempts.ToString()
         });
+        // set to Reset as the session for the current user is over.
         Global.observer = AttemptState.Reset;
         Debug.Log("Details Updated");
     }
