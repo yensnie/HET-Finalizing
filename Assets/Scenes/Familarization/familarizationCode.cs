@@ -27,7 +27,7 @@ public class familarizationCode : MonoBehaviour
 
     IEnumerator SessionOver()
     {
-        yield return new WaitForSeconds(4);
+        yield return new WaitForSeconds(10);
         countDownPanel.SetActive(true);
     }
 

@@ -119,7 +119,7 @@ public class EyeOnlyHardRunner : MonoBehaviour
 
     IEnumerator SessionOver()
     {
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(25);
         GameObject.Find("eyeCursor").SetActive(false);
         if (Global.currentState == TrialState.HeadEye)
         {

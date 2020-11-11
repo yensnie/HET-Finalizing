@@ -123,7 +123,7 @@ public class EyeOnlyRunner : MonoBehaviour
     // Countdown timer
     IEnumerator SessionOver()
     {
-        yield return new WaitForSeconds(7);
+        yield return new WaitForSeconds(25);
         GameObject.Find("eyeCursor").SetActive(false);
         if (Global.currentState == TrialState.HeadEye)
         {
