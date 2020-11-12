@@ -140,13 +140,6 @@ public class EyeOnlyRunner : MonoBehaviour
 
     private void updateInEyeOnly()
     {
-        // // trial time count down (in total)
-        // timeLeft -= Time.deltaTime;
-        // if (timeLeft <= 0) {
-        //     //TODO: put the trail to end state
-        // } else {
-        //     //Debug.Log(timeLeft);
-        // }
         if (selectedObj != null)
         {
             selectedObj.GetComponent<SpriteRenderer>().sprite = blue;
@@ -203,17 +196,6 @@ public class EyeOnlyRunner : MonoBehaviour
 
     private void updateInHeadEye()
     {
-        // trial time count down (in total)
-        timeLeft -= Time.deltaTime;
-        if (timeLeft <= 0)
-        {
-            //TODO: put the trail to end state
-        }
-        else
-        {
-            //Debug.Log(timeLeft);
-        }
-
         if (selectedObj)
         {
             if (headSelectedObj && headSelectedObj == selectedObj)
