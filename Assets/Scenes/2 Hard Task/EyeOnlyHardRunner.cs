@@ -9,22 +9,34 @@ public class EyeOnlyHardRunner : MonoBehaviour
 {
     public static Global.GameObjectPattern selectedPatternSet;
     public static Global.GameObjectPattern headSelectedPatternSet;
-    public GameObject[] mainObj;      // The main pattern object
+
+    // The main pattern object
+    public GameObject[] mainObj;
+
     private Global.GameObjectPattern mainObjPattern;
     public GameObject[] subObjList;
-    private Global.GameObjectPatternGroup subObjsGroup;     // pattern objects list
-    public GameObject[] subFrame;   // the frame object list (which co-responding with pattern objects as container)
-    public Sprite[] spriteList;     // list of sprites for patterns
 
-     public float timeLeft = 30;     // the trial time left, will counted down right from start
+    // pattern objects list
+    private Global.GameObjectPatternGroup subObjsGroup;
+
+    // the frame object list (which co-responding with pattern objects as container)
+    public GameObject[] subFrame;
+
+    // list of sprites for patterns
+    public Sprite[] spriteList; 
+
+    // the trial time left, will counted down right from start
+    public float timeLeft = 30;
     
-    // after this amount of time when eye gaze hit the objects, it will be counted as "lock" (eye only scenario)
+    // after this amount of time when eye gaze hit the objects, 
+    // it will be counted as "lock" (eye only scenario)
     private float eyeLockTime = 2;
 
     // after this amount of seconds when selecting, active confirmation result (correct or incorrect) 
     private float confirmTime = 2;  
 
-    private int currentRandomIndex = -1;    // the saved sprite index of the main object
+    // the saved sprite index of the main object
+    private int currentRandomIndex = -1;
 
     public Sprite white;
     public Sprite blue;
@@ -93,9 +105,12 @@ public class EyeOnlyHardRunner : MonoBehaviour
         get { return attempt; }
         set
         {
-            // as the 'value' increases as per the frame rate, imcrementing once as per the gaze state was not possible. 
-            //So, if the value is greater than zero and less than 2 the loop is only called once irrespective of the frame rates.
-            // even the 'value' could have been directly used as it would only store 1 rather than storing 'attempt' as 1 and alloting it to others
+            // as the 'value' increases as per the frame rate, 
+            // imcrementing once as per the gaze state was not possible. 
+            //So, if the value is greater than zero and less than 2 the 
+            // loop is only called once irrespective of the frame rates.
+            // even the 'value' could have been directly used as it would 
+            // only store 1 rather than storing 'attempt' as 1 and alloting it to others
             if (value > 0 && value < 2 && correctAttempt == true)
             {
                 Global.observer = AttemptState.Correct;
@@ -153,13 +168,24 @@ public class EyeOnlyHardRunner : MonoBehaviour
 
         if (eyeLockTime <= 0) 
         {
-            selectedPatternSet.objects[0].transform.parent.gameObject.GetComponent<SpriteRenderer>().sprite = yellow;
+            selectedPatternSet
+                .objects[0]
+                .transform
+                .parent
+                .gameObject
+                .GetComponent<SpriteRenderer>()
+                .sprite = yellow;
 
             confirmTime -= Time.deltaTime;
             if (confirmTime <= 0.0) 
             {
-                selectedPatternSet.objects[0].transform.parent.gameObject.GetComponent<SpriteRenderer>().sprite = 
-                    samePattern(selectedPatternSet, mainObjPattern) ? green : red;
+                selectedPatternSet
+                    .objects[0]
+                    .transform
+                    .parent
+                    .gameObject
+                    .GetComponent<SpriteRenderer>()
+                    .sprite = samePattern(selectedPatternSet, mainObjPattern) ? green : red;
 
                 // Get the user attempts for eyes only hard
                 if (samePattern(selectedPatternSet, mainObjPattern))
@@ -202,12 +228,23 @@ public class EyeOnlyHardRunner : MonoBehaviour
         {
             if (headSelectedPatternSet != null && headSelectedPatternSet == selectedPatternSet) 
             {
-                selectedPatternSet.objects[0].transform.parent.gameObject.GetComponent<SpriteRenderer>().sprite = yellow;
+                selectedPatternSet
+                    .objects[0]
+                    .transform
+                    .parent
+                    .gameObject
+                    .GetComponent<SpriteRenderer>()
+                    .sprite = yellow;
                 confirmTime -= Time.deltaTime;
                 if (confirmTime <= 0.0)
                 {
-                    selectedPatternSet.objects[0].transform.parent.gameObject.GetComponent<SpriteRenderer>().sprite =
-                        samePattern(selectedPatternSet, mainObjPattern) ? green : red;
+                    selectedPatternSet
+                        .objects[0]
+                        .transform
+                        .parent
+                        .gameObject
+                        .GetComponent<SpriteRenderer>()
+                        .sprite = samePattern(selectedPatternSet, mainObjPattern) ? green : red;
 
                     // Get the user attempts for head and eyes hard
                     if (samePattern(selectedPatternSet, mainObjPattern))
@@ -224,7 +261,13 @@ public class EyeOnlyHardRunner : MonoBehaviour
             } 
             else 
             {
-                selectedPatternSet.objects[0].transform.parent.gameObject.GetComponent<SpriteRenderer>().sprite = blue;
+                selectedPatternSet
+                    .objects[0]
+                    .transform
+                    .parent
+                    .gameObject
+                    .GetComponent<SpriteRenderer>()
+                    .sprite = blue;
             }
 
             
@@ -284,10 +327,15 @@ public class EyeOnlyHardRunner : MonoBehaviour
         }
 
         System.Random random = new System.Random();
-        int randomIndex = random.Next(0,finalOrderSets.Length - 1);     // get the random index
+
+        // get the random index
+        int randomIndex = random.Next(0,finalOrderSets.Length - 1);
         for (int index = 0; index < 4; index++) {
             // apply the random set of sprite pattern into main Object
-            mainObjPattern.objects[index].GetComponent<SpriteRenderer>().sprite = spriteList[finalOrderSets[randomIndex][index]];
+            mainObjPattern
+                .objects[index]
+                .GetComponent<SpriteRenderer>()
+                .sprite = spriteList[finalOrderSets[randomIndex][index]];
         }
         // save the order into main object
         mainObjPattern.order = finalOrderSets[randomIndex];
@@ -295,7 +343,11 @@ public class EyeOnlyHardRunner : MonoBehaviour
         for (int index = 0; index < 6; index++) {
             for (int innerIndex = 0; innerIndex < 4; innerIndex++) {
                 // fill the sprites for objects in pattern object at specific position of sub object
-                subObjsGroup.patterns[index].objects[innerIndex].GetComponent<SpriteRenderer>().sprite = spriteList[finalOrderSets[index][innerIndex]];
+                subObjsGroup
+                    .patterns[index]
+                    .objects[innerIndex]
+                    .GetComponent<SpriteRenderer>()
+                    .sprite = spriteList[finalOrderSets[index][innerIndex]];
             }
 
             // save the current order into sub object
@@ -304,7 +356,9 @@ public class EyeOnlyHardRunner : MonoBehaviour
             // Apply patterns into objects in subFrame array
             try 
             {
-                subFrame[index].GetComponent<ColliderHandleHard>().selectedPattern = subObjsGroup.patterns[index];
+                subFrame[index]
+                    .GetComponent<ColliderHandleHard>()
+                    .selectedPattern = subObjsGroup.patterns[index];
             } 
             catch 
             {
