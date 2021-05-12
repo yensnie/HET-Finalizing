@@ -19,7 +19,8 @@ public class EyeOnlyHardRunner : MonoBehaviour
     // pattern objects list
     private Global.GameObjectPatternGroup subObjsGroup;
 
-    // the frame object list (which co-responding with pattern objects as container)
+    // the frame object list (which co-responding 
+    // with pattern objects as container)
     public GameObject[] subFrame;
 
     // list of sprites for patterns
@@ -32,7 +33,8 @@ public class EyeOnlyHardRunner : MonoBehaviour
     // it will be counted as "lock" (eye only scenario)
     private float eyeLockTime = 2;
 
-    // after this amount of seconds when selecting, active confirmation result (correct or incorrect) 
+    // after this amount of seconds when selecting, 
+    // active confirmation result (correct or incorrect) 
     private float confirmTime = 2;  
 
     // the saved sprite index of the main object
@@ -154,7 +156,13 @@ public class EyeOnlyHardRunner : MonoBehaviour
     private void updateInEyeOnly() {
         if (selectedPatternSet != null && selectedPatternSet.objects.Length > 0) 
         {
-            selectedPatternSet.objects[0].transform.parent.gameObject.GetComponent<SpriteRenderer>().sprite = blue;
+            selectedPatternSet
+                .objects[0]
+                .transform
+                .parent
+                .gameObject
+                .GetComponent<SpriteRenderer>()
+                .sprite = blue;
         } 
         else 
         {
@@ -381,6 +389,7 @@ public class EyeOnlyHardRunner : MonoBehaviour
             Global.correctAttempts.ToString(),
             Global.incorrectAttempts.ToString()
         });
+
         // set to Reset as the session for the current user is over.
         Global.observer = AttemptState.Reset;
         Debug.Log("Details Updated");
