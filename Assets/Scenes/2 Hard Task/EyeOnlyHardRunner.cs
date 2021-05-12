@@ -101,10 +101,10 @@ public class EyeOnlyHardRunner : MonoBehaviour
         }
     }
 
-    private int attempt = 0;
-    public int Attempt
+    private int _attempt = 0;
+    public int attempt
     {
-        get { return attempt; }
+        get { return _attempt; }
         set
         {
             // as the 'value' increases as per the frame rate, 
@@ -112,20 +112,20 @@ public class EyeOnlyHardRunner : MonoBehaviour
             //So, if the value is greater than zero and less than 2 the 
             // loop is only called once irrespective of the frame rates.
             // even the 'value' could have been directly used as it would 
-            // only store 1 rather than storing 'attempt' as 1 and alloting it to others
+            // only store 1 rather than storing '_attempt' as 1 and alloting it to others
             if (value > 0 && value < 2 && correctAttempt == true)
             {
                 Global.observer = AttemptState.Correct;
-                attempt = 1;
-                correctAttempts = attempt;
-                Global.correctAttempts += attempt;
+                _attempt = 1;
+                correctAttempts = _attempt;
+                Global.correctAttempts += _attempt;
             }
             else if (value > 0 && value < 2 && incorrectAttempt == true)
             {
                 Global.observer = AttemptState.Incorrect;
-                attempt = 1;
-                incorrectAttempts = attempt;
-                Global.incorrectAttempts += attempt;
+                _attempt = 1;
+                incorrectAttempts = _attempt;
+                Global.incorrectAttempts += _attempt;
             }
             else if ((correctAttempt == false && incorrectAttempt == false) || 
                 (correctAttempt == true && incorrectAttempt == true))
@@ -171,7 +171,8 @@ public class EyeOnlyHardRunner : MonoBehaviour
             return;
         }
 
-        //eye lock time counting down, but will reset and stop the next seps if there is no selected object
+        // eye lock time counting down, but will reset 
+        // and stop the next seps if there is no selected object
         eyeLockTime -= Time.deltaTime;
 
         if (eyeLockTime <= 0) 
@@ -198,12 +199,12 @@ public class EyeOnlyHardRunner : MonoBehaviour
                 // Get the user attempts for eyes only hard
                 if (samePattern(selectedPatternSet, mainObjPattern))
                 {
-                    Attempt++;
+                    attempt++;
                     correctAttempt = true;
                 }
                 else
                 {
-                    Attempt++;
+                    attempt++;
                     incorrectAttempt = true;
                 }
             }
@@ -257,12 +258,12 @@ public class EyeOnlyHardRunner : MonoBehaviour
                     // Get the user attempts for head and eyes hard
                     if (samePattern(selectedPatternSet, mainObjPattern))
                     {
-                        Attempt++;
+                        attempt++;
                         correctAttempt = true;
                     }
                     else
                     {
-                        Attempt++;
+                        attempt++;
                         incorrectAttempt = true;
                     }
                 }
