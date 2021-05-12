@@ -46,8 +46,6 @@ public class EyeOnlyHardRunner : MonoBehaviour
     public Sprite green;
     public Sprite red;
 
-    [SerializeField] private GameObject countDownPanel;
-
     public int correctAttempts;
     public int incorrectAttempts;
     public bool correctAttempt;
@@ -65,7 +63,6 @@ public class EyeOnlyHardRunner : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(SessionOver());
         fillFromObjectListToPattern();
         fillObjectsWithSprites();
 
@@ -134,17 +131,6 @@ public class EyeOnlyHardRunner : MonoBehaviour
             }
         }
 
-    }
-
-    IEnumerator SessionOver()
-    {
-        yield return new WaitForSeconds(25);
-        GameObject.Find("eyeCursor").SetActive(false);
-        if (Global.currentState == TrialState.HeadEye)
-        {
-            GameObject.Find("headCursor").SetActive(false);
-        }
-        countDownPanel.SetActive(true);
     }
 
     // change to the main menu
@@ -278,8 +264,6 @@ public class EyeOnlyHardRunner : MonoBehaviour
                     .GetComponent<SpriteRenderer>()
                     .sprite = blue;
             }
-
-            
         }
         else
         {
@@ -296,19 +280,20 @@ public class EyeOnlyHardRunner : MonoBehaviour
         //------------------------- Sub objects group set up
         subObjsGroup = new Global.GameObjectPatternGroup();
 
+        var numberOfObjects = 4;
         var currentIndex = 0;
-        var tempArray = new GameObject[4];
+        var tempArray = new GameObject[numberOfObjects];
         var tempArrayIndex = 0;
 
         for (int index = 0; index < subObjList.Length; index++) {
             tempArray[tempArrayIndex] = subObjList[index];
             tempArrayIndex++;
 
-            if ((index + 1) % 4 == 0) {
+            if ((index + 1) % numberOfObjects == 0) {
                 subObjsGroup.patterns[currentIndex].objects = tempArray;
 
                 currentIndex++;
-                tempArray = new GameObject[4];
+                tempArray = new GameObject[numberOfObjects];
                 tempArrayIndex = 0;
             }
         }
@@ -316,10 +301,10 @@ public class EyeOnlyHardRunner : MonoBehaviour
 
     private void fillObjectsWithSprites() {
         // create an array of indexs in pattern spirtes array
-        int[] indexs = new int[6] { 0, 1, 2, 3, 4, 5 };
+        int[] indexs = new int[8] { 0, 1, 2, 3, 4, 5, 6, 7 };
 
         // the array to hole our suffeled sets of patterns
-        int[][] finalOrderSets = new int[6][];
+        int[][] finalOrderSets = new int[8][];
 
         // assign the array above with random values from the array of indexs
         for (int time = 0; time < indexs.Length; time++) {
@@ -349,7 +334,7 @@ public class EyeOnlyHardRunner : MonoBehaviour
         // save the order into main object
         mainObjPattern.order = finalOrderSets[randomIndex];
         
-        for (int index = 0; index < 6; index++) {
+        for (int index = 0; index < 8; index++) {
             for (int innerIndex = 0; innerIndex < 4; innerIndex++) {
                 // fill the sprites for objects in pattern object at specific position of sub object
                 subObjsGroup
@@ -371,7 +356,9 @@ public class EyeOnlyHardRunner : MonoBehaviour
             } 
             catch 
             {
-                Debug.Log("Cannot apply for ColliderHandleHard of subframe object at index " + index);
+                Debug.Log(
+                    "Cannot apply for ColliderHandleHard of subframe object at index " + index
+                );
             }
         }
     }

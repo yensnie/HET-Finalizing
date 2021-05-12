@@ -28,7 +28,11 @@ public static class Global
             Sprite[] result = new Sprite[length];
             for (int index = 0; index < length; index++)
             {
-                result[index] = this.objects[index].GetComponent<SpriteRenderer>().sprite;
+                result[index] = 
+                this
+                    .objects[index]
+                    .GetComponent<SpriteRenderer>()
+                    .sprite;
             }
             return result;
         }
@@ -37,7 +41,9 @@ public static class Global
     public class GameObjectPatternGroup
     {
         public GameObjectPattern[] patterns =
-        new GameObjectPattern[6] {
+        new GameObjectPattern[8] {
+            new GameObjectPattern(),
+            new GameObjectPattern(),
             new GameObjectPattern(),
             new GameObjectPattern(),
             new GameObjectPattern(),
@@ -54,7 +60,8 @@ class Utility
     /// <summary>
     /// shuffle the elements in an array
     /// </summary>
-    /// <param name = "array">The array that need to reorder the elements inside</param>
+    /// <param name = "array">The array that need 
+    /// to reorder the elements inside</param>
     public static void reshuffle<T>(T[] array)
     {
         for (int index = 0; index < array.Length; index++)
