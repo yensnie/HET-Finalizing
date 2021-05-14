@@ -37,9 +37,6 @@ public class EyeOnlyHardRunner : MonoBehaviour
     // active confirmation result (correct or incorrect) 
     private float confirmTime = 2;  
 
-    // the saved sprite index of the main object
-    private int currentRandomIndex = -1;
-
     public Sprite white;
     public Sprite blue;
     public Sprite yellow;
@@ -66,6 +63,12 @@ public class EyeOnlyHardRunner : MonoBehaviour
             }
         }
 
+        // TEST: re-shuffle
+        if (Input.GetKeyDown(KeyCode.E)) {
+            fillFromObjectListToPattern();
+            fillObjectsWithSprites(8, 4);
+        }
+
         switch (Global.currentState) {
             case TrialState.Eye:
                 updateInEyeOnly();
@@ -76,7 +79,6 @@ public class EyeOnlyHardRunner : MonoBehaviour
         }
     }
 
-    // change to the main menu
     public void changeScene(string scene)
     {
         SceneManager.LoadScene(scene);
