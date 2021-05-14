@@ -64,7 +64,7 @@ public class EyeOnlyHardRunner : MonoBehaviour
     void Start()
     {
         fillFromObjectListToPattern();
-        fillObjectsWithSprites();
+        fillObjectsWithSprites(8, 4);
 
         if (Global.currentState == TrialState.Eye) {
             GameObject.Find("headCursor").SetActive(false);
@@ -299,12 +299,15 @@ public class EyeOnlyHardRunner : MonoBehaviour
         }
     }
 
-    private void fillObjectsWithSprites() {
+    private void fillObjectsWithSprites(int length, int components = 4) {
         // create an array of indexs in pattern spirtes array
-        int[] indexs = new int[8] { 0, 1, 2, 3, 4, 5, 6, 7 };
+        int[] indexs = new int[length];
+        for (int index = 0; index < length; index++) {
+            indexs[index] = index;
+        }
 
         // the array to hole our suffeled sets of patterns
-        int[][] finalOrderSets = new int[8][];
+        int[][] finalOrderSets = new int[length][];
 
         // assign the array above with random values from the array of indexs
         for (int time = 0; time < indexs.Length; time++) {
@@ -312,9 +315,9 @@ public class EyeOnlyHardRunner : MonoBehaviour
             int[] suffledIndexs = indexs;
             Utility.reshuffle(suffledIndexs);
 
-            int[] array = new int[4];
+            int[] array = new int[components];
             // then assign for first 4 items in to the current position of the final order array
-            for (int index = 0; index < 4; index++) {
+            for (int index = 0; index < components; index++) {
                 array[index] = suffledIndexs[index];
             }
             finalOrderSets[time] = array;
@@ -324,7 +327,7 @@ public class EyeOnlyHardRunner : MonoBehaviour
 
         // get the random index
         int randomIndex = random.Next(0,finalOrderSets.Length - 1);
-        for (int index = 0; index < 4; index++) {
+        for (int index = 0; index < components; index++) {
             // apply the random set of sprite pattern into main Object
             mainObjPattern
                 .objects[index]
@@ -334,8 +337,8 @@ public class EyeOnlyHardRunner : MonoBehaviour
         // save the order into main object
         mainObjPattern.order = finalOrderSets[randomIndex];
         
-        for (int index = 0; index < 8; index++) {
-            for (int innerIndex = 0; innerIndex < 4; innerIndex++) {
+        for (int index = 0; index < length; index++) {
+            for (int innerIndex = 0; innerIndex < components; innerIndex++) {
                 // fill the sprites for objects in pattern object at specific position of sub object
                 subObjsGroup
                     .patterns[index]
