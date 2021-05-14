@@ -46,21 +46,6 @@ public class EyeOnlyHardRunner : MonoBehaviour
     public Sprite green;
     public Sprite red;
 
-    public int correctAttempts;
-    public int incorrectAttempts;
-    public bool correctAttempt;
-    public bool incorrectAttempt;
-
-    public string lastName;
-    public string firstName;
-    public string courseStudy;
-    public string matriculationNo;
-
-    public GameObject lastName_InputField;
-    public GameObject firstName_InputField;
-    public GameObject course_InputField;
-    public GameObject matriculation_InputField;
-
     void Start()
     {
         fillFromObjectListToPattern();
@@ -68,13 +53,6 @@ public class EyeOnlyHardRunner : MonoBehaviour
 
         if (Global.currentState == TrialState.Eye) {
             GameObject.Find("headCursor").SetActive(false);
-        }
-
-        // as the state is set to Reset the attempts are reseted for the next user
-        if (Global.observer == AttemptState.Reset)
-        {
-            Global.correctAttempts = 0;
-            Global.incorrectAttempts = 0;
         }
     }
 
@@ -96,41 +74,6 @@ public class EyeOnlyHardRunner : MonoBehaviour
                 updateInHeadEye();
                 break;
         }
-    }
-
-    private int _attempt = 0;
-    public int attempt
-    {
-        get { return _attempt; }
-        set
-        {
-            // as the 'value' increases as per the frame rate, 
-            // imcrementing once as per the gaze state was not possible. 
-            //So, if the value is greater than zero and less than 2 the 
-            // loop is only called once irrespective of the frame rates.
-            // even the 'value' could have been directly used as it would 
-            // only store 1 rather than storing '_attempt' as 1 and alloting it to others
-            if (value > 0 && value < 2 && correctAttempt == true)
-            {
-                Global.observer = AttemptState.Correct;
-                _attempt = 1;
-                correctAttempts = _attempt;
-                Global.correctAttempts += _attempt;
-            }
-            else if (value > 0 && value < 2 && incorrectAttempt == true)
-            {
-                Global.observer = AttemptState.Incorrect;
-                _attempt = 1;
-                incorrectAttempts = _attempt;
-                Global.incorrectAttempts += _attempt;
-            }
-            else if ((correctAttempt == false && incorrectAttempt == false) || 
-                (correctAttempt == true && incorrectAttempt == true))
-            {
-                Global.observer = AttemptState.Unknown;
-            }
-        }
-
     }
 
     // change to the main menu
@@ -185,13 +128,11 @@ public class EyeOnlyHardRunner : MonoBehaviour
                 // Get the user attempts for eyes only hard
                 if (samePattern(selectedPatternSet, mainObjPattern))
                 {
-                    attempt++;
-                    correctAttempt = true;
+                    // save data
                 }
                 else
                 {
-                    attempt++;
-                    incorrectAttempt = true;
+                    // save data
                 }
             }
         }
@@ -244,13 +185,11 @@ public class EyeOnlyHardRunner : MonoBehaviour
                     // Get the user attempts for head and eyes hard
                     if (samePattern(selectedPatternSet, mainObjPattern))
                     {
-                        attempt++;
-                        correctAttempt = true;
+                        // save data
                     }
                     else
                     {
-                        attempt++;
-                        incorrectAttempt = true;
+                        // save data
                     }
                 }
             } 
@@ -364,25 +303,5 @@ public class EyeOnlyHardRunner : MonoBehaviour
                 );
             }
         }
-    }
-
-    public void getUserDetails()
-    {
-        lastName = lastName_InputField.GetComponent<Text>().text;
-        firstName = firstName_InputField.GetComponent<Text>().text;
-        courseStudy = course_InputField.GetComponent<Text>().text;
-        matriculationNo = matriculation_InputField.GetComponent<Text>().text;
-        CSVManager.appendtoFile(new string[6] {
-            lastName,
-            firstName,
-            courseStudy,
-            matriculationNo,
-            Global.correctAttempts.ToString(),
-            Global.incorrectAttempts.ToString()
-        });
-
-        // set to Reset as the session for the current user is over.
-        Global.observer = AttemptState.Reset;
-        Debug.Log("Details Updated");
     }
 }
