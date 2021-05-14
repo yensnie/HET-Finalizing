@@ -7,12 +7,11 @@ public enum TrialState
 }
 public enum AttemptState
 {
-    Correct, Incorrect, Unknown, Reset
+    Correct, Incorrect, Unknown, Timeout
 }
 public static class Global
 {
     public static TrialState currentState = TrialState.Eye;
-    public static AttemptState observer = AttemptState.Unknown;
     public static int correctAttempts, incorrectAttempts;
 
 

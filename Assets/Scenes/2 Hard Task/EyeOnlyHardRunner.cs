@@ -65,18 +65,17 @@ public class EyeOnlyHardRunner : MonoBehaviour
 
         // TEST: re-shuffle
         if (Input.GetKeyDown(KeyCode.E)) {
-            fillFromObjectListToPattern();
             fillObjectsWithSprites(8, 4);
         }
 
-        switch (Global.currentState) {
-            case TrialState.Eye:
-                updateInEyeOnly();
-                break;
-            case TrialState.HeadEye:
-                updateInHeadEye();
-                break;
-        }
+        // switch (Global.currentState) {
+        //     case TrialState.Eye:
+        //         updateInEyeOnly();
+        //         break;
+        //     case TrialState.HeadEye:
+        //         updateInHeadEye();
+        //         break;
+        // }
     }
 
     public void changeScene(string scene)
@@ -215,26 +214,28 @@ public class EyeOnlyHardRunner : MonoBehaviour
 
     private void fillFromObjectListToPattern() {
         //------------------------- Main object set up
+        // this pattern store 4 game objects repesented 4 spirtes
         mainObjPattern = new Global.GameObjectPattern();
         mainObjPattern.objects = mainObj;
 
         //------------------------- Sub objects group set up
+        // this pattern store 4 game objects repesented 4 spirtes
         subObjsGroup = new Global.GameObjectPatternGroup();
 
-        var numberOfObjects = 4;
+        var components = 4;
         var currentIndex = 0;
-        var tempArray = new GameObject[numberOfObjects];
+        var tempArray = new GameObject[components];
         var tempArrayIndex = 0;
 
         for (int index = 0; index < subObjList.Length; index++) {
             tempArray[tempArrayIndex] = subObjList[index];
             tempArrayIndex++;
 
-            if ((index + 1) % numberOfObjects == 0) {
+            if ((index + 1) % components == 0) {
                 subObjsGroup.patterns[currentIndex].objects = tempArray;
 
                 currentIndex++;
-                tempArray = new GameObject[numberOfObjects];
+                tempArray = new GameObject[components];
                 tempArrayIndex = 0;
             }
         }
@@ -251,20 +252,20 @@ public class EyeOnlyHardRunner : MonoBehaviour
         int[][] finalOrderSets = new int[length][];
 
         // assign the array above with random values from the array of indexs
-        for (int time = 0; time < indexs.Length; time++) {
+        for (int index = 0; index < indexs.Length; index++) {
             // first, make a randomly suffled version of indexs array
             int[] suffledIndexs = indexs;
             Utility.reshuffle(suffledIndexs);
 
             int[] array = new int[components];
             // then assign for first 4 items in to the current position of the final order array
-            for (int index = 0; index < components; index++) {
-                array[index] = suffledIndexs[index];
+            for (int componentIndex = 0; componentIndex < components; componentIndex++) {
+                array[componentIndex] = suffledIndexs[componentIndex];
             }
-            finalOrderSets[time] = array;
+            finalOrderSets[index] = array;
         }
 
-        System.Random random = new System.Random();
+        var random = new System.Random();
 
         // get the random index
         int randomIndex = random.Next(0,finalOrderSets.Length - 1);

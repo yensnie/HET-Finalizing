@@ -60,13 +60,6 @@ public class EyeOnlyRunner : MonoBehaviour
         {
             GameObject.Find("headCursor").SetActive(false);
         }
-
-        // as the state is set to Reset the attempts are reseted for the next user
-        if (Global.observer == AttemptState.Reset)
-        {
-            Global.correctAttempts = 0;
-            Global.incorrectAttempts = 0;
-        }
     }
 
     // Update is called once per frame
@@ -89,35 +82,6 @@ public class EyeOnlyRunner : MonoBehaviour
                 updateInHeadEye();
                 break;
         }
-    }
-    private int attempt = 0;
-    public int Attempt
-    {
-        get { return attempt; }
-        set
-        {
-            // as the 'value' increases as per the frame rate, imcrementing once as per the gaze state was not possible. So, if the value is greater than zero and less than 2 the loop is only called once irrespective of the frame rates.
-            // even the 'value' could have been directly used as it would only store 1 rather than storing 'attempt' as 1 and alloting it to others
-            if (value > 0 && value < 2 && correctAttempt == true)
-            {
-                Global.observer = AttemptState.Correct;
-                attempt = 1;
-                correctAttempts = attempt;
-                Global.correctAttempts += attempt;
-            }
-            else if (value > 0 && value < 2 && incorrectAttempt == true)
-            {
-                Global.observer = AttemptState.Incorrect;
-                attempt = 1;
-                incorrectAttempts = attempt;
-                Global.incorrectAttempts += attempt;
-            }
-            else if ((correctAttempt == false && incorrectAttempt == false) || (correctAttempt == true && incorrectAttempt == true))
-            {
-                Global.observer = AttemptState.Unknown;
-            }
-        }
-
     }
 
     // Countdown timer
@@ -182,13 +146,11 @@ public class EyeOnlyRunner : MonoBehaviour
                 //Get the user attempts for eyes only easy
                 if (selectedIndex == currentRandomIndex)
                 {
-                    Attempt++;
-                    correctAttempt = true;
+                    // do something
                 }
                 else
                 {
-                    Attempt++;
-                    incorrectAttempt = true;
+                    // do something
                 }
             }
         }
@@ -230,13 +192,11 @@ public class EyeOnlyRunner : MonoBehaviour
                 //Get the user attempts for head and eye easy
                 if (selectedIndex == currentRandomIndex)
                 {
-                    Attempt++;
-                    correctAttempt = true;
+                    // do something
                 }
                 else
                 {
-                    Attempt++;
-                    incorrectAttempt = true;
+                    // do something
                 }
             }
         }
@@ -265,23 +225,5 @@ public class EyeOnlyRunner : MonoBehaviour
         {
             subObj[index].GetComponent<SpriteRenderer>().sprite = spriteList[index];
         }
-    }
-    public void getUserDetails()
-    {
-        lastName = lastName_InputField.GetComponent<Text>().text;
-        firstName = firstName_InputField.GetComponent<Text>().text;
-        courseStudy = course_InputField.GetComponent<Text>().text;
-        matriculationNo = matriculation_InputField.GetComponent<Text>().text;
-        CSVManager.appendtoFile(new string[6] {
-            lastName,
-            firstName,
-            courseStudy,
-            matriculationNo,
-            Global.correctAttempts.ToString(),
-            Global.incorrectAttempts.ToString()
-        });
-        // set to Reset as the session for the current user is over.
-        Global.observer = AttemptState.Reset;
-        Debug.Log("Details Updated");
     }
 }
