@@ -270,8 +270,10 @@ public class EyeOnlyHardRunner : MonoBehaviour
 
         var random = new System.Random();
 
-        // get the random index
+        // get the random index, this will be the index of the pattern 
+        // that will be used for main pattern
         int randomIndex = random.Next(0,finalOrderSets.Length - 1);
+
         for (int index = 0; index < components; index++) {
             // apply the random set of sprite pattern into main Object
             mainObjPattern
