@@ -45,12 +45,12 @@ public class EyeOnlyHardRunner : MonoBehaviour
 
     void Start()
     {
-        fillFromObjectListToPattern();
+        fillGameObjectsToPattern();
         fillObjectsWithSprites(8, 4);
 
-        if (Global.currentState == TrialState.Eye) {
-            GameObject.Find("headCursor").SetActive(false);
-        }
+        // if (Global.currentState == TrialState.Eye) {
+        //     GameObject.Find("headCursor").SetActive(false);
+        // }
     }
 
     void Update()
@@ -212,7 +212,7 @@ public class EyeOnlyHardRunner : MonoBehaviour
         }
     }
 
-    private void fillFromObjectListToPattern() {
+    private void fillGameObjectsToPattern() {
         //------------------------- Main object set up
         // this pattern store 4 game objects repesented 4 spirtes
         mainObjPattern = new Global.GameObjectPattern();
@@ -220,21 +220,24 @@ public class EyeOnlyHardRunner : MonoBehaviour
 
         //------------------------- Sub objects group set up
         // this pattern store 4 game objects repesented 4 spirtes
+        // this group has 8 gameObjectPattern-s
         subObjsGroup = new Global.GameObjectPatternGroup();
 
         var components = 4;
-        var currentIndex = 0;
+        var groupIndex = 0;
         var tempArray = new GameObject[components];
         var tempArrayIndex = 0;
 
+        // There are 8 groups, which mean 8*4 = 24 enitities in subObjList
         for (int index = 0; index < subObjList.Length; index++) {
             tempArray[tempArrayIndex] = subObjList[index];
             tempArrayIndex++;
 
+            // after each group (4 components), reset tempArrayIndex, increase group index
             if ((index + 1) % components == 0) {
-                subObjsGroup.patterns[currentIndex].objects = tempArray;
+                subObjsGroup.patterns[groupIndex].objects = tempArray;
 
-                currentIndex++;
+                groupIndex++;
                 tempArray = new GameObject[components];
                 tempArrayIndex = 0;
             }
