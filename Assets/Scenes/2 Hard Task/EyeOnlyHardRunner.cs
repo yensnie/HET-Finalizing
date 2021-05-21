@@ -43,6 +43,8 @@ public class EyeOnlyHardRunner : MonoBehaviour
     public Sprite green;
     public Sprite red;
 
+    private int trialTime = 0;
+
     void Start()
     {
         fillGameObjectsToPattern();
@@ -139,17 +141,12 @@ public class EyeOnlyHardRunner : MonoBehaviour
         }
     }
 
-    private bool samePattern(Global.GameObjectPattern pattarnA, Global.GameObjectPattern patternB) {
-        bool result = true;
-        for (int index = 0; index < pattarnA.objects.Length; index++) {
-            var spriteA = pattarnA.objects[index].GetComponent<SpriteRenderer>().sprite.name;
-            var spriteB = patternB.objects[index].GetComponent<SpriteRenderer>().sprite.name;
-            if (!(spriteA.Trim().Equals(spriteB))) {
-                result = false;
-                break;
-            }
-        }
-        return result;
+    private void updateInHeadOnly() { 
+
+    }
+
+    private void updateEyeHeadOrder() {
+
     }
 
     private void updateInHeadEye() {
@@ -210,6 +207,19 @@ public class EyeOnlyHardRunner : MonoBehaviour
             confirmTime = 2;
             return;
         }
+    }
+
+    private bool samePattern(Global.GameObjectPattern pattarnA, Global.GameObjectPattern patternB) {
+        bool result = true;
+        for (int index = 0; index < pattarnA.objects.Length; index++) {
+            var spriteA = pattarnA.objects[index].GetComponent<SpriteRenderer>().sprite.name;
+            var spriteB = patternB.objects[index].GetComponent<SpriteRenderer>().sprite.name;
+            if (!(spriteA.Trim().Equals(spriteB))) {
+                result = false;
+                break;
+            }
+        }
+        return result;
     }
 
     private void fillGameObjectsToPattern() {
