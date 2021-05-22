@@ -24,18 +24,18 @@ public class EyeOnlyHardRunner : MonoBehaviour
     public GameObject[] subFrame;
 
     // list of sprites for patterns
-    public Sprite[] spriteList; 
+    public Sprite[] spriteList;
 
     // the trial time left, will counted down right from start
     public float timeLeft = 30;
-    
+
     // after this amount of time when eye gaze hit the objects, 
     // it will be counted as "lock" (eye only scenario)
     private float eyeLockTime = 2;
 
     // after this amount of seconds when selecting, 
     // active confirmation result (correct or incorrect) 
-    private float confirmTime = 2;  
+    private float confirmTime = 2;
 
     public Sprite white;
     public Sprite blue;
@@ -50,7 +50,8 @@ public class EyeOnlyHardRunner : MonoBehaviour
         fillGameObjectsToPattern();
         fillObjectsWithSprites(8, 4);
 
-        switch (Global.currentState) {
+        switch (Global.currentState)
+        {
             case TrialState.Eye:
                 GameObject.Find("headCursor").SetActive(false);
                 break;
@@ -75,11 +76,13 @@ public class EyeOnlyHardRunner : MonoBehaviour
         }
 
         // TEST: re-shuffle
-        if (Input.GetKeyDown(KeyCode.E)) {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
             fillObjectsWithSprites(8, 4);
         }
 
-        switch (Global.currentState) {
+        switch (Global.currentState)
+        {
             case TrialState.Eye:
                 updateInEyeOnly();
                 break;
@@ -100,18 +103,21 @@ public class EyeOnlyHardRunner : MonoBehaviour
         SceneManager.LoadScene(scene);
     }
 
-    private void updateInEyeOnly() {
-        if (selectedPatternSet != null && selectedPatternSet.objects.Length > 0) 
+    private void updateInEyeOnly()
+    {
+        var patternBackground = selectedPatternSet
+            .objects[0]
+            .transform
+            .parent
+            .gameObject
+            .GetComponent<SpriteRenderer>()
+            .sprite;
+        
+        if (selectedPatternSet != null && selectedPatternSet.objects.Length > 0)
         {
-            selectedPatternSet
-                .objects[0]
-                .transform
-                .parent
-                .gameObject
-                .GetComponent<SpriteRenderer>()
-                .sprite = blue;
-        } 
-        else 
+            patternBackground = blue;
+        }
+        else
         {
             eyeLockTime = 2;
             confirmTime = 2;
@@ -122,26 +128,15 @@ public class EyeOnlyHardRunner : MonoBehaviour
         // and stop the next seps if there is no selected object
         eyeLockTime -= Time.deltaTime;
 
-        if (eyeLockTime <= 0) 
+        if (eyeLockTime <= 0)
         {
-            selectedPatternSet
-                .objects[0]
-                .transform
-                .parent
-                .gameObject
-                .GetComponent<SpriteRenderer>()
-                .sprite = yellow;
+            patternBackground = yellow;
 
             confirmTime -= Time.deltaTime;
-            if (confirmTime <= 0.0) 
+            if (confirmTime <= 0.0)
             {
-                selectedPatternSet
-                    .objects[0]
-                    .transform
-                    .parent
-                    .gameObject
-                    .GetComponent<SpriteRenderer>()
-                    .sprite = samePattern(selectedPatternSet, mainObjPattern) ? green : red;
+                patternBackground 
+                    = samePattern(selectedPatternSet, mainObjPattern) ? green : red;
 
                 // Get the user attempts for eyes only hard
                 if (samePattern(selectedPatternSet, mainObjPattern))
@@ -156,48 +151,52 @@ public class EyeOnlyHardRunner : MonoBehaviour
         }
     }
 
-    private void updateInHeadOnly() { 
+    private void updateInHeadOnly()
+    {
 
     }
 
-    private void updateEyeHeadOrder() {
+    private void updateEyeHeadOrder()
+    {
 
     }
 
-    private void updateInHeadEye() {
+    private void updateInHeadEye()
+    {
+        var patternBackground = selectedPatternSet
+            .objects[0]
+            .transform
+            .parent
+            .gameObject
+            .GetComponent<SpriteRenderer>()
+            .sprite;
+        
         // trial time count down (in total)
         timeLeft -= Time.deltaTime;
-        if (timeLeft <= 0) {
+        if (timeLeft <= 0)
+        {
             //TODO: put the trail to end state
-        } else {
+        }
+        else
+        {
             //Debug.Log(timeLeft);
         }
 
-        if (selectedPatternSet != null && selectedPatternSet.objects.Length > 0) 
+        if (selectedPatternSet != null && selectedPatternSet.objects.Length > 0)
         {
             if (
-                headSelectedPatternSet != null && 
+                headSelectedPatternSet != null &&
                 headSelectedPatternSet == selectedPatternSet
-            ) {
-                selectedPatternSet
-                    .objects[0]
-                    .transform
-                    .parent
-                    .gameObject
-                    .GetComponent<SpriteRenderer>()
-                    .sprite = yellow;
+            )
+            {
+                patternBackground = yellow;
 
                 confirmTime -= Time.deltaTime;
-                
+
                 if (confirmTime <= 0.0)
                 {
-                    selectedPatternSet
-                        .objects[0]
-                        .transform
-                        .parent
-                        .gameObject
-                        .GetComponent<SpriteRenderer>()
-                        .sprite = samePattern(selectedPatternSet, mainObjPattern) ? green : red;
+                    patternBackground 
+                        = samePattern(selectedPatternSet, mainObjPattern) ? green : red;
 
                     // Get the user attempts for head and eyes hard
                     if (samePattern(selectedPatternSet, mainObjPattern))
@@ -209,8 +208,8 @@ public class EyeOnlyHardRunner : MonoBehaviour
                         // save data
                     }
                 }
-            } 
-            else 
+            }
+            else
             {
                 selectedPatternSet
                     .objects[0]
@@ -229,11 +228,13 @@ public class EyeOnlyHardRunner : MonoBehaviour
     }
 
     private bool samePattern(
-        Global.GameObjectPattern pattarnA, 
+        Global.GameObjectPattern pattarnA,
         Global.GameObjectPattern patternB
-    ) {
+    )
+    {
         bool result = true;
-        for (int index = 0; index < pattarnA.objects.Length; index++) {
+        for (int index = 0; index < pattarnA.objects.Length; index++)
+        {
             var spriteA = pattarnA
                 .objects[index]
                 .GetComponent<SpriteRenderer>()
@@ -244,7 +245,8 @@ public class EyeOnlyHardRunner : MonoBehaviour
                 .GetComponent<SpriteRenderer>()
                 .sprite
                 .name;
-            if (!(spriteA.Trim().Equals(spriteB))) {
+            if (!(spriteA.Trim().Equals(spriteB)))
+            {
                 result = false;
                 break;
             }
@@ -252,7 +254,8 @@ public class EyeOnlyHardRunner : MonoBehaviour
         return result;
     }
 
-    private void fillGameObjectsToPattern() {
+    private void fillGameObjectsToPattern()
+    {
         //------------------------- Main object set up
         // this pattern store 4 game objects repesented 4 spirtes
         mainObjPattern = new Global.GameObjectPattern();
@@ -269,12 +272,14 @@ public class EyeOnlyHardRunner : MonoBehaviour
         var tempArrayIndex = 0;
 
         // There are 8 groups, which mean 8*4 = 24 enitities in subObjList
-        for (int index = 0; index < subObjList.Length; index++) {
+        for (int index = 0; index < subObjList.Length; index++)
+        {
             tempArray[tempArrayIndex] = subObjList[index];
             tempArrayIndex++;
 
             // after each group (4 components), reset tempArrayIndex, increase group index
-            if ((index + 1) % components == 0) {
+            if ((index + 1) % components == 0)
+            {
                 subObjsGroup.patterns[groupIndex].objects = tempArray;
 
                 groupIndex++;
@@ -284,10 +289,12 @@ public class EyeOnlyHardRunner : MonoBehaviour
         }
     }
 
-    private void fillObjectsWithSprites(int length, int components = 4) {
+    private void fillObjectsWithSprites(int length, int components = 4)
+    {
         // create an array of indexs in pattern spirtes array
         int[] indexs = new int[length];
-        for (int index = 0; index < length; index++) {
+        for (int index = 0; index < length; index++)
+        {
             indexs[index] = index;
         }
 
@@ -295,14 +302,16 @@ public class EyeOnlyHardRunner : MonoBehaviour
         int[][] finalOrderSets = new int[length][];
 
         // assign the array above with random values from the array of indexs
-        for (int index = 0; index < indexs.Length; index++) {
+        for (int index = 0; index < indexs.Length; index++)
+        {
             // first, make a randomly suffled version of indexs array
             int[] suffledIndexs = indexs;
             Utility.reshuffle(suffledIndexs);
 
             int[] array = new int[components];
             // then assign for first 4 items in to the current position of the final order array
-            for (int componentIndex = 0; componentIndex < components; componentIndex++) {
+            for (int componentIndex = 0; componentIndex < components; componentIndex++)
+            {
                 array[componentIndex] = suffledIndexs[componentIndex];
             }
             finalOrderSets[index] = array;
@@ -312,9 +321,10 @@ public class EyeOnlyHardRunner : MonoBehaviour
 
         // get the random index, this will be the index of the pattern 
         // that will be used for main pattern
-        int randomIndex = random.Next(0,finalOrderSets.Length - 1);
+        int randomIndex = random.Next(0, finalOrderSets.Length - 1);
 
-        for (int index = 0; index < components; index++) {
+        for (int index = 0; index < components; index++)
+        {
             // apply the random set of sprite pattern into main Object
             mainObjPattern
                 .objects[index]
@@ -323,9 +333,11 @@ public class EyeOnlyHardRunner : MonoBehaviour
         }
         // save the order into main object
         mainObjPattern.order = finalOrderSets[randomIndex];
-        
-        for (int index = 0; index < length; index++) {
-            for (int innerIndex = 0; innerIndex < components; innerIndex++) {
+
+        for (int index = 0; index < length; index++)
+        {
+            for (int innerIndex = 0; innerIndex < components; innerIndex++)
+            {
                 // fill the sprites for objects in pattern object at specific position of sub object
                 subObjsGroup
                     .patterns[index]
@@ -338,13 +350,13 @@ public class EyeOnlyHardRunner : MonoBehaviour
             subObjsGroup.patterns[index].order = finalOrderSets[index];
 
             // Apply patterns into objects in subFrame array
-            try 
+            try
             {
                 subFrame[index]
                     .GetComponent<ColliderHandleHard>()
                     .selectedPattern = subObjsGroup.patterns[index];
-            } 
-            catch 
+            }
+            catch
             {
                 Debug.Log(
                     "Cannot apply for ColliderHandleHard of subframe object at index " + index
