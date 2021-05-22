@@ -21,7 +21,9 @@ public static class Global
         public Sprite[] convertToSprites()
         {
             int length = this.objects.Length;
-            if (length <= 0) { return null; }
+            if (length <= 0) { 
+                return null; 
+            }
             Sprite[] result = new Sprite[length];
             for (int index = 0; index < length; index++)
             {

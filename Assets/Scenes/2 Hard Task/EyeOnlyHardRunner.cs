@@ -43,7 +43,7 @@ public class EyeOnlyHardRunner : MonoBehaviour
     public Sprite green;
     public Sprite red;
 
-    private int trialTime = 0;
+    private int trialCount = 0;
 
     void Start()
     {
@@ -175,8 +175,10 @@ public class EyeOnlyHardRunner : MonoBehaviour
 
         if (selectedPatternSet != null && selectedPatternSet.objects.Length > 0) 
         {
-            if (headSelectedPatternSet != null && headSelectedPatternSet == selectedPatternSet) 
-            {
+            if (
+                headSelectedPatternSet != null && 
+                headSelectedPatternSet == selectedPatternSet
+            ) {
                 selectedPatternSet
                     .objects[0]
                     .transform
@@ -184,7 +186,9 @@ public class EyeOnlyHardRunner : MonoBehaviour
                     .gameObject
                     .GetComponent<SpriteRenderer>()
                     .sprite = yellow;
+
                 confirmTime -= Time.deltaTime;
+                
                 if (confirmTime <= 0.0)
                 {
                     selectedPatternSet
@@ -224,11 +228,22 @@ public class EyeOnlyHardRunner : MonoBehaviour
         }
     }
 
-    private bool samePattern(Global.GameObjectPattern pattarnA, Global.GameObjectPattern patternB) {
+    private bool samePattern(
+        Global.GameObjectPattern pattarnA, 
+        Global.GameObjectPattern patternB
+    ) {
         bool result = true;
         for (int index = 0; index < pattarnA.objects.Length; index++) {
-            var spriteA = pattarnA.objects[index].GetComponent<SpriteRenderer>().sprite.name;
-            var spriteB = patternB.objects[index].GetComponent<SpriteRenderer>().sprite.name;
+            var spriteA = pattarnA
+                .objects[index]
+                .GetComponent<SpriteRenderer>()
+                .sprite
+                .name;
+            var spriteB = patternB
+                .objects[index]
+                .GetComponent<SpriteRenderer>()
+                .sprite
+                .name;
             if (!(spriteA.Trim().Equals(spriteB))) {
                 result = false;
                 break;
