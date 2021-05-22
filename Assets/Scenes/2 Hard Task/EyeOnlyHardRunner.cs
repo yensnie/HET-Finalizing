@@ -50,9 +50,18 @@ public class EyeOnlyHardRunner : MonoBehaviour
         fillGameObjectsToPattern();
         fillObjectsWithSprites(8, 4);
 
-        // if (Global.currentState == TrialState.Eye) {
-        //     GameObject.Find("headCursor").SetActive(false);
-        // }
+        switch (Global.currentState) {
+            case TrialState.Eye:
+                GameObject.Find("headCursor").SetActive(false);
+                break;
+            case TrialState.HeadEye:
+                break;
+            case TrialState.Order:
+                break;
+            case TrialState.Head:
+                GameObject.Find("eyeCursor").SetActive(false);
+                break;
+        }
     }
 
     void Update()
@@ -70,14 +79,20 @@ public class EyeOnlyHardRunner : MonoBehaviour
             fillObjectsWithSprites(8, 4);
         }
 
-        // switch (Global.currentState) {
-        //     case TrialState.Eye:
-        //         updateInEyeOnly();
-        //         break;
-        //     case TrialState.HeadEye:
-        //         updateInHeadEye();
-        //         break;
-        // }
+        switch (Global.currentState) {
+            case TrialState.Eye:
+                updateInEyeOnly();
+                break;
+            case TrialState.HeadEye:
+                updateInHeadEye();
+                break;
+            case TrialState.Order:
+                updateEyeHeadOrder();
+                break;
+            case TrialState.Head:
+                updateInHeadOnly();
+                break;
+        }
     }
 
     public void changeScene(string scene)

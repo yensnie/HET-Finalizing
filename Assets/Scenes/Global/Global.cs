@@ -3,7 +3,7 @@ using Tobii.Research;
 
 public enum TrialState
 {
-    Eye, HeadEye
+    Eye, Head, Order, HeadEye
 }
 public enum AttemptState
 {
