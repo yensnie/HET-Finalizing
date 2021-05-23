@@ -98,12 +98,12 @@ public class EyeOnlyHardRunner : MonoBehaviour
             case TrialState.Eye:
                 GameObject.Find("headCursor").SetActive(false);
                 break;
+            case TrialState.Head:
+                GameObject.Find("eyeCursor").SetActive(false);
+                break;
             case TrialState.HeadEye:
                 break;
             case TrialState.Order:
-                break;
-            case TrialState.Head:
-                GameObject.Find("eyeCursor").SetActive(false);
                 break;
         }
     }
@@ -257,12 +257,6 @@ public class EyeOnlyHardRunner : MonoBehaviour
     }
 
     // Condition 3
-    private void updateEyeHeadOrder()
-    {
-
-    }
-
-    // Condition 4 - concept 2
     private void updateInHeadEye()
     {
         var patternBackground = selectedPatternSet
@@ -301,21 +295,70 @@ public class EyeOnlyHardRunner : MonoBehaviour
             }
             else
             {
-                selectedPatternSet
-                    .objects[0]
-                    .transform
-                    .parent
-                    .gameObject
-                    .GetComponent<SpriteRenderer>()
-                    .sprite = blue;
+                patternBackground = blue;
+                resetTime();
             }
         }
         else
         {
             resetTime();
-            return;
         }
     }
+
+    // Condition  4 - concept 2
+    private void updateEyeHeadOrder()
+    {
+        var patternBackground = selectedPatternSet
+            .objects[0]
+            .transform
+            .parent
+            .gameObject
+            .GetComponent<SpriteRenderer>()
+            .sprite;
+        
+        if (selectedPatternSet != null && selectedPatternSet.objects.Length > 0)
+        {
+            patternBackground = blue;
+
+            if (headSelectedPatternSet != null && headSelectedPatternSet == selectedPatternSet)
+            {
+                confirmTime -= timeLeft.deltaTime;
+                if (confirmTime <= 0)
+                {
+                    if (samePattern(selectedPatternSet, mainObjPattern))
+                    {
+                        patternBackground = green;
+
+                        // TODO: save data
+
+                    }
+                    else
+                    {
+                        patternBackground = red;
+
+                        // TODO: save data
+
+                    }
+                }
+            } 
+            else 
+            {
+                patternBackground = blue;
+                 // reset
+                resetTime();
+            }
+        }
+        else
+        {
+            // reset
+            resetTime();
+        }
+
+
+
+    }
+
+    //
 
     private bool samePattern(Global.GameObjectPattern pattarnA, Global.GameObjectPattern patternB)
     {
@@ -446,7 +489,7 @@ public class EyeOnlyHardRunner : MonoBehaviour
             catch
             {
                 Debug.Log(
-                    "Cannot apply for ColliderHandleHard of subframe object at index " + index
+                    "Cannot apply for `ColliderHandleHard` of subframe object at index " + index
                 );
             }
         }
