@@ -7,7 +7,10 @@ using UnityEngine.UI;
 
 public class EyeOnlyHardRunner : MonoBehaviour
 {
+    // current selected pattern by eye cursor
     public static Global.GameObjectPattern selectedPatternSet;
+
+    // current selected pattern by head cursor
     public static Global.GameObjectPattern headSelectedPatternSet;
 
     // The main pattern object
@@ -27,15 +30,17 @@ public class EyeOnlyHardRunner : MonoBehaviour
     public Sprite[] spriteList;
 
     // the trial time left, will counted down right from start
-    public float timeLeft = 30;
+    public float timeLeft = 25;
 
     // after this amount of time when eye gaze hit the objects, 
     // it will be counted as "lock" (eye only scenario)
-    private float eyeLockTime = 2;
+    private float _lockTime = 0;
+    private float lockTime = 0;
 
     // after this amount of seconds when selecting, 
     // active confirmation result (correct or incorrect) 
-    private float confirmTime = 2;
+    private float _confirmTime = 0;
+    private float confirmTime = 0;
 
     public Sprite white;
     public Sprite blue;
@@ -44,12 +49,50 @@ public class EyeOnlyHardRunner : MonoBehaviour
     public Sprite red;
 
     private int trialCount = 0;
+    private const int trialTimes = 10;
 
     void Start()
     {
         fillGameObjectsToPattern();
         fillObjectsWithSprites(8, 4);
 
+        prepareComponents();
+
+        prepareCursors();
+    }
+
+    private void prepareComponents()
+    {
+        switch (Global.currentState)
+        {
+            case TrialState.Eye:
+                _lockTime = 2;
+                _confirmTime = 2;
+                break;
+            case TrialState.HeadEye:
+                _lockTime = 2;
+                _confirmTime = 2;
+                break;
+            case TrialState.Order:
+                _lockTime = 2;
+                _confirmTime = 2;
+                break;
+            case TrialState.Head:
+                _lockTime = 2;
+                _confirmTime = 2;
+                break;
+        }
+        resetTime();
+    }
+
+    private void resetTime() 
+    {
+        lockTime = _lockTime;
+        confirmTime = _confirmTime;
+    }
+
+    private void prepareCursors()
+    {
         switch (Global.currentState)
         {
             case TrialState.Eye:
@@ -75,10 +118,20 @@ public class EyeOnlyHardRunner : MonoBehaviour
             }
         }
 
-        // TEST: re-shuffle
-        if (Input.GetKeyDown(KeyCode.E))
+        timeLeft -= Time.deltaTime;
+        if (timeLeft <= 0)
         {
-            fillObjectsWithSprites(8, 4);
+            if (trialCount >= trialTimes) 
+            {
+                // TODO: save the temporally data
+            } else {
+                // reshuffle, increase trial count
+                fillObjectsWithSprites(8, 4);
+                trialCount++;
+
+                // TODO: save data temporally
+            }
+            
         }
 
         switch (Global.currentState)
@@ -103,6 +156,7 @@ public class EyeOnlyHardRunner : MonoBehaviour
         SceneManager.LoadScene(scene);
     }
 
+    // Condition 1
     private void updateInEyeOnly()
     {
         var patternBackground = selectedPatternSet
@@ -119,48 +173,96 @@ public class EyeOnlyHardRunner : MonoBehaviour
         }
         else
         {
-            eyeLockTime = 2;
-            confirmTime = 2;
+            // reset
+            resetTime();
             return;
         }
 
         // eye lock time counting down, but will reset 
         // and stop the next seps if there is no selected object
-        eyeLockTime -= Time.deltaTime;
+        lockTime -= Time.deltaTime;
 
-        if (eyeLockTime <= 0)
+        if (lockTime <= 0)
         {
             patternBackground = yellow;
 
             confirmTime -= Time.deltaTime;
             if (confirmTime <= 0.0)
             {
-                patternBackground 
-                    = samePattern(selectedPatternSet, mainObjPattern) ? green : red;
-
-                // Get the user attempts for eyes only hard
                 if (samePattern(selectedPatternSet, mainObjPattern))
                 {
-                    // save data
+                    patternBackground  = green;
+
+                    // TODO: save data
+
                 }
                 else
                 {
-                    // save data
+                    patternBackground  = red;
+                    // TODO: save data
                 }
             }
         }
     }
 
+    // Condition 2
     private void updateInHeadOnly()
     {
+        var patternBackground = selectedPatternSet
+            .objects[0]
+            .transform
+            .parent
+            .gameObject
+            .GetComponent<SpriteRenderer>()
+            .sprite;
 
+        if (headSelectedPatternSet != null && headSelectedPatternSet.objects.Length >0)
+        {
+            patternBackground = blue;
+        }
+        else
+        {
+            // reset
+            resetTime();
+            return;
+        }
+
+        // head lock time counting down, but will reset 
+        // and stop the next seps if there is no selected object
+        lockTime -= Time.deltaTime;
+
+        if (lockTime <= 0)
+        {
+            patternBackground = yellow;
+
+            confirmTime -= Time.deltaTime;
+            if (confirmTime <= 0)
+            {
+                if (samePattern(headSelectedPatternSet, mainObjPattern))
+                {
+                    patternBackground = green;
+
+                    // TODO: save data
+
+                }
+                else
+                {
+                    patternBackground = red;
+
+                    // TODO: save data
+
+                }
+            }
+        }
     }
 
+    // Condition 3
     private void updateEyeHeadOrder()
     {
 
     }
 
+    // Condition 4 - concept 2
     private void updateInHeadEye()
     {
         var patternBackground = selectedPatternSet
@@ -170,24 +272,10 @@ public class EyeOnlyHardRunner : MonoBehaviour
             .gameObject
             .GetComponent<SpriteRenderer>()
             .sprite;
-        
-        // trial time count down (in total)
-        timeLeft -= Time.deltaTime;
-        if (timeLeft <= 0)
-        {
-            //TODO: put the trail to end state
-        }
-        else
-        {
-            //Debug.Log(timeLeft);
-        }
 
         if (selectedPatternSet != null && selectedPatternSet.objects.Length > 0)
         {
-            if (
-                headSelectedPatternSet != null &&
-                headSelectedPatternSet == selectedPatternSet
-            )
+            if (headSelectedPatternSet != null && headSelectedPatternSet == selectedPatternSet)
             {
                 patternBackground = yellow;
 
@@ -195,17 +283,19 @@ public class EyeOnlyHardRunner : MonoBehaviour
 
                 if (confirmTime <= 0.0)
                 {
-                    patternBackground 
-                        = samePattern(selectedPatternSet, mainObjPattern) ? green : red;
-
-                    // Get the user attempts for head and eyes hard
                     if (samePattern(selectedPatternSet, mainObjPattern))
                     {
-                        // save data
+                        patternBackground = green;
+
+                        // TODO: save data
+
                     }
                     else
                     {
-                        // save data
+                        patternBackground = red;
+
+                        // TODO: save data
+
                     }
                 }
             }
@@ -222,15 +312,12 @@ public class EyeOnlyHardRunner : MonoBehaviour
         }
         else
         {
-            confirmTime = 2;
+            resetTime();
             return;
         }
     }
 
-    private bool samePattern(
-        Global.GameObjectPattern pattarnA,
-        Global.GameObjectPattern patternB
-    )
+    private bool samePattern(Global.GameObjectPattern pattarnA, Global.GameObjectPattern patternB)
     {
         bool result = true;
         for (int index = 0; index < pattarnA.objects.Length; index++)
