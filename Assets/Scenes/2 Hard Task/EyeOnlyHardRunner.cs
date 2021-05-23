@@ -320,7 +320,7 @@ public class EyeOnlyHardRunner : MonoBehaviour
         {
             if (headSelectedPatternSet != null && headSelectedPatternSet == selectedPatternSet)
             {
-                confirmTime -= timeLeft.deltaTime;
+                confirmTime -= Time.deltaTime;
                 if (confirmTime <= 0)
                 {
                     if (samePattern(selectedPatternSet, mainObjPattern))
