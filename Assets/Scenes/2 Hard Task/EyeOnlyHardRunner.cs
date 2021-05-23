@@ -140,7 +140,7 @@ public class EyeOnlyHardRunner : MonoBehaviour
                 updateInEyeOnly();
                 break;
             case TrialState.HeadEye:
-                updateInHeadEye();
+                updateHeadEyeParallel();
                 break;
             case TrialState.Order:
                 updateEyeHeadOrder();
@@ -257,7 +257,7 @@ public class EyeOnlyHardRunner : MonoBehaviour
     }
 
     // Condition 3
-    private void updateInHeadEye()
+    private void updateHeadEyeParallel()
     {
         var patternBackground = selectedPatternSet
             .objects[0]
@@ -318,8 +318,6 @@ public class EyeOnlyHardRunner : MonoBehaviour
         
         if (selectedPatternSet != null && selectedPatternSet.objects.Length > 0)
         {
-            patternBackground = blue;
-
             if (headSelectedPatternSet != null && headSelectedPatternSet == selectedPatternSet)
             {
                 confirmTime -= timeLeft.deltaTime;
