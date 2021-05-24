@@ -278,7 +278,7 @@ public class EyeOnlyHardRunner : MonoBehaviour
                 resultString,
                 time.ToString()
             };
-            
+
             string fileName = Global.participantName + "_" + methodName;
             CSVManager.appendtoFile(fileName, data);
         }
@@ -500,8 +500,10 @@ public class EyeOnlyHardRunner : MonoBehaviour
         }
     }
 
-
-    private bool samePattern(Global.GameObjectPattern pattarnA, Global.GameObjectPattern patternB)
+    private bool samePattern(
+        Global.GameObjectPattern pattarnA,
+        Global.GameObjectPattern patternB
+        )
     {
         bool result = true;
         for (int index = 0; index < pattarnA.objects.Length; index++)
