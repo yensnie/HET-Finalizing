@@ -16,9 +16,9 @@ public class EyeOnlyHardRunner : MonoBehaviour
         Correct, Incorrect, Overtime
     }
 
-    private var result = Result.Overtime;
+    private Result result = Result.Overtime;
 
-    private var tempTrialData = new TrialData[10];
+    private TrialData[] tempTrialData = new TrialData[10];
 
     // current selected pattern by eye cursor
     public static Global.GameObjectPattern selectedPatternSet;
@@ -158,12 +158,14 @@ public class EyeOnlyHardRunner : MonoBehaviour
         {
             if (trialCount == trialTimes)
             {
-                saveTrialData();
+                // TODO: set trial data to save
+                saveTrialData(new TrialData());
                 saveData();
             }
             else
             {
-                saveTrialData();
+                // TODO: set trial data to save
+                saveTrialData(new TrialData());
                 trialCount++;
             }
             trialDone = true;

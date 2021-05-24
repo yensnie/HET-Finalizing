@@ -11,6 +11,8 @@ public enum AttemptState
 }
 public static class Global
 {
+
+    public static string participantName = "Empty";
     public static TrialState currentState = TrialState.Eye;
 
     public class GameObjectPattern
