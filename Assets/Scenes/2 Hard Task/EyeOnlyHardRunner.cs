@@ -236,18 +236,20 @@ public class EyeOnlyHardRunner : MonoBehaviour
             .GetComponent<SpriteRenderer>()
             .sprite;
 
-        if (!trialDone)
+        if (trialDone)
         {
-            if (selectedPatternSet != null && selectedPatternSet.objects.Length > 0)
-            {
-                patternBackground = blue;
-            }
-            else
-            {
-                // reset
-                resetLockTime();
-                return;
-            }
+            return;
+        }
+
+        if (selectedPatternSet != null && selectedPatternSet.objects.Length > 0)
+        {
+            patternBackground = blue;
+        }
+        else
+        {
+            // reset
+            resetLockTime();
+            return;
         }
 
         // eye lock time counting down, but will reset 
@@ -285,18 +287,20 @@ public class EyeOnlyHardRunner : MonoBehaviour
             .GetComponent<SpriteRenderer>()
             .sprite;
 
-        if (!trialDone)
+        if (trialDone)
         {
-            if (headSelectedPatternSet != null && headSelectedPatternSet.objects.Length > 0)
-            {
-                patternBackground = blue;
-            }
-            else
-            {
-                // reset
-                resetLockTime();
-                return;
-            }
+            return;
+        }
+
+        if (headSelectedPatternSet != null && headSelectedPatternSet.objects.Length > 0)
+        {
+            patternBackground = blue;
+        }
+        else
+        {
+            // reset
+            resetLockTime();
+            return;
         }
 
         // head lock time counting down, but will reset 
@@ -334,7 +338,12 @@ public class EyeOnlyHardRunner : MonoBehaviour
             .GetComponent<SpriteRenderer>()
             .sprite;
 
-        if (selectedPatternSet != null && selectedPatternSet.objects.Length > 0 && !trialDone)
+        if (trialDone)
+        {
+            return;
+        }
+
+        if (selectedPatternSet != null && selectedPatternSet.objects.Length > 0)
         {
             lockTime -= Time.deltaTime;
             if (lockTime <= 0)
@@ -366,10 +375,7 @@ public class EyeOnlyHardRunner : MonoBehaviour
         }
         else
         {
-            if (!trialDone)
-            {
-                resetLockTime();
-            }
+            resetLockTime();
         }
     }
 
@@ -384,7 +390,12 @@ public class EyeOnlyHardRunner : MonoBehaviour
             .GetComponent<SpriteRenderer>()
             .sprite;
 
-        if (selectedPatternSet != null && selectedPatternSet.objects.Length > 0 && !trialDone)
+        if (trialDone)
+        {
+            return;
+        }
+
+        if (selectedPatternSet != null && selectedPatternSet.objects.Length > 0)
         {
             if (headSelectedPatternSet != null && headSelectedPatternSet == selectedPatternSet)
             {
@@ -410,21 +421,15 @@ public class EyeOnlyHardRunner : MonoBehaviour
             }
             else
             {
-                if (!trialDone)
-                {
-                    patternBackground = blue;
-                    // reset
-                    resetLockTime();
-                }
+                patternBackground = blue;
+                // reset
+                resetLockTime();
             }
         }
         else
         {
-            if (!trialDone)
-            {
-                // reset
-                resetLockTime();
-            }
+            // reset
+            resetLockTime();
         }
     }
 
