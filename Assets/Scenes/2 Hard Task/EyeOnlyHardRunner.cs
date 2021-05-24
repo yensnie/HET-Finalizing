@@ -233,12 +233,16 @@ public class EyeOnlyHardRunner : MonoBehaviour
 
     private void saveTrialData(TrialData data)
     {
-        // TODO: body
+        var index = trialCount - 1;
+        tempTrialData[index] = new TrialData(data.getResult(), data.getTime());
     }
 
     private void saveData()
     {
-        // TODO: save whole the data to a file
+        foreach (TrialData attemp in tempTrialData)
+        {
+            // TODO: save whole the data to a svg file
+        }
     }
 
     public void changeScene(string scene)
@@ -341,7 +345,7 @@ public class EyeOnlyHardRunner : MonoBehaviour
                 patternBackground = red;
                 result = Result.Incorrect;
                 var takenTime = _timeLeft - timeLeft;
-                strialDoneHandle(result, takenTime);
+                trialDoneHandle(result, takenTime);
             }
         }
     }

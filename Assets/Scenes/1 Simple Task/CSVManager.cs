@@ -6,7 +6,6 @@ using System.IO;
 public class CSVManager : MonoBehaviour
 {
     private static string fileFolderName = "Saved Data";
-    private static string fileName = "UserDetails.csv";
     private static string separator = ",";
     private static string[] fileHeaders = new string[6]
     {
@@ -27,30 +26,29 @@ public class CSVManager : MonoBehaviour
         }
     }
 
-    static void verifyFile()
+    static void verifyFile(string fileName)
     {
-        string file = getFilePath();
+        string file = getFilePath(fileName);
         if (!File.Exists(file))
         {
-            createFile();
+            createFile(fileName);
         }
     }
 
     static string getDirPath()
     {
-       
         return Application.dataPath + "/" + fileFolderName;
     }
     
-    static string getFilePath()
+    static string getFilePath(string fileName)
     {
         return getDirPath() + "/" + fileName;
     }
 
-    public static void createFile()
+    public static void createFile(string fileName)
     {
         verifyDirectory();
-        using (StreamWriter streamWriter = File.CreateText(getFilePath()))
+        using (StreamWriter streamWriter = File.CreateText(getFilePath(fileName)))
         {
             string fileEntry = "";
             for(int i = 0; i < fileHeaders.Length; i++)
@@ -65,11 +63,11 @@ public class CSVManager : MonoBehaviour
         }
     }
 
-    public static void appendtoFile(string[] entries)
+    public static void appendtoFile(string fileName, string[] entries)
     {
         verifyDirectory();
-        verifyFile();
-        using (StreamWriter streamWriter = File.AppendText(getFilePath()))
+        verifyFile(fileName);
+        using (StreamWriter streamWriter = File.AppendText(getFilePath(fileName)))
         {
             string fileEntry = "";
             for (int i = 0; i < fileHeaders.Length; i++)
