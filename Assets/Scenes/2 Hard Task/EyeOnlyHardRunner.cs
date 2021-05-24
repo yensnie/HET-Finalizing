@@ -241,7 +241,7 @@ public class EyeOnlyHardRunner : MonoBehaviour
     {
         foreach (TrialData attemp in tempTrialData)
         {
-            // TODO: save whole the data to a svg file
+            // TODO: save whole the data to a csv file
         }
     }
 

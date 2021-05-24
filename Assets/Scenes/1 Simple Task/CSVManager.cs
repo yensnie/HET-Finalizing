@@ -7,14 +7,11 @@ public class CSVManager : MonoBehaviour
 {
     private static string fileFolderName = "Saved Data";
     private static string separator = ",";
-    private static string[] fileHeaders = new string[6]
+    private static string[] fileHeaders = new string[3]
     {
-        "Last Name", 
-        "First Name",
-        "Course",
-        "Matriculation Nr.",
-        "Correct Attempts",
-        "Incorrect Attempts"
+        "Trial number", 
+        "Result",
+        "Time",
     };
 
     static void verifyDirectory()
