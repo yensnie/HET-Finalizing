@@ -6,7 +6,6 @@ using System.IO;
 public class CSVManager
 {
     private static string directoryName = "Saved Data";
-    private static string separator = ",";
     private static string[] fileHeaders = new string[3]
     {
         "Trial number", 
@@ -52,7 +51,7 @@ public class CSVManager
             {
                 if(fileEntry != "")
                 {
-                    fileEntry += separator;
+                    fileEntry += ",";
                 }
                 fileEntry += fileHeaders[i];
             }
@@ -71,7 +70,7 @@ public class CSVManager
             {
                 if (fileEntry != "")
                 {
-                    fileEntry += separator;
+                    fileEntry += ",";
                 }
                 fileEntry += entries[i];
             }
