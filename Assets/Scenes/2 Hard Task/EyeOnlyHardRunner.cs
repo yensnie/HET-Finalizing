@@ -141,7 +141,7 @@ public class EyeOnlyHardRunner : MonoBehaviour
                 updateInHeadOnly();
                 break;
             case TrialState.HeadEye:
-                updateHeadEyeParallel();
+                updateHeadSupportEye();
                 break;
             case TrialState.Order:
                 updateEyeHeadOrder();
@@ -327,8 +327,9 @@ public class EyeOnlyHardRunner : MonoBehaviour
         }
     }
 
+    // TODO: Rework on this to use nods as well
     // Condition 3
-    private void updateHeadEyeParallel()
+    private void updateHeadSupportEye()
     {
         var patternBackground = selectedPatternSet
             .objects[0]
