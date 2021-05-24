@@ -80,7 +80,7 @@ public class EyeOnlyHardRunner : MonoBehaviour
     public Sprite red;
 
     private int trialCount = 1;
-    private const int trialTimes = 10;
+    private const int maxTrialsNumber = 10;
 
     public static bool trialDone = false;
 
@@ -180,7 +180,7 @@ public class EyeOnlyHardRunner : MonoBehaviour
 
     private void trialDoneHandle(Result result, double time)
     {
-        if (trialCount >= trialTimes)
+        if (trialCount >= maxTrialsNumber)
         {
             saveTrialData(new TrialData(result, time));
             saveData();
@@ -212,7 +212,7 @@ public class EyeOnlyHardRunner : MonoBehaviour
 
     private void trialFinish()
     {
-        if (trialCount == trialTimes)
+        if (trialCount == maxTrialsNumber)
         {
             // TODO: finish the scene
         }
@@ -258,7 +258,7 @@ public class EyeOnlyHardRunner : MonoBehaviour
         string fileName = Global.participantName + "_" + methodName;
         for (int index = 0; index < tempTrialData.Length; index++)
         {
-            string resultString;
+            var resultString = "N/A";
             switch (tempTrialData[index].getResult())
             {
                 case Result.Correct:
