@@ -255,7 +255,7 @@ public class EyeOnlyHardRunner : MonoBehaviour
                 methodName = " Multimodal 2";
                 break;
         }
-        string fileName = Global.participantName + "_" + methodName;
+
         for (int index = 0; index < tempTrialData.Length; index++)
         {
             var resultString = "N/A";
@@ -278,6 +278,8 @@ public class EyeOnlyHardRunner : MonoBehaviour
                 resultString,
                 time.ToString()
             };
+            
+            string fileName = Global.participantName + "_" + methodName;
             CSVManager.appendtoFile(fileName, data);
         }
     }
@@ -303,7 +305,8 @@ public class EyeOnlyHardRunner : MonoBehaviour
             return;
         }
 
-        if (selectedPatternSet != null && selectedPatternSet.objects.Length > 0)
+        if (selectedPatternSet != null
+            && selectedPatternSet.objects.Length > 0)
         {
             patternBackground = blue;
         }
@@ -353,7 +356,8 @@ public class EyeOnlyHardRunner : MonoBehaviour
             return;
         }
 
-        if (headSelectedPatternSet != null && headSelectedPatternSet.objects.Length > 0)
+        if (headSelectedPatternSet != null
+            && headSelectedPatternSet.objects.Length > 0)
         {
             patternBackground = blue;
         }
@@ -404,13 +408,15 @@ public class EyeOnlyHardRunner : MonoBehaviour
             return;
         }
 
-        if (selectedPatternSet != null && selectedPatternSet.objects.Length > 0)
+        if (selectedPatternSet != null
+            && selectedPatternSet.objects.Length > 0)
         {
             lockTime -= Time.deltaTime;
             if (lockTime <= 0)
             {
                 patternBackground = yellow;
-                if (headSelectedPatternSet != null && headSelectedPatternSet == selectedPatternSet)
+                if (headSelectedPatternSet != null
+                    && headSelectedPatternSet == selectedPatternSet)
                 {
                     if (samePattern(selectedPatternSet, mainObjPattern))
                     {
@@ -455,9 +461,11 @@ public class EyeOnlyHardRunner : MonoBehaviour
             return;
         }
 
-        if (selectedPatternSet != null && selectedPatternSet.objects.Length > 0)
+        if (selectedPatternSet != null
+            && selectedPatternSet.objects.Length > 0)
         {
-            if (headSelectedPatternSet != null && headSelectedPatternSet == selectedPatternSet)
+            if (headSelectedPatternSet != null
+                && headSelectedPatternSet == selectedPatternSet)
             {
                 confirmTime -= Time.deltaTime;
                 if (confirmTime <= 0)
