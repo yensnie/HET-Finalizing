@@ -8,13 +8,12 @@ public class ColliderHandleHard : MonoBehaviour
     }
 
     private void deRegisterSelectedObject() {
-        this.gameObject.GetComponent<SpriteRenderer>().sprite = 
-        GameObject
-            .Find("GameRunner")
-            .GetComponent<EyeOnlyHardRunner>()
-            .white;
+        if (Global.currentState == TrialState.Eye && !EyeOnlyHardRunner.trialDone)
+        {
+            this.gameObject.GetComponent<SpriteRenderer>().sprite 
+                =  GameObject.Find("GameRunner").GetComponent<EyeOnlyHardRunner>().white;
+        }        
         EyeOnlyHardRunner.selectedPatternSet = null;
-        EyeOnlyHardRunner.headSelectedPatternSet = null;
     }
 
     private void registerHeadSelectedObject() {
@@ -29,11 +28,11 @@ public class ColliderHandleHard : MonoBehaviour
     private void deRegisterHeadSelectedObject() {
         if (Global.currentState != TrialState.HeadEye) { return; }
         if (EyeOnlyHardRunner.selectedPatternSet == selectedPattern) {
-            this.gameObject.GetComponent<SpriteRenderer>().sprite = 
-            GameObject
-                .Find("GameRunner")
-                .GetComponent<EyeOnlyHardRunner>()
-                .blue;
+            if (Global.currentState == TrialState.Head && !EyeOnlyHardRunner.trialDone)
+            {
+                this.gameObject.GetComponent<SpriteRenderer>().sprite 
+                    = GameObject.Find("GameRunner").GetComponent<EyeOnlyHardRunner>().whiite;
+            }
             EyeOnlyHardRunner.headSelectedPatternSet = null;
         }
         
