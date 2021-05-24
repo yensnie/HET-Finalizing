@@ -7,15 +7,25 @@ using UnityEngine.UI;
 
 public class EyeOnlyHardRunner : MonoBehaviour
 {
-    public readonly struct TrialData
+    public struct TrialData
     {
-        public double time { get; init; }
-        public string result { get; init; }
+        private double time;
+        private Result result;
 
-        public TrialData(double time, string result)
+        public TrialData(Result result, double time)
         {
             this.time = time;
             this.result = result;
+        }
+
+        public double getTime()
+        {
+            return this.time;
+        }
+
+        public Result getResult()
+        {
+            return this.result;
         }
     }
     public enum Result
@@ -50,7 +60,8 @@ public class EyeOnlyHardRunner : MonoBehaviour
     public Sprite[] spriteList;
 
     // the trial time left, will counted down right from start
-    public double timeLeft = 25;
+    private const double _timeLeft = 25;
+    private double timeLeft = 25;
 
     // after this amount of time when eye gaze hit the objects, 
     // it will be counted as "lock" (eye only scenario)
@@ -155,7 +166,7 @@ public class EyeOnlyHardRunner : MonoBehaviour
                 break;
         }
 
-        trialDoneHandle();
+        trialDoneTimeHandle();
     }
 
     private void trialTimeHandle()
@@ -163,23 +174,26 @@ public class EyeOnlyHardRunner : MonoBehaviour
         timeLeft -= Time.deltaTime;
         if (timeLeft <= 0 && !trialDone && result == Result.Overtime)
         {
-            if (trialCount == trialTimes)
-            {
-                // TODO: set trial data to save
-                saveTrialData(new TrialData());
-                saveData();
-            }
-            else
-            {
-                // TODO: set trial data to save
-                saveTrialData(new TrialData());
-                trialCount++;
-            }
-            trialDone = true;
+            trialDoneHandle(Result.Overtime, 25.0);
         }
     }
 
-    private void trialDoneHandle()
+    private void trialDoneHandle(Result result, double time)
+    {
+        if (trialCount >= trialTimes)
+        {
+            saveTrialData(new TrialData(result, time));
+            saveData();
+        }
+        else
+        {
+            saveTrialData(new TrialData(result, time));
+            trialCount++;
+        }
+        trialDone = true;
+    }
+
+    private void trialDoneTimeHandle()
     {
         if (trialDone)
         {
@@ -210,7 +224,7 @@ public class EyeOnlyHardRunner : MonoBehaviour
             fillObjectsWithSprites(8, 4);
 
             // reset
-            timeLeft = 25;
+            timeLeft = _timeLeft;
             delayTime = 2.5;
             resetLockTime();
         }
@@ -269,17 +283,16 @@ public class EyeOnlyHardRunner : MonoBehaviour
             {
                 patternBackground = green;
                 result = Result.Correct;
-                // TODO: save data
-                saveTrialData(new TrialData());
+                var takenTime = _timeLeft - timeLeft;
+                trialDoneHandle(result, takenTime);
             }
             else
             {
                 patternBackground = red;
                 result = Result.Incorrect;
-                // TODO: save data
-                saveTrialData(new TrialData());
+                var takenTime = _timeLeft - timeLeft;
+                trialDoneHandle(result, takenTime);
             }
-            trialDone = true;
         }
     }
 
@@ -320,17 +333,16 @@ public class EyeOnlyHardRunner : MonoBehaviour
             {
                 patternBackground = green;
                 result = Result.Correct;
-                // TODO: save data
-                saveTrialData(new TrialData());
+                var takenTime = _timeLeft - timeLeft;
+                trialDoneHandle(result, takenTime);
             }
             else
             {
                 patternBackground = red;
                 result = Result.Incorrect;
-                // TODO: save data
-                saveTrialData(new TrialData());
+                var takenTime = _timeLeft - timeLeft;
+                strialDoneHandle(result, takenTime);
             }
-            trialDone = true;
         }
     }
 
@@ -363,17 +375,16 @@ public class EyeOnlyHardRunner : MonoBehaviour
                     {
                         patternBackground = green;
                         result = Result.Correct;
-                        // TODO: save data
-                        saveTrialData(new TrialData());
+                        var takenTime = _timeLeft - timeLeft;
+                        trialDoneHandle(result, takenTime);
                     }
                     else
                     {
                         patternBackground = red;
                         result = Result.Incorrect;
-                        // TODO: save data
-                        saveTrialData(new TrialData());
+                        var takenTime = _timeLeft - timeLeft;
+                        trialDoneHandle(result, takenTime);
                     }
-                    trialDone = true;
                 }
             }
             else
@@ -414,17 +425,16 @@ public class EyeOnlyHardRunner : MonoBehaviour
                     {
                         patternBackground = green;
                         result = Result.Correct;
-                        // TODO: save data
-                        saveTrialData(new TrialData());
+                        var takenTime = _timeLeft - timeLeft;
+                        trialDoneHandle(result, takenTime);
                     }
                     else
                     {
                         patternBackground = red;
                         result = Result.Incorrect;
-                        // TODO: save data
-                        saveTrialData(new TrialData());
+                        var takenTime = _timeLeft - timeLeft;
+                        trialDoneHandle(result, takenTime);
                     }
-                    trialDone = true;
                 }
             }
             else
