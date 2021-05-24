@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 
-public class CSVManager : MonoBehaviour
+public class CSVManager
 {
     private static string directoryName = "Saved Data";
     private static string separator = ",";
