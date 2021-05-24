@@ -5,7 +5,7 @@ using System.IO;
 
 public class CSVManager : MonoBehaviour
 {
-    private static string fileFolderName = "Saved Data";
+    private static string directoryName = "Saved Data";
     private static string separator = ",";
     private static string[] fileHeaders = new string[3]
     {
@@ -34,7 +34,7 @@ public class CSVManager : MonoBehaviour
 
     static string getDirPath()
     {
-        return Application.dataPath + "/" + fileFolderName;
+        return Application.dataPath + "/" + directoryName;
     }
     
     static string getFilePath(string fileName)
