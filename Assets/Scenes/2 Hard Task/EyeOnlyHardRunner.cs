@@ -239,9 +239,46 @@ public class EyeOnlyHardRunner : MonoBehaviour
 
     private void saveData()
     {
-        foreach (TrialData attemp in tempTrialData)
+        var methodName = "";
+        switch (Global.currentState)
         {
-            // TODO: save whole the data to a csv file
+            case TrialState.Eye:
+                methodName = "Eyes-only";
+                break;
+            case TrialState.Head:
+                methodName = "Head-only";
+                break;
+            case TrialState.HeadEye:
+                methodName = " Multimodal 1";
+                break;
+            case TrialState.Order:
+                methodName = " Multimodal 2";
+                break;
+        }
+        string fileName = Global.participantName + "_" + methodName;
+        for (int index = 0; index < tempTrialData.Length; index++)
+        {
+            string resultString;
+            switch (tempTrialData[index].getResult())
+            {
+                case Result.Correct:
+                    resultString = "Correct";
+                    break;
+                case Result.Incorrect:
+                    resultString = "Incorrect";
+                    break;
+                case Result.Overtime:
+                    resultString = "Overtime";
+                    break;
+            }
+            var time = tempTrialData[index].getTime();
+            var data = new string[3]
+            {
+                (index + 1).ToString(),
+                resultString,
+                time.ToString()
+            };
+            CSVManager.appendtoFile(fileName, data);
         }
     }
 
