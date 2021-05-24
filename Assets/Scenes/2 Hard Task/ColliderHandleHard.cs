@@ -31,7 +31,7 @@ public class ColliderHandleHard : MonoBehaviour
             if (Global.currentState == TrialState.Head && !EyeOnlyHardRunner.trialDone)
             {
                 this.gameObject.GetComponent<SpriteRenderer>().sprite 
-                    = GameObject.Find("GameRunner").GetComponent<EyeOnlyHardRunner>().whiite;
+                    = GameObject.Find("GameRunner").GetComponent<EyeOnlyHardRunner>().white;
             }
             EyeOnlyHardRunner.headSelectedPatternSet = null;
         }
