@@ -7,11 +7,18 @@ using UnityEngine.UI;
 
 public class EyeOnlyHardRunner : MonoBehaviour
 {
-    struct TrialData
+    public readonly struct TrialData
     {
-        // TODO: declare
+        public double time { get; init; }
+        public string result { get; init; }
+
+        public TrialData(double time, string result)
+        {
+            this.time = time;
+            this.result = result;
+        }
     }
-    enum Result
+    public enum Result
     {
         Correct, Incorrect, Overtime
     }
