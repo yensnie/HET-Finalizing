@@ -7,6 +7,19 @@ using UnityEngine.UI;
 
 public class EyeOnlyHardRunner : MonoBehaviour
 {
+    struct TrialData
+    {
+        // TODO: declare
+    }
+    enum Result
+    {
+        Correct, Incorrect, Overtime
+    }
+
+    private var result = Result.Overtime;
+
+    private var tempTrialData = new TrialData[10];
+
     // current selected pattern by eye cursor
     public static Global.GameObjectPattern selectedPatternSet;
 
@@ -48,21 +61,19 @@ public class EyeOnlyHardRunner : MonoBehaviour
     public Sprite green;
     public Sprite red;
 
-    private int trialCount = 0;
+    private int trialCount = 1;
     private const int trialTimes = 10;
 
     public static bool trialDone = false;
 
-// 2s for state delay, 0.5 for baseline screen
+    // 2s for state delay, 0.5 for baseline screen
     private double delayTime = 2.5;
 
     void Start()
     {
         fillGameObjectsToPattern();
         fillObjectsWithSprites(8, 4);
-
         prepareComponents();
-
         prepareCursors();
     }
 
@@ -71,26 +82,22 @@ public class EyeOnlyHardRunner : MonoBehaviour
         switch (Global.currentState)
         {
             case TrialState.Eye:
-                _lockTime = 2;
-                _confirmTime = 2;
-                break;
-            case TrialState.HeadEye:
-                _lockTime = 2;
-                _confirmTime = 2;
-                break;
-            case TrialState.Order:
-                _lockTime = 2;
-                _confirmTime = 2;
+                _lockTime = 0.7;
                 break;
             case TrialState.Head:
-                _lockTime = 2;
-                _confirmTime = 2;
+                _lockTime = 0.7;
+                break;
+            case TrialState.HeadEye:
+                _lockTime = 0.7;
+                break;
+            case TrialState.Order:
+                _confirmTime = 0.7;
                 break;
         }
         resetLockTime();
     }
 
-    private void resetLockTime() 
+    private void resetLockTime()
     {
         lockTime = _lockTime;
         confirmTime = _confirmTime;
@@ -130,14 +137,14 @@ public class EyeOnlyHardRunner : MonoBehaviour
             case TrialState.Eye:
                 updateInEyeOnly();
                 break;
+            case TrialState.Head:
+                updateInHeadOnly();
+                break;
             case TrialState.HeadEye:
                 updateHeadEyeParallel();
                 break;
             case TrialState.Order:
                 updateEyeHeadOrder();
-                break;
-            case TrialState.Head:
-                updateInHeadOnly();
                 break;
         }
 
@@ -147,22 +154,24 @@ public class EyeOnlyHardRunner : MonoBehaviour
     private void trialTimeHandle()
     {
         timeLeft -= Time.deltaTime;
-        if (timeLeft <= 0 && !trialDone)
+        if (timeLeft <= 0 && !trialDone && result == Result.Overtime)
         {
-            if (trialCount == trialTimes) 
+            if (trialCount == trialTimes)
             {
-                // TODO: save the temporally data
-
-            } else {
+                saveTrialData();
+                saveData();
+            }
+            else
+            {
+                saveTrialData();
                 trialCount++;
-
-                // TODO: save data temporally
             }
             trialDone = true;
         }
     }
 
-    private void trialDoneHandle() {
+    private void trialDoneHandle()
+    {
         if (trialDone)
         {
             delayTime -= Time.deltaTime;
@@ -173,24 +182,40 @@ public class EyeOnlyHardRunner : MonoBehaviour
             if (delayTime <= 0)
             {
                 // TODO: hide baseline screen
-
                 trialFinish();
             }
         }
-        
     }
 
     private void trialFinish()
     {
-        trialDone = false;
+        if (trialCount == trialTimes)
+        {
+            // TODO: finish the scene
+        }
+        else
+        {
+            trialDone = false;
 
-        // reshuffle for new sprites
-        fillObjectsWithSprites(8, 4);
+            // reshuffle for new sprites
+            fillObjectsWithSprites(8, 4);
 
-        // reset
-        timeLeft = 25;
-        delayTime = 2.5;
-        resetLockTime();
+            // reset
+            timeLeft = 25;
+            delayTime = 2.5;
+            resetLockTime();
+        }
+
+    }
+
+    private void saveTrialData(TrialData data)
+    {
+        // TODO: body
+    }
+
+    private void saveData()
+    {
+        // TODO: save whole the data to a file
     }
 
     public void changeScene(string scene)
@@ -229,27 +254,21 @@ public class EyeOnlyHardRunner : MonoBehaviour
 
         if (lockTime <= 0)
         {
-            if (!trialDone)
+            if (samePattern(selectedPatternSet, mainObjPattern))
             {
-                patternBackground = yellow;
+                patternBackground = green;
+                result = Result.Correct;
+                // TODO: save data
+                saveTrialData(new TrialData());
             }
-            confirmTime -= Time.deltaTime;
-            if (confirmTime <= 0.0 && !trialDone)
+            else
             {
-                if (samePattern(selectedPatternSet, mainObjPattern))
-                {
-                    patternBackground  = green;
-
-                    // TODO: save data
-
-                }
-                else
-                {
-                    patternBackground  = red;
-                    // TODO: save data
-                }
-                trialDone = true;
+                patternBackground = red;
+                result = Result.Incorrect;
+                // TODO: save data
+                saveTrialData(new TrialData());
             }
+            trialDone = true;
         }
     }
 
@@ -284,30 +303,21 @@ public class EyeOnlyHardRunner : MonoBehaviour
 
         if (lockTime <= 0)
         {
-            if (!trialDone)
+            if (samePattern(headSelectedPatternSet, mainObjPattern))
             {
-                patternBackground = yellow;
+                patternBackground = green;
+                result = Result.Correct;
+                // TODO: save data
+                saveTrialData(new TrialData());
             }
-
-            confirmTime -= Time.deltaTime;
-            if (confirmTime <= 0 && !trialDone)
+            else
             {
-                if (samePattern(headSelectedPatternSet, mainObjPattern))
-                {
-                    patternBackground = green;
-
-                    // TODO: save data
-
-                }
-                else
-                {
-                    patternBackground = red;
-
-                    // TODO: save data
-
-                }
-                trialDone = true;
+                patternBackground = red;
+                result = Result.Incorrect;
+                // TODO: save data
+                saveTrialData(new TrialData());
             }
+            trialDone = true;
         }
     }
 
@@ -324,6 +334,7 @@ public class EyeOnlyHardRunner : MonoBehaviour
 
         if (selectedPatternSet != null && selectedPatternSet.objects.Length > 0 && !trialDone)
         {
+            lockTime -= Time.deltaTime;
             if (lockTime <= 0)
             {
                 patternBackground = yellow;
@@ -332,12 +343,16 @@ public class EyeOnlyHardRunner : MonoBehaviour
                     if (samePattern(selectedPatternSet, mainObjPattern))
                     {
                         patternBackground = green;
-                        // TODO: save data as correct
+                        result = Result.Correct;
+                        // TODO: save data
+                        saveTrialData(new TrialData());
                     }
                     else
                     {
                         patternBackground = red;
-                        // TODO: save data as incorrect
+                        result = Result.Incorrect;
+                        // TODO: save data
+                        saveTrialData(new TrialData());
                     }
                     trialDone = true;
                 }
@@ -346,8 +361,6 @@ public class EyeOnlyHardRunner : MonoBehaviour
             {
                 patternBackground = blue;
             }
-
-            lockTime -= Time.deltaTime;
         }
         else
         {
@@ -368,7 +381,7 @@ public class EyeOnlyHardRunner : MonoBehaviour
             .gameObject
             .GetComponent<SpriteRenderer>()
             .sprite;
-        
+
         if (selectedPatternSet != null && selectedPatternSet.objects.Length > 0 && !trialDone)
         {
             if (headSelectedPatternSet != null && headSelectedPatternSet == selectedPatternSet)
@@ -379,21 +392,21 @@ public class EyeOnlyHardRunner : MonoBehaviour
                     if (samePattern(selectedPatternSet, mainObjPattern))
                     {
                         patternBackground = green;
-
-                        // TODO: save data as correct
-
+                        result = Result.Correct;
+                        // TODO: save data
+                        saveTrialData(new TrialData());
                     }
                     else
                     {
                         patternBackground = red;
-
+                        result = Result.Incorrect;
                         // TODO: save data
-
+                        saveTrialData(new TrialData());
                     }
                     trialDone = true;
                 }
-            } 
-            else 
+            }
+            else
             {
                 if (!trialDone)
                 {
@@ -408,7 +421,7 @@ public class EyeOnlyHardRunner : MonoBehaviour
             if (!trialDone)
             {
                 // reset
-            resetLockTime();
+                resetLockTime();
             }
         }
     }
