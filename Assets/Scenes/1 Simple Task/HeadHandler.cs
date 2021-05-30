@@ -15,7 +15,16 @@ public class HeadHandler : MonoBehaviour
         public Single x1, y1, x2, y2, x3, y3, x4, y4;
     }
 
+// use `static extern` with DllImport to declare a method that is implemented externally.
+// (https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/extern)
+// `ref` keyword is like inout in Swift 
+// (https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/extern)
+// source code for FreeTrackClient: 
+// https://github.com/PeterN/freetrack/blob/master/FreetrackClient/FTClient.pas
+// source code for OpenTrackClient: 
+// https://github.com/opentrack/opentrack/blob/master/freetrackclient/freetrackclient.c
     [DllImport("FreeTrackClient64")]
+    // there will be a function FTGetData in the source code
     public static extern bool FTGetData(ref FreeTrackData data);
 
     public float Yaw = 0F;
