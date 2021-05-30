@@ -52,6 +52,8 @@ public class EyeOnlyHardRunner : MonoBehaviour
     // pattern objects list
     private Global.GameObjectPatternGroup subObjsGroup;
 
+    public GameObject mainFrame;
+
     // the frame object list (which co-responding 
     // with pattern objects as container)
     public GameObject[] subFrame;
@@ -200,11 +202,19 @@ public class EyeOnlyHardRunner : MonoBehaviour
             delayTime -= Time.deltaTime;
             if (delayTime > 0 && delayTime <= 0.5)
             {
-                // TODO: show baseline screen
+                mainFrame.SetActive(false);
+                foreach (GameObject frame in subFrame) 
+                {
+                    frame.SetActive(false);
+                }
             }
             if (delayTime <= 0)
             {
-                // TODO: hide baseline screen
+                mainFrame.SetActive(true);
+                foreach (GameObject frame in subFrame) 
+                {
+                    frame.SetActive(true);
+                }
                 trialFinish();
             }
         }
