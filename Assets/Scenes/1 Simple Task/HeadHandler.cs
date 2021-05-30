@@ -27,6 +27,7 @@ public class HeadHandler : MonoBehaviour
     // there will be a function FTGetData in the source code
     public static extern bool FTGetData(ref FreeTrackData data);
 
+// FreeTrackData: https://github.com/opentrack/opentrack/blob/master/freetrackclient/fttypes.h
     public float Yaw = 0F;
     public float Pitch = 0F;
     public float Roll = 0F;
@@ -68,6 +69,8 @@ public class HeadHandler : MonoBehaviour
         }
         HeadHandler.FTGetData(ref trackData);
 
+        // TODO: try to use ptch to detect nods (positive is up) - page 6
+        // https://link.springer.com/content/pdf/10.1007%2F978-3-319-07491-7_16.pdf
         Yaw = trackData.Yaw;
         Pitch = trackData.Pitch;
         Roll = trackData.Roll;
@@ -96,6 +99,7 @@ public class HeadHandler : MonoBehaviour
         Debug.Log(info);
 
         transform.position = new Vector2(RawYaw * 5, RawPitch * 5);
-        //TODO: find out a value to replace for 5 to work perfectly with all size of screen
+        //TODO: find out a value to replace for 5 to work perfectly 
+        // with all size of screen
     }
 }
