@@ -50,7 +50,6 @@ public class Scene1 : MonoBehaviour
         var leftY = _eyeTracker.LatestProcessedGazeData.Left.GazePointOnDisplayArea.y;
         var rightX = _eyeTracker.LatestProcessedGazeData.Right.GazePointOnDisplayArea.x;
         var rightY = _eyeTracker.LatestProcessedGazeData.Right.GazePointOnDisplayArea.y;
-        if (leftX == null || leftY == null || rightX == null || rightY == null) { return; }
         transform.position = new Vector3((leftX + rightX) / 2, (leftY + rightY) / 2, 0);
         Debug.Log(string.Format(
             "object corrdinate : x: {0}, y: {1}",
