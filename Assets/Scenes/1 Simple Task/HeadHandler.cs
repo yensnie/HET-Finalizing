@@ -99,7 +99,7 @@ public class HeadHandler : MonoBehaviour
         Debug.Log(info);
 
         transform.position = new Vector2(RawYaw * 5, RawPitch * 5);
-        //TODO: find out a value to replace for 5 to work perfectly 
+        // Note: find out a value to replace for 5 to work perfectly 
         // with all size of screen
     }
 }
