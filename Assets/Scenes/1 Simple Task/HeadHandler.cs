@@ -170,10 +170,17 @@ public class HeadHandler : MonoBehaviour
         }
     }
 
-// TODO: will need more template sequences, and might be 20 emelent each cause each element present for a frame, may be we even need more frames
+// TODO: will need more template sequences, may be we even need more frames
     private HeadState[][] templateSequences = new HeadState[][]
     {
-        new HeadState[] { HeadState.Up, HeadState.Stable, HeadState.Stable, HeadState.Down, HeadState.Down, HeadState.Stable, HeadState.Stable, HeadState.Up, HeadState.Up },
-        new HeadState[] { HeadState.Up, HeadState.Stable, HeadState.Down, HeadState.Stable, HeadState.Up, HeadState.Stable, HeadState.Down, HeadState.Stable, HeadState.Up },
+        new HeadState[] 
+        { 
+            HeadState.Up, HeadState.Stable, HeadState.Stable, HeadState.Down, HeadState.Down, 
+            HeadState.Stable, HeadState.Stable, HeadState.Up, HeadState.Up 
+        },
+        new HeadState[] { 
+            HeadState.Up, HeadState.Stable, HeadState.Down, HeadState.Stable, HeadState.Up, 
+            HeadState.Stable, HeadState.Down, HeadState.Stable, HeadState.Up 
+        },
     };
 }
