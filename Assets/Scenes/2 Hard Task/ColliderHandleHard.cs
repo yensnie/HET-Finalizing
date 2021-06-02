@@ -4,21 +4,44 @@ public class ColliderHandleHard : MonoBehaviour
 {
     public Global.GameObjectPattern selectedPattern;
     private void registerSelectedObject() {
-        EyeOnlyHardRunner.selectedPatternSet = selectedPattern;
+        if (!EyeOnlyHardRunner.trialDone && Global.currentState != TrialState.Head)
+        {
+            EyeOnlyHardRunner.selectedPatternSet = selectedPattern;
+        }
     }
 
     private void deRegisterSelectedObject() {
-        if (Global.currentState == TrialState.Eye && !EyeOnlyHardRunner.trialDone)
+        if (!EyeOnlyHardRunner.trialDone && Global.currentState != TrialState.Head)
         {
             this.gameObject.GetComponent<SpriteRenderer>().sprite 
                 =  GameObject.Find("GameRunner").GetComponent<EyeOnlyHardRunner>().white;
-        }        
+        }
+        if (Global.currentState == TrialState.HeadEye) 
+        { 
+            GameObject
+                .Find("headCursor")
+                .GetComponent<HeadHandler>()
+                .isObserving = false;
+        }       
         EyeOnlyHardRunner.selectedPatternSet = null;
     }
 
     private void registerHeadSelectedObject() {
-        // only work if in head-eye mode and this is the selected object already
-        if (Global.currentState != TrialState.HeadEye) { return; }
+        // with condition 3, the collider of Head system is not required 
+        // but still need a Head tracker object
+        switch (Global.currentState)
+        {
+            case TrialState.Eye:
+                return;
+                break;
+            case TrialState.Head:
+                break;
+            case TrialState.HeadEye:
+                return;
+                break;
+            case TrialState.Order:
+                break;
+        }
         if (EyeOnlyHardRunner.selectedPatternSet == selectedPattern) {
             EyeOnlyHardRunner.headSelectedPatternSet = selectedPattern;
         }
@@ -26,7 +49,21 @@ public class ColliderHandleHard : MonoBehaviour
     }
 
     private void deRegisterHeadSelectedObject() {
-        if (Global.currentState != TrialState.HeadEye) { return; }
+        // with condition 3, the collider of Head system is not required 
+        // but still need a Head tracker object
+        switch (Global.currentState)
+        {
+            case TrialState.Eye:
+                return;
+                break;
+            case TrialState.Head:
+                break;
+            case TrialState.HeadEye:
+                return;
+                break;
+            case TrialState.Order:
+                break;
+        }
         if (EyeOnlyHardRunner.selectedPatternSet == selectedPattern) {
             if (Global.currentState == TrialState.Head && !EyeOnlyHardRunner.trialDone)
             {

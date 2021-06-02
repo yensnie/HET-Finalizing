@@ -13,13 +13,6 @@ public class ColliderHandle : MonoBehaviour
             GameObject.Find("GameRunner").GetComponent<EyeOnlyRunner>().white;
         EyeOnlyRunner.selectedObj = null;
         EyeOnlyRunner.headSelectedObj = null;
-
-        if (Global.currentState != TrialState.HeadEye) { 
-            GameObject
-                .Find("headCursor")
-                .GetComponent<HeadHandler>()
-                .isObserving = false;
-        }
     }
 
     private void registerHeadSelectedObject()
