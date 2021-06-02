@@ -13,7 +13,7 @@ public static class Global
 {
 
     public static string participantName = "Empty";
-    public static TrialState currentState = TrialState.Eye;
+    public static TrialState currentState = TrialState.Head;
 
     public class GameObjectPattern
     {
