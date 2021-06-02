@@ -111,7 +111,13 @@ public class EyeOnlyHardRunner : MonoBehaviour
                 break;
             case TrialState.HeadEye:
                 _lockTime = 0.7;
-                GameObject.Find("headCursor").GetComponent<Renderer>().enabled = false;
+
+                // hide the render of head cursor
+                // but still need it
+                GameObject
+                    .Find("headCursor")
+                    .GetComponent<Renderer>()
+                    .enabled = false;
                 break;
             case TrialState.Order:
                 _confirmTime = 0.7;
@@ -671,7 +677,8 @@ public class EyeOnlyHardRunner : MonoBehaviour
             catch
             {
                 Debug.Log(
-                    "Cannot apply for `ColliderHandleHard` of subframe object at index " + index
+                    "Cannot apply for `ColliderHandleHard` of subframe object at index " 
+                        + index
                 );
             }
         }
