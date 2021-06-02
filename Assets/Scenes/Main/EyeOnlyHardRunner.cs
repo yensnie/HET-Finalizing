@@ -376,13 +376,10 @@ public class EyeOnlyHardRunner : MonoBehaviour
     // Condition 2
     private void updateInHeadOnly()
     {
-        var patternBackground = selectedPatternSet
-            .objects[0]
-            .transform
-            .parent
-            .gameObject
-            .GetComponent<SpriteRenderer>()
-            .sprite;
+        if (headSelectedPatternSet == null)
+        {
+            return;
+        }
 
         if (trialDone)
         {
@@ -392,6 +389,13 @@ public class EyeOnlyHardRunner : MonoBehaviour
         if (headSelectedPatternSet != null
             && headSelectedPatternSet.objects.Length > 0)
         {
+            var patternBackground = headSelectedPatternSet
+            .objects[0]
+            .transform
+            .parent
+            .gameObject
+            .GetComponent<SpriteRenderer>()
+            .sprite;
             patternBackground = blue;
         }
         else
@@ -407,6 +411,13 @@ public class EyeOnlyHardRunner : MonoBehaviour
 
         if (lockTime <= 0)
         {
+            var patternBackground = headSelectedPatternSet
+            .objects[0]
+            .transform
+            .parent
+            .gameObject
+            .GetComponent<SpriteRenderer>()
+            .sprite;
             if (samePattern(headSelectedPatternSet, mainObjPattern))
             {
                 patternBackground = green;

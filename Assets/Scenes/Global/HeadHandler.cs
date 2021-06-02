@@ -26,19 +26,7 @@ public class HeadHandler : MonoBehaviour
 
     public bool didNod = false;
 
-    public bool isObserving {
-        get 
-        { 
-            return isObserving; 
-        }
-        set 
-        {  
-            if (!isObserving)
-            {
-                stateSequence.Clear();
-            }
-        }
-    }
+    public bool isObserving = false;
 
 // use `static extern` with DllImport to declare a method that is implemented externally.
 // (https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/extern)
@@ -82,7 +70,6 @@ public class HeadHandler : MonoBehaviour
     void Start()
     {
         trackData = new HeadHandler.FreeTrackData();
-        isObserving = false;
     }
 
     // Update is called once per frame
@@ -95,7 +82,7 @@ public class HeadHandler : MonoBehaviour
         }
         HeadHandler.FTGetData(ref trackData);
 
-        // try to use ptch to detect nods (positive is up) - page 6
+        // try to use pitch to detect nods (positive is up) - page 6
         // https://link.springer.com/content/pdf/10.1007%2F978-3-319-07491-7_16.pdf
         Yaw = trackData.Yaw;
         Pitch = trackData.Pitch;
@@ -124,8 +111,10 @@ public class HeadHandler : MonoBehaviour
         var info = string.Format("head X: {0}, head Y: {1}", X, Y);
         Debug.Log(info);
 
-        transform.position = new Vector2(RawYaw * 5, RawPitch * 5);
-        // Note: find out a value to replace for 5 to work perfectly 
+        // Important: use opentrack with space shooter profile
+        transform.position = new Vector2(-RawYaw * 15, RawPitch * 15);
+
+        // Note: find out a value to replace for 15 to work perfectly 
         // with all size of screen
 
         if (Global.currentState == TrialState.HeadEye && !didNod && isObserving)

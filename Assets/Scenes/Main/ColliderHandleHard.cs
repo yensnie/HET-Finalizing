@@ -22,6 +22,11 @@ public class ColliderHandleHard : MonoBehaviour
                 .Find("headCursor")
                 .GetComponent<HeadHandler>()
                 .isObserving = false;
+            GameObject
+                .Find("headCursor")
+                .GetComponent<HeadHandler>()
+                .stateSequence
+                .Clear();
         }       
         EyeOnlyHardRunner.selectedPatternSet = null;
     }
@@ -33,12 +38,10 @@ public class ColliderHandleHard : MonoBehaviour
         {
             case TrialState.Eye:
                 return;
-                break;
             case TrialState.Head:
                 break;
             case TrialState.HeadEye:
                 return;
-                break;
             case TrialState.Order:
                 break;
         }
@@ -55,12 +58,10 @@ public class ColliderHandleHard : MonoBehaviour
         {
             case TrialState.Eye:
                 return;
-                break;
             case TrialState.Head:
                 break;
             case TrialState.HeadEye:
                 return;
-                break;
             case TrialState.Order:
                 break;
         }
