@@ -81,6 +81,8 @@ public class EyeOnlyHardRunner : MonoBehaviour
     public Sprite green;
     public Sprite red;
 
+    public Sprite purple;
+
     private int trialCount = 1;
     private const int maxTrialsNumber = 10;
 
@@ -109,6 +111,7 @@ public class EyeOnlyHardRunner : MonoBehaviour
                 break;
             case TrialState.HeadEye:
                 _lockTime = 0.7;
+                GameObject.Find("headCursor").GetComponent<Renderer>().enabled = false;
                 break;
             case TrialState.Order:
                 _confirmTime = 0.7;
@@ -203,7 +206,7 @@ public class EyeOnlyHardRunner : MonoBehaviour
             if (delayTime > 0 && delayTime <= 0.5)
             {
                 mainFrame.SetActive(false);
-                foreach (GameObject frame in subFrame) 
+                foreach (GameObject frame in subFrame)
                 {
                     frame.SetActive(false);
                 }
@@ -211,7 +214,7 @@ public class EyeOnlyHardRunner : MonoBehaviour
             if (delayTime <= 0)
             {
                 mainFrame.SetActive(true);
-                foreach (GameObject frame in subFrame) 
+                foreach (GameObject frame in subFrame)
                 {
                     frame.SetActive(true);
                 }
@@ -237,6 +240,12 @@ public class EyeOnlyHardRunner : MonoBehaviour
             timeLeft = _timeLeft;
             delayTime = 2.5;
             resetLockTime();
+
+            // reset HeadHandler state in HeadEye mode
+            GameObject
+                .Find("headCursor")
+                .GetComponent<HeadHandler>()
+                .didNod = false;
         }
 
     }
@@ -401,7 +410,6 @@ public class EyeOnlyHardRunner : MonoBehaviour
         }
     }
 
-    // TODO: Rework on this to use nods as well
     // Condition 3
     /*
     Hypothesis: 
@@ -422,6 +430,10 @@ public class EyeOnlyHardRunner : MonoBehaviour
             .GetComponent<SpriteRenderer>()
             .sprite;
 
+        HeadHandler trackerInstance = GameObject
+        .Find("headCursor")
+        .GetComponent<HeadHandler>();
+
         if (trialDone)
         {
             return;
@@ -433,9 +445,15 @@ public class EyeOnlyHardRunner : MonoBehaviour
             lockTime -= Time.deltaTime;
             if (lockTime <= 0)
             {
-                patternBackground = yellow;
-                if (headSelectedPatternSet != null
-                    && headSelectedPatternSet == selectedPatternSet)
+                patternBackground = purple;
+                
+                if (!trackerInstance.isObserving)
+                {
+                    // start observe the nod
+                    trackerInstance.isObserving = true;
+                }
+
+                if (trackerInstance.didNod)
                 {
                     if (samePattern(selectedPatternSet, mainObjPattern))
                     {
@@ -520,23 +538,25 @@ public class EyeOnlyHardRunner : MonoBehaviour
     }
 
     private bool samePattern(
-        Global.GameObjectPattern pattarnA,
+        Global.GameObjectPattern patternA,
         Global.GameObjectPattern patternB
         )
     {
         bool result = true;
-        for (int index = 0; index < pattarnA.objects.Length; index++)
+        for (int index = 0; index < patternA.objects.Length; index++)
         {
-            var spriteA = pattarnA
+            var spriteA = patternA
                 .objects[index]
                 .GetComponent<SpriteRenderer>()
                 .sprite
                 .name;
+
             var spriteB = patternB
                 .objects[index]
                 .GetComponent<SpriteRenderer>()
                 .sprite
                 .name;
+
             if (!(spriteA.Trim().Equals(spriteB)))
             {
                 result = false;

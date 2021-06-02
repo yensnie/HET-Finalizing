@@ -13,12 +13,23 @@ public class ColliderHandle : MonoBehaviour
             GameObject.Find("GameRunner").GetComponent<EyeOnlyRunner>().white;
         EyeOnlyRunner.selectedObj = null;
         EyeOnlyRunner.headSelectedObj = null;
+
+        if (Global.currentState != TrialState.HeadEye) { 
+            GameObject
+                .Find("headCursor")
+                .GetComponent<HeadHandler>()
+                .isObserving = false;
+        }
     }
 
     private void registerHeadSelectedObject()
     {
-        // only work if in head-eye mode and this is the selected object already
-        if (Global.currentState != TrialState.HeadEye) { return; }
+        
+        // with condition 3, the collider of Head system is not required 
+        // but still need a Head tracker object
+        if (Global.currentState != TrialState.HeadEye) { 
+            return; 
+        }
         if (EyeOnlyRunner.selectedObj == this.gameObject)
         {
             EyeOnlyRunner.headSelectedObj = this.gameObject;
@@ -27,7 +38,12 @@ public class ColliderHandle : MonoBehaviour
 
     private void deRegisterHeadSelectedObject()
     {
-        if (Global.currentState != TrialState.HeadEye) { return; }
+        // with condition 3, the collider of Head system is not required 
+        // but still need a Head tracker object
+        if (Global.currentState != TrialState.HeadEye) 
+        { 
+            return; 
+        }
         if (EyeOnlyRunner.selectedObj == this.gameObject)
         {
             this.gameObject.GetComponent<SpriteRenderer>().sprite =

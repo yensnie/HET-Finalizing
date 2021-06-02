@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using UnityEngine;
 using System.Runtime.InteropServices;
 using System.Collections;
@@ -81,6 +82,7 @@ public class HeadHandler : MonoBehaviour
     void Start()
     {
         trackData = new HeadHandler.FreeTrackData();
+        isObserving = false;
     }
 
     // Update is called once per frame
@@ -93,7 +95,7 @@ public class HeadHandler : MonoBehaviour
         }
         HeadHandler.FTGetData(ref trackData);
 
-        // TODO: try to use ptch to detect nods (positive is up) - page 6
+        // try to use ptch to detect nods (positive is up) - page 6
         // https://link.springer.com/content/pdf/10.1007%2F978-3-319-07491-7_16.pdf
         Yaw = trackData.Yaw;
         Pitch = trackData.Pitch;
@@ -126,7 +128,7 @@ public class HeadHandler : MonoBehaviour
         // Note: find out a value to replace for 5 to work perfectly 
         // with all size of screen
 
-        if (Global.currentState == TrialState.HeadEye && !didNod)
+        if (Global.currentState == TrialState.HeadEye && !didNod && isObserving)
         {
             stateSequenceObseve();
         }
@@ -152,15 +154,26 @@ public class HeadHandler : MonoBehaviour
         }
         if (stateSequence.Count == stateSequenceLimit)
         {
-            var sequence = Array.Reverse(stateSequence.ToArray()); 
-            // TODO: compare with templateSequences to get nod
+            var sequence = Array.ConvertAll(stateSequence.ToArray(), item => (HeadState)item); 
+
+            Array.Reverse(sequence); 
+            // TODO: reverse the templateSequences's array element instead (may be)
+
+            foreach (HeadState[] templateSequence in templateSequences)
+            {
+                if (sequence.SequenceEqual(templateSequence))
+                {
+                    this.didNod = true;
+                    break;
+                }
+            }
         }
     }
 
 // TODO: will need more template sequences, and might be 20 emelent each cause each element present for a frame, may be we even need more frames
-    private const HeadState[][] templateSequences = new HeadState[][]
+    private HeadState[][] templateSequences = new HeadState[][]
     {
-        new HeadState[] {HeadState.Up, HeadState.Stable, HeadState.Stable, HeadState.Down, HeadState.Down, HeadState.Stable, HeadState.Stable, HeadState.Up, HeadState.Up},
-        new HeadState[] {HeadState.Up, HeadState.Stable, HeadState.Down, HeadState.Stable, HeadState.Up, HeadState.Stable, HeadState.Down, HeadState.Stable, HeadState.Up},
+        new HeadState[] { HeadState.Up, HeadState.Stable, HeadState.Stable, HeadState.Down, HeadState.Down, HeadState.Stable, HeadState.Stable, HeadState.Up, HeadState.Up },
+        new HeadState[] { HeadState.Up, HeadState.Stable, HeadState.Down, HeadState.Stable, HeadState.Up, HeadState.Stable, HeadState.Down, HeadState.Stable, HeadState.Up },
     };
 }
