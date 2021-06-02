@@ -1,9 +1,14 @@
 ﻿using System;
 using UnityEngine;
 using System.Runtime.InteropServices;
+using System.Collections;
 
 public class HeadHandler : MonoBehaviour
 {
+    enum HeadState
+    {
+        Up, Stable, Down
+    }
     [StructLayout(LayoutKind.Sequential)]
     public struct FreeTrackData
     {
@@ -13,6 +18,25 @@ public class HeadHandler : MonoBehaviour
         public Single RawYaw, RawPitch, RawRoll;
         public Single RawX, RawY, RawZ;
         public Single x1, y1, x2, y2, x3, y3, x4, y4;
+    }
+
+    public Stack stateSequence = new Stack();
+    private int stateSequenceLimit = 20;
+
+    public bool didNod = false;
+
+    public bool isObserving {
+        get 
+        { 
+            return isObserving; 
+        }
+        set 
+        {  
+            if (!isObserving)
+            {
+                stateSequence.Clear();
+            }
+        }
     }
 
 // use `static extern` with DllImport to declare a method that is implemented externally.
@@ -101,5 +125,42 @@ public class HeadHandler : MonoBehaviour
         transform.position = new Vector2(RawYaw * 5, RawPitch * 5);
         // Note: find out a value to replace for 5 to work perfectly 
         // with all size of screen
+
+        if (Global.currentState == TrialState.HeadEye && !didNod)
+        {
+            stateSequenceObseve();
+        }
     }
+
+    private void stateSequenceObseve()
+    {
+        if (stateSequence.Count == stateSequenceLimit)
+        {
+            stateSequence.Pop();
+        }
+        switch (Pitch)
+        {
+            case float value when (value < -0.5):
+            stateSequence.Push(HeadState.Up);
+            break;
+            case float value when (value > 0.5):
+            stateSequence.Push(HeadState.Down);
+            break;
+            default:
+            stateSequence.Push(HeadState.Stable);
+            break;
+        }
+        if (stateSequence.Count == stateSequenceLimit)
+        {
+            var sequence = Array.Reverse(stateSequence.ToArray()); 
+            // TODO: compare with templateSequences to get nod
+        }
+    }
+
+// TODO: will need more template sequences, and might be 20 emelent each cause each element present for a frame, may be we even need more frames
+    private const HeadState[][] templateSequences = new HeadState[][]
+    {
+        new HeadState[] {HeadState.Up, HeadState.Stable, HeadState.Stable, HeadState.Down, HeadState.Down, HeadState.Stable, HeadState.Stable, HeadState.Up, HeadState.Up},
+        new HeadState[] {HeadState.Up, HeadState.Stable, HeadState.Down, HeadState.Stable, HeadState.Up, HeadState.Stable, HeadState.Down, HeadState.Stable, HeadState.Up},
+    };
 }
