@@ -219,6 +219,12 @@ public class EyeOnlyHardRunner : MonoBehaviour
             }
             if (delayTime <= 0)
             {
+                // reset all the subframe's rectangle to white
+                foreach (GameObject rect in subFrame)
+                {
+                    rect.GetComponent<SpriteRenderer>().sprite = white;
+                }
+
                 mainFrame.SetActive(true);
                 foreach (GameObject frame in subFrame)
                 {
