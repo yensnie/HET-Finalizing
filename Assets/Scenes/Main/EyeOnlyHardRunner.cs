@@ -38,10 +38,10 @@ public class EyeOnlyHardRunner : MonoBehaviour
     private TrialData[] tempTrialData = new TrialData[10];
 
     // current selected pattern by eye cursor
-    public static Global.GameObjectPattern selectedPatternSet;
+    public Global.GameObjectPattern selectedPatternSet;
 
     // current selected pattern by head cursor
-    public static Global.GameObjectPattern headSelectedPatternSet;
+    public Global.GameObjectPattern headSelectedPatternSet;
 
     // The main pattern object
     public GameObject[] mainObj;
@@ -453,9 +453,9 @@ public class EyeOnlyHardRunner : MonoBehaviour
     count as a nod detected. The requirement for the observation in this scenario is only 
     when the eye cursor is aiming at an object, or is selecting a pattern.
     */
+    // TODO: when start eye select, set current pitch as stable state
     private void updateHeadSupportEye()
     {
-
         HeadHandler trackerInstance = GameObject
         .Find("headCursor")
         .GetComponent<HeadHandler>();
