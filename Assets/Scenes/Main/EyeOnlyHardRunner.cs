@@ -86,7 +86,7 @@ public class EyeOnlyHardRunner : MonoBehaviour
     private int trialCount = 1;
     private const int maxTrialsNumber = 10;
 
-    public static bool trialDone = false;
+    public bool trialDone = false;
 
     // 2s for state delay, 0.5 for baseline screen
     private double delayTime = 2.5;

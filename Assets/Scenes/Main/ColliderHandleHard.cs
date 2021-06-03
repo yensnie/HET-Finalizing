@@ -6,7 +6,7 @@ public class ColliderHandleHard : MonoBehaviour
     private void registerSelectedObject() {
         EyeOnlyHardRunner runnerInstance = GameObject
             .Find("GameRunner")
-            .GetComponent<EyeOnlyHardRunner>;
+            .GetComponent<EyeOnlyHardRunner>();
         if (!runnerInstance.trialDone && Global.currentState != TrialState.Head)
         {
             runnerInstance.selectedPatternSet = selectedPattern;
@@ -16,7 +16,7 @@ public class ColliderHandleHard : MonoBehaviour
     private void deRegisterSelectedObject() {
         EyeOnlyHardRunner runnerInstance = GameObject
             .Find("GameRunner")
-            .GetComponent<EyeOnlyHardRunner>;
+            .GetComponent<EyeOnlyHardRunner>();
         if (!runnerInstance.trialDone && Global.currentState != TrialState.Head)
         {
             this.gameObject.GetComponent<SpriteRenderer>().sprite 
@@ -34,7 +34,7 @@ public class ColliderHandleHard : MonoBehaviour
                 .stateSequence
                 .Clear();
         }       
-        EyeOnlyHardRunner.selectedPatternSet = null;
+        runnerInstance.selectedPatternSet = null;
     }
 
     private void registerHeadSelectedObject() {
@@ -53,7 +53,7 @@ public class ColliderHandleHard : MonoBehaviour
         }
         EyeOnlyHardRunner runnerInstance = GameObject
             .Find("GameRunner")
-            .GetComponent<EyeOnlyHardRunner>;
+            .GetComponent<EyeOnlyHardRunner>();
         if (runnerInstance.selectedPatternSet == selectedPattern) {
             runnerInstance.headSelectedPatternSet = selectedPattern;
         }
@@ -76,7 +76,7 @@ public class ColliderHandleHard : MonoBehaviour
         }
         EyeOnlyHardRunner runnerInstance = GameObject
             .Find("GameRunner")
-            .GetComponent<EyeOnlyHardRunner>;
+            .GetComponent<EyeOnlyHardRunner>();
         if (runnerInstance.selectedPatternSet == selectedPattern) {
             if (Global.currentState == TrialState.Head && !runnerInstance.trialDone)
             {
