@@ -3,7 +3,7 @@ using Tobii.Research;
 
 public enum TrialState
 {
-    Eye, Head, HeadEye, Order 
+    Eye, Head, HeadEye, Order , Trial
 }
 public enum AttemptState
 {
@@ -13,7 +13,7 @@ public static class Global
 {
 
     public static string participantName = "Empty";
-    public static TrialState currentState = TrialState.Head;
+    public static TrialState currentState = TrialState.Eye;
 
     public class GameObjectPattern
     {
