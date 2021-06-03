@@ -1,9 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Tobii.Research;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class EyeOnlyHardRunner : MonoBehaviour
 {
@@ -119,13 +115,6 @@ public class EyeOnlyHardRunner : MonoBehaviour
                 break;
             case TrialState.HeadEye:
                 _lockTime = 0.7;
-
-                // hide the render of head cursor
-                // but still need it
-                GameObject
-                    .Find("headCursor")
-                    .GetComponent<Renderer>()
-                    .enabled = false;
                 break;
             case TrialState.Order:
                 _confirmTime = 0.7;
@@ -151,6 +140,12 @@ public class EyeOnlyHardRunner : MonoBehaviour
                 GameObject.Find("eyeCursor").SetActive(false);
                 break;
             case TrialState.HeadEye:
+                // hide the render of head cursor
+                // but still need it
+                GameObject
+                    .Find("headCursor")
+                    .GetComponent<Renderer>()
+                    .enabled = false;
                 break;
             case TrialState.Order:
                 break;
@@ -700,7 +695,7 @@ public class EyeOnlyHardRunner : MonoBehaviour
             {
                 subFrame[index]
                     .GetComponent<ColliderHandleHard>()
-                    .selectedPattern = subObjsGroup.patterns[index];
+                    .selectedPatternSet = subObjsGroup.patterns[index];
             }
             catch
             {
