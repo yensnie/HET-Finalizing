@@ -87,20 +87,16 @@ public class EyeOnlyHardRunner : MonoBehaviour
     // 2s for state delay, 0.5 for baseline screen
     private double delayTime = 2.5;
 
+    private void Awake() {
+        QualitySettings.vSyncCount = 0;     // disable vSync
+        Application.targetFrameRate = 60;
+    }
     void Start()
     {
         fillGameObjectsToPattern();
         fillObjectsWithSprites(8, 4);
         prepareComponents();
         prepareCursors();
-    }
-
-    private void OnGUI() {
-        // Temporary: add FPS
-        GUI.Label(
-            new Rect(0, 0, 100, 100), 
-            ((int)(1.0f / Time.smoothDeltaTime)).ToString()
-        ); 
     }
 
     private void prepareComponents()
@@ -154,6 +150,7 @@ public class EyeOnlyHardRunner : MonoBehaviour
 
     void Update()
     {
+        Debug.Log(((int)(1.0f / Time.smoothDeltaTime)).ToString());
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (!Application.isEditor)
