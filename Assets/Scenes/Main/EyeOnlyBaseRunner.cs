@@ -678,7 +678,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
                     .GetComponent<SpriteRenderer>()
                     .sprite = spriteList[finalOrderSets[index][innerIndex]];
             }
-
+            
             // save the current order into sub object
             subObjsGroup.patterns[index].order = finalOrderSets[index];
 
