@@ -699,7 +699,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
         }
     }
 
-    public void fillGameObjectsToPattern()
+    public void fillGameObjectsToPattern(int components)
     {
         //------------------------- Main object set up
         // this pattern store 4 game objects repesented 4 spirtes
@@ -711,7 +711,6 @@ public class EyeOnlyBaseRunner : MonoBehaviour
         // this group has 8 gameObjectPattern-s
         subObjsGroup = new Global.GameObjectPatternGroup();
 
-        var components = 4;
         var groupIndex = 0;
         var tempArray = new GameObject[components];
         var tempArrayIndex = 0;
