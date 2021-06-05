@@ -5,7 +5,7 @@ public class EyeOnlyEasyRunner : EyeOnlyBaseRunner
     // Start is called before the first frame update
     void Start()
     {
-        fillGameObjectsToPattern(2);
+        fillGameObjectsToPattern(4, 2);
         fillObjectsWithSprites(4, 2);
         prepareComponents();
         prepareCursors();

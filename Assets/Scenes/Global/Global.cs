@@ -41,17 +41,16 @@ public static class Global
 
     public class GameObjectPatternGroup
     {
-        public GameObjectPattern[] patterns =
-        new GameObjectPattern[8] {
-            new GameObjectPattern(),
-            new GameObjectPattern(),
-            new GameObjectPattern(),
-            new GameObjectPattern(),
-            new GameObjectPattern(),
-            new GameObjectPattern(),
-            new GameObjectPattern(),
-            new GameObjectPattern(),
-        };
+        public GameObjectPattern[] patterns;
+
+        public GameObjectPatternGroup(int groups)
+        {
+            this.patterns = new GameObjectPattern[groups];
+            for (int index = 0; index < groups; index++)
+            {
+                this.patterns[index] = new GameObjectPattern();
+            }
+        }
     }
 }
 

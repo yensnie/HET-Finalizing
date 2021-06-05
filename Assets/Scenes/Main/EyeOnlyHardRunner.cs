@@ -4,7 +4,7 @@ public class EyeOnlyHardRunner : EyeOnlyBaseRunner
 {
     void Start()
     {
-        fillGameObjectsToPattern(4);
+        fillGameObjectsToPattern(8, 4);
         fillObjectsWithSprites(8, 4);
         prepareComponents();
         prepareCursors();

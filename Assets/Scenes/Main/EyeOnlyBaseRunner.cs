@@ -699,17 +699,17 @@ public class EyeOnlyBaseRunner : MonoBehaviour
         }
     }
 
-    public void fillGameObjectsToPattern(int components)
+    public void fillGameObjectsToPattern(int groups, int components)
     {
         //------------------------- Main object set up
-        // this pattern store 4 game objects repesented 4 spirtes
+        // this pattern store x game objects component repesented x spirtes
         mainObjPattern = new Global.GameObjectPattern();
         mainObjPattern.objects = mainObj;
 
         //------------------------- Sub objects group set up
         // this pattern store 4 game objects repesented 4 spirtes
         // this group has 8 gameObjectPattern-s
-        subObjsGroup = new Global.GameObjectPatternGroup();
+        subObjsGroup = new Global.GameObjectPatternGroup(groups);
 
         var groupIndex = 0;
         var tempArray = new GameObject[components];
