@@ -24,8 +24,10 @@ public class HeadHandler : MonoBehaviour
     public Stack stateSequence = new Stack();
     private int stateSequenceLimit = 20;
 
+    [HideInInspector]
     public bool didNod = false;
 
+    [HideInInspector]
     public bool isObserving = false;
 
 // use `static extern` with DllImport to declare a method that is implemented externally.
@@ -41,27 +43,65 @@ public class HeadHandler : MonoBehaviour
     public static extern bool FTGetData(ref FreeTrackData data);
 
 // FreeTrackData: https://github.com/opentrack/opentrack/blob/master/freetrackclient/fttypes.h
+    [HideInInspector]
     public float Yaw = 0F;
+
+    [HideInInspector]
     public float Pitch = 0F;
+
+    [HideInInspector]
     public float Roll = 0F;
+
+    [HideInInspector]
     public float X = 0F;
+
+    [HideInInspector]
     public float Y = 0F;
+
+    [HideInInspector]
     public float Z = 0F;
 
+    [HideInInspector]
     public float RawYaw = 0F;
+
+    [HideInInspector]
     public float RawPitch = 0F;
+
+    [HideInInspector]
     public float RawRoll = 0F;
+
+    [HideInInspector]
     public float RawX = 0F;
+
+    [HideInInspector]
     public float RawY = 0F;
+
+    [HideInInspector]
     public float RawZ = 0F;
 
+    
+    [HideInInspector]
     public float x1 = 0F;
+    
+    [HideInInspector]
     public float y1 = 0F;
+    
+    [HideInInspector]
     public float x2 = 0F;
+    
+    [HideInInspector]
     public float y2 = 0F;
+    
+    [HideInInspector]
     public float x3 = 0F;
+    
+    [HideInInspector]
     public float y3 = 0F;
+    
+    [HideInInspector]
     public float x4 = 0F;
+    
+    [HideInInspector]
     public float y4 = 0F;
 
     private HeadHandler.FreeTrackData trackData;

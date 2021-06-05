@@ -11,7 +11,7 @@ public class EyeOnlyEasyRunner : EyeOnlyBaseRunner
         prepareCursors();
     }
 
-        public override void trialFinish()
+    public override void trialFinish()
     {
         if (trialCount == maxTrialsNumber)
         {
