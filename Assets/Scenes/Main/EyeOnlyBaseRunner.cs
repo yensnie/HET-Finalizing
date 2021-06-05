@@ -279,7 +279,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
     /*
     Hypothesis: 
     We could have some state like: Up - 1, Stable - 2, Down - 3 like Hidden Markov Models
-    Use a stack to store the sequence, like {1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 3}
+    Use a stack to store the sequence, like { 1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 3 }
     with each element represent for a state in each frame.
     So if we could use some patterns to compare, if it matched, in the next frame we will
     count as a nod detected. The requirement for the observation in this scenario is only 
