@@ -6,7 +6,7 @@ public class EyeOnlyEasyRunner : EyeOnlyBaseRunner
     void Start()
     {
         fillGameObjectsToPattern();
-        fillObjectsWithSprites(2, 2);
+        fillObjectsWithSprites(4, 2);
         prepareComponents();
         prepareCursors();
     }
@@ -22,7 +22,7 @@ public class EyeOnlyEasyRunner : EyeOnlyBaseRunner
             trialDone = false;
 
             // reshuffle for new sprites
-            fillObjectsWithSprites(2, 2);
+            fillObjectsWithSprites(4, 2);
 
             // reset
             timeLeft = _timeLeft;
