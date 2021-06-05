@@ -74,7 +74,7 @@ public class ColliderHandleHard : MonoBehaviour
 
         if (runnerTrialInstance != null)
         {
-            runnerTrialInstance.didEyeSelect = null;
+            runnerTrialInstance.didEyeSelect = false;
         }
 
         // observing handle in HeadEye case
@@ -191,7 +191,7 @@ public class ColliderHandleHard : MonoBehaviour
 
         if (runnerTrialInstance != null)
         {
-            runnerTrialInstance.didHeadSelect = null;
+            runnerTrialInstance.didHeadSelect = false;
         }
     }
 
