@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Tobii.Research;
+using UnityEngine.SceneManagement;
 
 public enum TrialState
 {
@@ -115,5 +116,65 @@ class Utility
             Debug.Log("did get the eye tracker");
             handle(eyeTracker);
         }
+    }
+}
+
+public class Helper {
+    public static void changeScene(string scene)
+    {
+        SceneManager.LoadScene(scene);
+    }
+    public static void prepareCursors()
+    {
+        switch (Global.currentState)
+        {
+            case TrialState.Eye:
+                GameObject.Find("headCursor").SetActive(false);
+                break;
+            case TrialState.Head:
+                GameObject.Find("eyeCursor").SetActive(false);
+                break;
+            case TrialState.HeadEye:
+                // hide the render of head cursor
+                // but still need it
+                GameObject
+                    .Find("headCursor")
+                    .GetComponent<Renderer>()
+                    .enabled = false;
+                break;
+            case TrialState.Order:
+                break;
+            case TrialState.Trial:
+                break;
+        }
+    }
+
+    public static bool samePattern(
+        Global.GameObjectPattern patternA,
+        Global.GameObjectPattern patternB
+        )
+    {
+        bool result = true;
+        for (int index = 0; index < patternA.objects.Length; index++)
+        {
+            var spriteA = patternA
+                .objects[index]
+                .GetComponent<SpriteRenderer>()
+                .sprite
+                .name;
+
+            var spriteB = patternB
+                .objects[index]
+                .GetComponent<SpriteRenderer>()
+                .sprite
+                .name;
+
+            if (!(spriteA.Trim().Equals(spriteB)))
+            {
+                result = false;
+                break;
+            }
+        }
+        return result;
     }
 }
