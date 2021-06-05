@@ -139,6 +139,8 @@ public class EyeOnlyBaseRunner : MonoBehaviour
             case TrialState.Order:
                 updateEyeHeadOrder();
                 break;
+            case TrialState.Trial:
+                break;
         }
 
         trialDoneTimeHandle();
@@ -180,7 +182,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
         if (lockTime <= 0)
         {
 
-            if (samePattern(selectedPatternSet, mainObjPattern))
+            if (Helper.samePattern(selectedPatternSet, mainObjPattern))
             {
                 selectedPatternSet
                 .objects[0]
@@ -246,7 +248,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
 
         if (lockTime <= 0)
         {
-            if (samePattern(headSelectedPatternSet, mainObjPattern))
+            if (Helper.samePattern(headSelectedPatternSet, mainObjPattern))
             {
                 headSelectedPatternSet
                     .objects[0]
@@ -319,7 +321,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
 
                 if (trackerInstance.didNod)
                 {
-                    if (samePattern(selectedPatternSet, mainObjPattern))
+                    if (Helper.samePattern(selectedPatternSet, mainObjPattern))
                     {
                         selectedPatternSet
                             .objects[0]
@@ -381,7 +383,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
                 confirmTime -= Time.deltaTime;
                 if (confirmTime <= 0)
                 {
-                    if (samePattern(selectedPatternSet, mainObjPattern))
+                    if (Helper.samePattern(selectedPatternSet, mainObjPattern))
                     {
                         selectedPatternSet
                             .objects[0]
@@ -431,12 +433,6 @@ public class EyeOnlyBaseRunner : MonoBehaviour
 
 
     // ------------------------------- essentials
-
-    public void changeScene(string scene)
-    {
-        SceneManager.LoadScene(scene);
-    }
-
     private void trialTimeHandle()
     {
         timeLeft -= Time.deltaTime;
@@ -589,6 +585,8 @@ public class EyeOnlyBaseRunner : MonoBehaviour
             case TrialState.Order:
                 _confirmTime = 0.7;
                 break;
+            case TrialState.Trial:
+                break;
         }
         resetLockTime();
     }
@@ -597,29 +595,6 @@ public class EyeOnlyBaseRunner : MonoBehaviour
     {
         lockTime = _lockTime;
         confirmTime = _confirmTime;
-    }
-
-    public void prepareCursors()
-    {
-        switch (Global.currentState)
-        {
-            case TrialState.Eye:
-                GameObject.Find("headCursor").SetActive(false);
-                break;
-            case TrialState.Head:
-                GameObject.Find("eyeCursor").SetActive(false);
-                break;
-            case TrialState.HeadEye:
-                // hide the render of head cursor
-                // but still need it
-                GameObject
-                    .Find("headCursor")
-                    .GetComponent<Renderer>()
-                    .enabled = false;
-                break;
-            case TrialState.Order:
-                break;
-        }
     }
 
     public void fillObjectsWithSprites(int length, int components = 4)
@@ -678,7 +653,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
                     .GetComponent<SpriteRenderer>()
                     .sprite = spriteList[finalOrderSets[index][innerIndex]];
             }
-            
+
             // save the current order into sub object
             subObjsGroup.patterns[index].order = finalOrderSets[index];
 
@@ -733,7 +708,39 @@ public class EyeOnlyBaseRunner : MonoBehaviour
         }
     }
 
-    private bool samePattern(
+}
+
+public class Helper {
+    public static void changeScene(string scene)
+    {
+        SceneManager.LoadScene(scene);
+    }
+    public static void prepareCursors()
+    {
+        switch (Global.currentState)
+        {
+            case TrialState.Eye:
+                GameObject.Find("headCursor").SetActive(false);
+                break;
+            case TrialState.Head:
+                GameObject.Find("eyeCursor").SetActive(false);
+                break;
+            case TrialState.HeadEye:
+                // hide the render of head cursor
+                // but still need it
+                GameObject
+                    .Find("headCursor")
+                    .GetComponent<Renderer>()
+                    .enabled = false;
+                break;
+            case TrialState.Order:
+                break;
+            case TrialState.Trial:
+                break;
+        }
+    }
+
+    public static bool samePattern(
         Global.GameObjectPattern patternA,
         Global.GameObjectPattern patternB
         )

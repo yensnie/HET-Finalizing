@@ -13,12 +13,16 @@ public class ColliderHandleHard : MonoBehaviour
             .Find("GameRunner").
             GetComponent<EyeOnlyEasyRunner>();
 
-        if (runnerInstance != null && !runnerInstance.trialDone && Global.currentState != TrialState.Head)
+        if (runnerInstance != null && 
+            !runnerInstance.trialDone && 
+            Global.currentState != TrialState.Head)
         {
             runnerInstance.selectedPatternSet = selectedPatternSet;
         }
 
-        if (runnerEasyInstance != null && !runnerEasyInstance.trialDone && Global.currentState != TrialState.Head)
+        if (runnerEasyInstance != null && 
+            !runnerEasyInstance.trialDone && 
+            Global.currentState != TrialState.Head)
         {
             runnerEasyInstance.selectedPatternSet = selectedPatternSet;
         }
@@ -35,16 +39,24 @@ public class ColliderHandleHard : MonoBehaviour
             GetComponent<EyeOnlyEasyRunner>();
         
         // change background
-        if (runnerInstance != null && !runnerInstance.trialDone && Global.currentState != TrialState.Head)
+        if (runnerInstance != null && 
+            !runnerInstance.trialDone && 
+            Global.currentState != TrialState.Head)
         {
             this.gameObject.GetComponent<SpriteRenderer>().sprite 
                 =  runnerInstance.white;
+            
+            runnerInstance.selectedPatternSet = null;
         }
 
-        if (runnerEasyInstance != null && !runnerEasyInstance.trialDone && Global.currentState != TrialState.Head)
+        if (runnerEasyInstance != null && 
+            !runnerEasyInstance.trialDone && 
+            Global.currentState != TrialState.Head)
         {
             this.gameObject.GetComponent<SpriteRenderer>().sprite 
                 =  runnerEasyInstance.white;
+            
+            runnerEasyInstance.selectedPatternSet = null;
         }
 
         // observing handle in HeadEye case
@@ -54,24 +66,13 @@ public class ColliderHandleHard : MonoBehaviour
                 .Find("headCursor")
                 .GetComponent<HeadHandler>()
                 .isObserving = false;
+            
             GameObject
                 .Find("headCursor")
                 .GetComponent<HeadHandler>()
                 .stateSequence
                 .Clear();
         }
-
-        // clear the selectedPatternSet
-        if (runnerInstance != null)
-        {
-            runnerInstance.selectedPatternSet = null;
-        }
-
-        if (runnerEasyInstance != null)
-        {
-            runnerEasyInstance.selectedPatternSet = null;
-        }
-        
     }
 
     private void registerHeadSelectedObject() {
@@ -97,11 +98,15 @@ public class ColliderHandleHard : MonoBehaviour
             .Find("GameRunner").
             GetComponent<EyeOnlyEasyRunner>();
         
-        if (runnerInstance != null && runnerInstance.selectedPatternSet == selectedPatternSet) {
+        if (runnerInstance != null && 
+            runnerInstance.selectedPatternSet == selectedPatternSet) 
+        {
             runnerInstance.headSelectedPatternSet = selectedPatternSet;
         }
         
-        if (runnerEasyInstance != null && runnerEasyInstance.selectedPatternSet == selectedPatternSet) {
+        if (runnerEasyInstance != null && 
+            runnerEasyInstance.selectedPatternSet == selectedPatternSet) 
+        {
             runnerEasyInstance.headSelectedPatternSet = selectedPatternSet;
         }
     }
@@ -129,8 +134,11 @@ public class ColliderHandleHard : MonoBehaviour
             .Find("GameRunner").
             GetComponent<EyeOnlyEasyRunner>();
         
-        if (runnerInstance != null && runnerInstance.selectedPatternSet == selectedPatternSet) {
-            if (Global.currentState == TrialState.Head && !runnerInstance.trialDone)
+        if (runnerInstance != null && 
+            runnerInstance.selectedPatternSet == selectedPatternSet) 
+        {
+            if (Global.currentState == TrialState.Head && 
+                !runnerInstance.trialDone)
             {
                 this.gameObject.GetComponent<SpriteRenderer>().sprite 
                     = runnerInstance.white;
@@ -138,8 +146,11 @@ public class ColliderHandleHard : MonoBehaviour
             runnerInstance.headSelectedPatternSet = null;
         }
         
-        if (runnerEasyInstance != null && runnerEasyInstance.selectedPatternSet == selectedPatternSet) {
-            if (Global.currentState == TrialState.Head && !runnerEasyInstance.trialDone)
+        if (runnerEasyInstance != null && 
+            runnerEasyInstance.selectedPatternSet == selectedPatternSet) 
+        {
+            if (Global.currentState == TrialState.Head && 
+                !runnerEasyInstance.trialDone)
             {
                 this.gameObject.GetComponent<SpriteRenderer>().sprite 
                     = runnerEasyInstance.white;

@@ -8,7 +8,7 @@ public class EyeOnlyEasyRunner : EyeOnlyBaseRunner
         fillGameObjectsToPattern(4, 2);
         fillObjectsWithSprites(4, 2);
         prepareComponents();
-        prepareCursors();
+        Helper.prepareCursors();
     }
 
     public override void trialFinish()

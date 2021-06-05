@@ -7,7 +7,7 @@ public class EyeOnlyHardRunner : EyeOnlyBaseRunner
         fillGameObjectsToPattern(8, 4);
         fillObjectsWithSprites(8, 4);
         prepareComponents();
-        prepareCursors();
+        Helper.prepareCursors();
     }
 
     public override void trialFinish()
