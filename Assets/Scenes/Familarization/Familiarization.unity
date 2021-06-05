@@ -600,6 +600,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c69c2b54e77fa443ea2d551d67cdd2d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sampleObject: {fileID: 606114560}
+  didEyeSelect: 0
+  didHeadSelect: 1
 --- !u!4 &1514980391
 Transform:
   m_ObjectHideFlags: 0
