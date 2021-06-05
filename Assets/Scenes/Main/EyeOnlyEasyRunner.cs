@@ -11,5 +11,29 @@ public class EyeOnlyEasyRunner : EyeOnlyBaseRunner
         prepareCursors();
     }
 
+        public override void trialFinish()
+    {
+        if (trialCount == maxTrialsNumber)
+        {
+            // TODO: finish the scene
+        }
+        else
+        {
+            trialDone = false;
 
+            // reshuffle for new sprites
+            fillObjectsWithSprites(2, 2);
+
+            // reset
+            timeLeft = _timeLeft;
+            delayTime = 2.5;
+            resetLockTime();
+
+            // reset HeadHandler state in HeadEye mode
+            GameObject
+                .Find("headCursor")
+                .GetComponent<HeadHandler>()
+                .didNod = false;
+        }
+    }
 }

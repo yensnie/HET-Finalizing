@@ -48,6 +48,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
 
     [HideInInspector]
     public Global.GameObjectPattern mainObjPattern;
+
     public GameObject[] subObjList;
 
     // pattern objects list
@@ -435,6 +436,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
     {
         SceneManager.LoadScene(scene);
     }
+
     private void trialTimeHandle()
     {
         timeLeft -= Time.deltaTime;
@@ -501,7 +503,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
             trialDone = false;
 
             // reshuffle for new sprites
-            fillObjectsWithSprites(2, 2);
+            //fillObjectsWithSprites(2, 2);
 
             // reset
             timeLeft = _timeLeft;
@@ -516,13 +518,13 @@ public class EyeOnlyBaseRunner : MonoBehaviour
         }
     }
 
-    public void saveTrialData(TrialData data)
+    private void saveTrialData(TrialData data)
     {
         var index = trialCount - 1;
         tempTrialData[index] = new TrialData(data.getResult(), data.getTime());
     }
 
-    public void saveData()
+    private void saveData()
     {
         var methodName = "";
         switch (Global.currentState)
@@ -538,6 +540,8 @@ public class EyeOnlyBaseRunner : MonoBehaviour
                 break;
             case TrialState.Order:
                 methodName = " Multimodal 2";
+                break;
+            case TrialState.Trial:
                 break;
         }
 
