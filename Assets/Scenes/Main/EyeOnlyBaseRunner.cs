@@ -30,24 +30,30 @@ public class EyeOnlyBaseRunner : MonoBehaviour
         Correct, Incorrect, Overtime
     }
 
-    private Result result = Result.Overtime;
+    [HideInInspector]
+    public Result result = Result.Overtime;
 
-    private TrialData[] tempTrialData = new TrialData[10];
+    [HideInInspector]
+    public TrialData[] tempTrialData = new TrialData[10];
 
     // current selected pattern by eye cursor
+    [HideInInspector]
     public Global.GameObjectPattern selectedPatternSet;
 
     // current selected pattern by head cursor
+    [HideInInspector]
     public Global.GameObjectPattern headSelectedPatternSet;
 
     // The main pattern object
     public GameObject[] mainObj;
 
-    private Global.GameObjectPattern mainObjPattern;
+    [HideInInspector]
+    public Global.GameObjectPattern mainObjPattern;
     public GameObject[] subObjList;
 
     // pattern objects list
-    private Global.GameObjectPatternGroup subObjsGroup;
+    [HideInInspector]
+    public Global.GameObjectPatternGroup subObjsGroup;
 
     public GameObject mainFrame;
 
@@ -59,33 +65,50 @@ public class EyeOnlyBaseRunner : MonoBehaviour
     public Sprite[] spriteList;
 
     // the trial time left, will counted down right from start
-    private const double _timeLeft = 25;
-    private double timeLeft = 25;
+    [HideInInspector]
+    public const double _timeLeft = 25;
+
+    [HideInInspector]
+    public double timeLeft = 25;
 
     // after this amount of time when eye gaze hit the objects, 
     // it will be counted as "lock" (eye only scenario)
-    private double _lockTime = 0;
-    private double lockTime = 0;
+    [HideInInspector]
+    public double _lockTime = 0;
+
+    [HideInInspector]
+    public double lockTime = 0;
 
     // after this amount of seconds when selecting, 
-    // active confirmation result (correct or incorrect) 
-    private double _confirmTime = 0;
-    private double confirmTime = 0;
+    // active confirmation result (correct or incorrect)
+    [HideInInspector]
+    public double _confirmTime = 0;
+
+    [HideInInspector]
+    public double confirmTime = 0;
 
     public Sprite white;
     public Sprite blue;
     public Sprite yellow;
     public Sprite green;
     public Sprite red;
-
     public Sprite purple;
 
-    private int trialCount = 1;
-    private const int maxTrialsNumber = 10;
+    [HideInInspector]
+    public int trialCount = 1;
 
+    [HideInInspector]
+    public const int maxTrialsNumber = 10;
+
+    [HideInInspector]
     public bool trialDone = false;
 
     // 2s for state delay, 0.5 for baseline screen
-    private double delayTime = 2.5;
+    [HideInInspector]
+    public double delayTime = 2.5;
 
+    public void Awake() {
+        QualitySettings.vSyncCount = 0;     // disable vSync
+        Application.targetFrameRate = 60;
+    }
 }
