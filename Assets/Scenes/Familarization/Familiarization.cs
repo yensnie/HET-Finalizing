@@ -10,6 +10,12 @@ public class Familiarization : MonoBehaviour
     
     public GameObject sampleObject;
 
+    [HideInInspector]
+    public bool didEyeSelect = false;
+
+    [HideInInspector]
+    public bool didHeadSelect = true;
+
     void Start()
     {
         Helper.prepareCursors();

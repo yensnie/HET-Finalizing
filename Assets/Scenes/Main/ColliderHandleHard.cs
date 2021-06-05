@@ -13,6 +13,10 @@ public class ColliderHandleHard : MonoBehaviour
             .Find("GameRunner").
             GetComponent<EyeOnlyEasyRunner>();
 
+        Familiarization runnerTrialInstance = GameObject
+            .Find("GameRunner").
+            GetComponent<Familiarization>();
+
         if (runnerInstance != null && 
             !runnerInstance.trialDone && 
             Global.currentState != TrialState.Head)
@@ -26,6 +30,11 @@ public class ColliderHandleHard : MonoBehaviour
         {
             runnerEasyInstance.selectedPatternSet = selectedPatternSet;
         }
+
+        if (runnerTrialInstance != null)
+        {
+            runnerTrialInstance.didEyeSelect = true;
+        }
     }
 
     private void deRegisterSelectedObject() {
@@ -37,6 +46,10 @@ public class ColliderHandleHard : MonoBehaviour
         EyeOnlyEasyRunner runnerEasyInstance = GameObject
             .Find("GameRunner").
             GetComponent<EyeOnlyEasyRunner>();
+        
+        Familiarization runnerTrialInstance = GameObject
+            .Find("GameRunner").
+            GetComponent<Familiarization>();
         
         // change background
         if (runnerInstance != null && 
@@ -57,6 +70,11 @@ public class ColliderHandleHard : MonoBehaviour
                 =  runnerEasyInstance.white;
             
             runnerEasyInstance.selectedPatternSet = null;
+        }
+
+        if (runnerTrialInstance != null)
+        {
+            runnerTrialInstance.didEyeSelect = null;
         }
 
         // observing handle in HeadEye case
@@ -98,6 +116,10 @@ public class ColliderHandleHard : MonoBehaviour
             .Find("GameRunner").
             GetComponent<EyeOnlyEasyRunner>();
         
+        Familiarization runnerTrialInstance = GameObject
+            .Find("GameRunner").
+            GetComponent<Familiarization>();
+
         if (runnerInstance != null && 
             runnerInstance.selectedPatternSet == selectedPatternSet) 
         {
@@ -108,6 +130,11 @@ public class ColliderHandleHard : MonoBehaviour
             runnerEasyInstance.selectedPatternSet == selectedPatternSet) 
         {
             runnerEasyInstance.headSelectedPatternSet = selectedPatternSet;
+        }
+
+        if (runnerTrialInstance != null)
+        {
+            runnerTrialInstance.didHeadSelect = true;
         }
     }
 
@@ -134,6 +161,10 @@ public class ColliderHandleHard : MonoBehaviour
             .Find("GameRunner").
             GetComponent<EyeOnlyEasyRunner>();
         
+        Familiarization runnerTrialInstance = GameObject
+            .Find("GameRunner").
+            GetComponent<Familiarization>();
+
         if (runnerInstance != null && 
             runnerInstance.selectedPatternSet == selectedPatternSet) 
         {
@@ -156,6 +187,11 @@ public class ColliderHandleHard : MonoBehaviour
                     = runnerEasyInstance.white;
             }
             runnerEasyInstance.headSelectedPatternSet = null;
+        }
+
+        if (runnerTrialInstance != null)
+        {
+            runnerTrialInstance.didHeadSelect = null;
         }
     }
 
