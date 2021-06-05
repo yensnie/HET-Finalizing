@@ -36,7 +36,7 @@ public class Familiarization : MonoBehaviour
     private void randomizePosition()
     {
         var positions = Enum.GetValues(typeof(Position));
-        var random = new Random();
+        var random = new System.Random();
         var newPosition = (Position)positions
             .GetValue(random.Next(positions.Length));
 
@@ -50,10 +50,10 @@ public class Familiarization : MonoBehaviour
                 sampleObject.transform.position = new Vector2(0, -3);
                 break;
             case Position.Left:
-                sampleObject.transform.position = new Vector2(-3, 0);
+                sampleObject.transform.position = new Vector2(-4, 0);
                 break;
             case Position.Right:
-                sampleObject.transform.position = new Vector2(3, 0);
+                sampleObject.transform.position = new Vector2(4, 0);
                 break;
         }
     }
