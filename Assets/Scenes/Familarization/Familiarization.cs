@@ -168,7 +168,7 @@ public class Familiarization : MonoBehaviour
                 }
 
                 // clear the temp array
-                tempPetchValues = new List<float>();
+                tempPetchValues = new List<HeadState>();
             }
         }       
     }
