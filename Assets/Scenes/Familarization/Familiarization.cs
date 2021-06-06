@@ -116,7 +116,11 @@ public class Familiarization : MonoBehaviour
                 currentRecordState = RecordState.Off;
                 background.GetComponent<SpriteRenderer>().sprite = backgroundNormal;
                 // save data
-                string textToSave = tempPetchValues.ToString();
+                string textToSave = "";
+                foreach (float value in tempPetchValues)
+                {
+                    textToSave = textToSave + "  " + value.ToString();
+                }
                 string moment = DateTime.Now.ToFileTime().ToString();
                 string fileName = "data_" + moment + ".txt";
                 string directoryPath = Application.dataPath + "/" + "Saved test data";
