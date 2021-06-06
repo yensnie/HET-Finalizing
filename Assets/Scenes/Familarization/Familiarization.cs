@@ -119,7 +119,13 @@ public class Familiarization : MonoBehaviour
                 string textToSave = tempPetchValues.ToString();
                 string moment = DateTime.Now.ToFileTime().ToString();
                 string fileName = "data_" + moment + ".txt";
-                string path = Application.dataPath + "/" + "Saved test data" + "/" + fileName;
+                string directoryPath = Application.dataPath + "/" + "Saved test data";
+                string path = directoryPath  + "/" + fileName;
+
+                if (!Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
 
                 // This text is added only once to the file.
                 if (!File.Exists(path))
