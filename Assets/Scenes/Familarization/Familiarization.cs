@@ -33,7 +33,11 @@ public class Familiarization : MonoBehaviour
     [HideInInspector]
     public float currentPitchValue = 0F;
 
-    private List<float> tempPetchValues = new List<float>();
+    private List<HeadState> tempPetchValues = new List<HeadState>();
+
+    private float currentStablePitch = 0F;
+
+    private float estimatePitchDifference = 30;
 
     void Start()
     {
@@ -99,12 +103,24 @@ public class Familiarization : MonoBehaviour
             if (currentRecordState == RecordState.Off)
             {
                 currentRecordState = RecordState.On;
+                currentStablePitch = currentPitchValue;
                 background.GetComponent<SpriteRenderer>().sprite = backgroundRecording;
             }
 
             if (currentRecordState == RecordState.On)
             {
-                tempPetchValues.Add(currentPitchValue);
+                if (currentPitchValue < currentStablePitch - estimatePitchDifference)
+                {
+                    tempPetchValues.Add(HeadState.Up);
+                }
+                else if (currentPitchValue > currentStablePitch + estimatePitchDifference)
+                {
+                    tempPetchValues.Add(HeadState.Down);
+                }
+                else
+                {
+                    tempPetchValues.Add(HeadState.Stable);
+                }
             }
         }
 
@@ -117,9 +133,22 @@ public class Familiarization : MonoBehaviour
                 background.GetComponent<SpriteRenderer>().sprite = backgroundNormal;
                 // save data
                 string textToSave = "";
-                foreach (float value in tempPetchValues)
+                foreach (HeadState value in tempPetchValues)
                 {
-                    textToSave = textToSave + "  " + value.ToString();
+                    var result = "";
+                    switch (value)
+                    {
+                        case HeadState.Up:
+                            result = "Up";
+                            break;
+                        case HeadState.Down:
+                            result = "Down";
+                            break;
+                        case HeadState.Stable:
+                            result = "Stable";
+                            break;
+                    }
+                    textToSave = textToSave + "  " + result;
                 }
                 string moment = DateTime.Now.ToFileTime().ToString();
                 string fileName = "data_" + moment + ".txt";
