@@ -31,7 +31,7 @@ public class Familiarization : MonoBehaviour
     private RecordState currentRecordState = RecordState.Off;
 
     [HideInInspector]
-    public float currentPitchValue = 0.0f;
+    public float currentPitchValue = 0F;
 
     private List<float> tempPetchValues = new List<float>();
 

@@ -149,7 +149,35 @@ public class HeadHandler : MonoBehaviour
         y4 = trackData.y4;
 
         var info = string.Format("head X: {0}, head Y: {1}", X, Y);
-        Debug.Log(info);
+        // Debug.Log(info);
+        // Debug.Log(string.Format("Pitch: {0}", Pitch));
+        
+        EyeOnlyHardRunner runnerInstance = GameObject
+            .Find("GameRunner")
+            .GetComponent<EyeOnlyHardRunner>();
+        
+        EyeOnlyEasyRunner runnerEasyInstance = GameObject
+            .Find("GameRunner").
+            GetComponent<EyeOnlyEasyRunner>();
+        
+        Familiarization runnerTrialInstance = GameObject
+            .Find("GameRunner").
+            GetComponent<Familiarization>();
+
+        if (runnerInstance != null)
+        {
+            // TODO: handle a variable for condition 3
+        }
+
+        if (runnerEasyInstance != null)
+        {
+            // TODO: handle a variable for condition 3
+        }
+
+        if (runnerTrialInstance != null)
+        {
+            runnerTrialInstance.currentPitchValue = this.Pitch;
+        }
 
         // Important: use opentrack with space shooter profile
         transform.position = new Vector2(-RawYaw * 15, RawPitch * 15);
@@ -196,33 +224,6 @@ public class HeadHandler : MonoBehaviour
                     break;
                 }
             }
-        }
-
-        EyeOnlyHardRunner runnerInstance = GameObject
-            .Find("GameRunner")
-            .GetComponent<EyeOnlyHardRunner>();
-        
-        EyeOnlyEasyRunner runnerEasyInstance = GameObject
-            .Find("GameRunner").
-            GetComponent<EyeOnlyEasyRunner>();
-        
-        Familiarization runnerTrialInstance = GameObject
-            .Find("GameRunner").
-            GetComponent<Familiarization>();
-
-        if (runnerInstance != null)
-        {
-            // TODO: handle a variable for condition 3
-        }
-
-        if (runnerEasyInstance != null)
-        {
-            // TODO: handle a variable for condition 3
-        }
-
-        if (runnerTrialInstance != null)
-        {
-            runnerTrialInstance.currentPitchValue = this.Pitch;
         }
     }
 
