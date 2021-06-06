@@ -118,7 +118,7 @@ public class Familiarization : MonoBehaviour
                 // save data
                 string textToSave = tempPetchValues.ToString();
                 string moment = DateTime.Now.ToFileTime().ToString();
-                string fileName = "data" + moment;
+                string fileName = "data_" + moment + ".txt";
                 string path = Application.dataPath + "/" + "Saved test data" + "/" + fileName;
 
                 // This text is added only once to the file.
