@@ -600,9 +600,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c69c2b54e77fa443ea2d551d67cdd2d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  background: {fileID: 1645372516}
   sampleObject: {fileID: 606114560}
+  backgroundNormal: {fileID: 21300000, guid: ece7dde330d9a4a64bd427fc485e6bb1, type: 3}
+  backgroundRecording: {fileID: 21300000, guid: d2574bae51bf945e89433ac748e8dcdb,
+    type: 3}
   didEyeSelect: 0
   didHeadSelect: 1
+  currentPitchValue: 0
 --- !u!4 &1514980391
 Transform:
   m_ObjectHideFlags: 0

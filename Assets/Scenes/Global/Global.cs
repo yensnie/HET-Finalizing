@@ -124,6 +124,7 @@ public class Helper {
     {
         SceneManager.LoadScene(scene);
     }
+
     public static void prepareCursors()
     {
         switch (Global.currentState)
@@ -145,6 +146,7 @@ public class Helper {
             case TrialState.Order:
                 break;
             case TrialState.Trial:
+                GameObject.Find("eyeCursor").SetActive(false);
                 break;
         }
     }
