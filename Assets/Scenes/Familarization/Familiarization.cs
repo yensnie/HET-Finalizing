@@ -37,7 +37,12 @@ public class Familiarization : MonoBehaviour
 
     private float currentStablePitch = 0F;
 
-    private float estimatePitchDifference = 30;
+    private float estimatePitchDifference = 3;
+
+    public void Awake() {
+        QualitySettings.vSyncCount = 0;     // disable vSync
+        Application.targetFrameRate = 30;
+    }
 
     void Start()
     {
@@ -109,11 +114,11 @@ public class Familiarization : MonoBehaviour
 
             if (currentRecordState == RecordState.On)
             {
-                if (currentPitchValue < currentStablePitch - estimatePitchDifference)
+                if (currentPitchValue <= currentStablePitch - estimatePitchDifference)
                 {
                     tempPetchValues.Add(HeadState.Up);
                 }
-                else if (currentPitchValue > currentStablePitch + estimatePitchDifference)
+                else if (currentPitchValue >= currentStablePitch + estimatePitchDifference)
                 {
                     tempPetchValues.Add(HeadState.Down);
                 }
