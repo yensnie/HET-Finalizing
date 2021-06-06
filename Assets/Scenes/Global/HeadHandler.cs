@@ -197,6 +197,33 @@ public class HeadHandler : MonoBehaviour
                 }
             }
         }
+
+        EyeOnlyHardRunner runnerInstance = GameObject
+            .Find("GameRunner")
+            .GetComponent<EyeOnlyHardRunner>();
+        
+        EyeOnlyEasyRunner runnerEasyInstance = GameObject
+            .Find("GameRunner").
+            GetComponent<EyeOnlyEasyRunner>();
+        
+        Familiarization runnerTrialInstance = GameObject
+            .Find("GameRunner").
+            GetComponent<Familiarization>();
+
+        if (runnerInstance != null)
+        {
+            // TODO: handle a variable for condition 3
+        }
+
+        if (runnerEasyInstance != null)
+        {
+            // TODO: handle a variable for condition 3
+        }
+
+        if (runnerTrialInstance != null)
+        {
+            runnerTrialInstance.currentPitchValue = this.Pitch;
+        }
     }
 
 // TODO: will need more template sequences, may be we even need more frames
