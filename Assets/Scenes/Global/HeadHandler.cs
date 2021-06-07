@@ -23,7 +23,11 @@ public class HeadHandler : MonoBehaviour
     }
 
     public Queue<HeadState> stateSequence = new Queue<HeadState>();
-    private int stateSequenceLimit = 20;
+
+    // currently we lock at 30 fps, the logest pattern array is 41 elements
+    // which we actually should just use 41 but for sure we use the limit of
+    // 2 seconds, which mean 60 frames in total.
+    private int stateSequenceLimit = 60;
 
     [HideInInspector]
     public bool didNod = false;
@@ -107,6 +111,10 @@ public class HeadHandler : MonoBehaviour
 
     private HeadHandler.FreeTrackData trackData;
 
+    private float currentStablePitch = 0F;
+
+    private float estimatePitchDifference = 3;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -186,30 +194,39 @@ public class HeadHandler : MonoBehaviour
         // Note: find out a value to replace for 15 to work perfectly 
         // with all size of screen
 
-        if (Global.currentState == TrialState.HeadEye && !didNod && isObserving)
+        if (Global.currentState == TrialState.HeadEye && !didNod)
         {
-            stateSequenceObseve();
+            if (!isObserving)
+            {
+                // start observing
+                isObserving = true;
+                currentStablePitch = this.Pitch * 100;
+            }
+            else
+            {
+                stateSequenceObseve();
+            }
         }
     }
 
     private void stateSequenceObseve()
     {
-        // if (stateSequence.Count == stateSequenceLimit)
-        // {
-        //     stateSequence.Pop();
-        // }
-        // switch (Pitch)
-        // {
-        //     case float value when (value < -0.5):
-        //         stateSequence.Push(HeadState.Up);
-        //         break;
-        //     case float value when (value > 0.5):
-        //         stateSequence.Push(HeadState.Down);
-        //         break;
-        //     default:
-        //         stateSequence.Push(HeadState.Stable);
-        //         break;
-        // }
+        if (stateSequence.Count == stateSequenceLimit)
+        {
+            stateSequence.Dequeue();    // remove an element in rear side
+        }
+        switch (Pitch * 100)
+        {
+            case float value when (value <= currentStablePitch - estimatePitchDifference):
+                stateSequence.Enqueue(HeadState.Up);
+                break;
+            case float value when (value >= currentStablePitch + estimatePitchDifference):
+                stateSequence.Enqueue(HeadState.Down);
+                break;
+            default:
+                stateSequence.Enqueue(HeadState.Stable);
+                break;
+        }
         // if (stateSequence.Count == stateSequenceLimit)
         // {
         //     var sequence = Array.ConvertAll(stateSequence.ToArray(), item => (HeadState)item);
