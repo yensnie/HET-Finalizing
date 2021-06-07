@@ -2,11 +2,11 @@
 using System.Linq;
 using UnityEngine;
 using System.Runtime.InteropServices;
-using System.Collections;
+using System.Collections.Generic;
 
 public enum HeadState
 {
-        Up, Stable, Down
+    Up, Stable, Down
 }
 
 public class HeadHandler : MonoBehaviour
@@ -22,7 +22,7 @@ public class HeadHandler : MonoBehaviour
         public Single x1, y1, x2, y2, x3, y3, x4, y4;
     }
 
-    public Stack stateSequence = new Stack();
+    public Queue<HeadState> stateSequence = new Queue<HeadState>();
     private int stateSequenceLimit = 20;
 
     [HideInInspector]
@@ -31,19 +31,19 @@ public class HeadHandler : MonoBehaviour
     [HideInInspector]
     public bool isObserving = false;
 
-// use `static extern` with DllImport to declare a method that is implemented externally.
-// (https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/extern)
-// `ref` keyword is like inout in Swift 
-// (https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/extern)
-// source code for FreeTrackClient: 
-// https://github.com/PeterN/freetrack/blob/master/FreetrackClient/FTClient.pas
-// source code for OpenTrackClient: 
-// https://github.com/opentrack/opentrack/blob/master/freetrackclient/freetrackclient.c
+    // use `static extern` with DllImport to declare a method that is implemented externally.
+    // (https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/extern)
+    // `ref` keyword is like inout in Swift 
+    // (https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/extern)
+    // source code for FreeTrackClient: 
+    // https://github.com/PeterN/freetrack/blob/master/FreetrackClient/FTClient.pas
+    // source code for OpenTrackClient: 
+    // https://github.com/opentrack/opentrack/blob/master/freetrackclient/freetrackclient.c
     [DllImport("FreeTrackClient64")]
     // there will be a function FTGetData in the source code
     public static extern bool FTGetData(ref FreeTrackData data);
 
-// FreeTrackData: https://github.com/opentrack/opentrack/blob/master/freetrackclient/fttypes.h
+    // FreeTrackData: https://github.com/opentrack/opentrack/blob/master/freetrackclient/fttypes.h
     [HideInInspector]
     public float Yaw = 0F;
 
@@ -80,28 +80,28 @@ public class HeadHandler : MonoBehaviour
     [HideInInspector]
     public float RawZ = 0F;
 
-    
+
     [HideInInspector]
     public float x1 = 0F;
-    
+
     [HideInInspector]
     public float y1 = 0F;
-    
+
     [HideInInspector]
     public float x2 = 0F;
-    
+
     [HideInInspector]
     public float y2 = 0F;
-    
+
     [HideInInspector]
     public float x3 = 0F;
-    
+
     [HideInInspector]
     public float y3 = 0F;
-    
+
     [HideInInspector]
     public float x4 = 0F;
-    
+
     [HideInInspector]
     public float y4 = 0F;
 
@@ -152,15 +152,15 @@ public class HeadHandler : MonoBehaviour
         var info = string.Format("head X: {0}, head Y: {1}", X, Y);
         // Debug.Log(info);
         // Debug.Log(string.Format("Pitch: {0}", Pitch));
-        
+
         EyeOnlyHardRunner runnerInstance = GameObject
             .Find("GameRunner")
             .GetComponent<EyeOnlyHardRunner>();
-        
+
         EyeOnlyEasyRunner runnerEasyInstance = GameObject
             .Find("GameRunner").
             GetComponent<EyeOnlyEasyRunner>();
-        
+
         Familiarization runnerTrialInstance = GameObject
             .Find("GameRunner").
             GetComponent<Familiarization>();
@@ -194,82 +194,81 @@ public class HeadHandler : MonoBehaviour
 
     private void stateSequenceObseve()
     {
-        if (stateSequence.Count == stateSequenceLimit)
-        {
-            stateSequence.Pop();
-        }
-        switch (Pitch)
-        {
-            case float value when (value < -0.5):
-            stateSequence.Push(HeadState.Up);
-            break;
-            case float value when (value > 0.5):
-            stateSequence.Push(HeadState.Down);
-            break;
-            default:
-            stateSequence.Push(HeadState.Stable);
-            break;
-        }
-        if (stateSequence.Count == stateSequenceLimit)
-        {
-            var sequence = Array.ConvertAll(stateSequence.ToArray(), item => (HeadState)item); 
+        // if (stateSequence.Count == stateSequenceLimit)
+        // {
+        //     stateSequence.Pop();
+        // }
+        // switch (Pitch)
+        // {
+        //     case float value when (value < -0.5):
+        //         stateSequence.Push(HeadState.Up);
+        //         break;
+        //     case float value when (value > 0.5):
+        //         stateSequence.Push(HeadState.Down);
+        //         break;
+        //     default:
+        //         stateSequence.Push(HeadState.Stable);
+        //         break;
+        // }
+        // if (stateSequence.Count == stateSequenceLimit)
+        // {
+        //     var sequence = Array.ConvertAll(stateSequence.ToArray(), item => (HeadState)item);
 
-            Array.Reverse(sequence); 
-            // TODO: reverse the templateSequences's array element instead (may be)
+        //     Array.Reverse(sequence);
 
-            foreach (HeadState[] templateSequence in templateSequences)
-            {
-                if (sequence.SequenceEqual(templateSequence))
-                {
-                    this.didNod = true;
-                    break;
-                }
-            }
-        }
+        //     foreach (HeadState[] templateSequence in templateSequences)
+        //     {
+        //         if (sequence.SequenceEqual(templateSequence))
+        //         {
+        //             this.didNod = true;
+        //             break;
+        //         }
+        //     }
+        // }
     }
 
-// TODO: will need more template sequences, may be we even need more frames
-    private HeadState[][] templateSequences = new HeadState[][]
+    public static HeadState[][] templateSequences = new HeadState[][]
     {
-        new HeadState[] 
-        { 
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable,  
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable,  
+        new HeadState[]
+        {
+            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable,
+            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable,
             HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Stable,
-            HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, 
-            HeadState.Up, HeadState.Up, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down
-        },
-        new HeadState[] { 
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable,  
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down,   
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
+            HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up,
+            HeadState.Up, HeadState.Up, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down,
             HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down
         },
         new HeadState[] {
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down,  HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
+            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable,
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down,
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down,
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down,
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down
+        },
+        new HeadState[] {
+            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable,
+            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Down, HeadState.Down,
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down,
+            HeadState.Down, HeadState.Down,  HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down,
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down,
             HeadState.Down, HeadState.Down
         },
         new HeadState[] {
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down 
+            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Down,
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down,
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down,
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down
         },
         new HeadState[] {
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable,HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down 
+            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable,HeadState.Down, HeadState.Down,
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down
         },
         new HeadState[] {
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
-            HeadState.Stable, HeadState.Stable, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down,  
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down 
+            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable,
+            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Down, HeadState.Down, HeadState.Down,
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down,
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down,
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down
         }
     };
 }
