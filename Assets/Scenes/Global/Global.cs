@@ -13,7 +13,7 @@ public enum AttemptState
 public static class Global
 {
     public static string participantName = "Empty";
-    public static TrialState currentState = TrialState.Head;
+    public static TrialState currentState = TrialState.Trial;
 
     public class GameObjectPattern
     {
