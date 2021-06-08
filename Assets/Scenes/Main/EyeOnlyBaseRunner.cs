@@ -108,7 +108,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
 
     public void Awake() {
         QualitySettings.vSyncCount = 0;     // disable vSync
-        Application.targetFrameRate = 60;
+        Application.targetFrameRate = 30;
     }
 
     void Update()

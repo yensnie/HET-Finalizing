@@ -235,15 +235,15 @@ public class HeadHandler : MonoBehaviour
         {
             if (checkContained(currentSequence, pattern))
             {
-                // TODO: stop the loop and register the didNod value & handle
+                didNod = true;
+                isObserving = false;
+                break;
             }
         }
     }
 
     private bool checkContained(HeadState[] lhs, HeadState[] rhs)
     {
-        
-
         if (lhs.Length < rhs.Length)
         {
             return false;
@@ -251,7 +251,7 @@ public class HeadHandler : MonoBehaviour
 
         // get the diference in lenght to get max tries based on the indexes
         int differenceLength = lhs.Length - rhs.Length;
-        
+
         /*
         the maximum tries is  difirence length + 1.
         For example lhs = rhs (diffirence length = 0) which meean we jsut need to compare 1 time from index 0 of lhs

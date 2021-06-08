@@ -146,7 +146,10 @@ public class Helper {
             case TrialState.Order:
                 break;
             case TrialState.Trial:
-                GameObject.Find("eyeCursor").SetActive(false);
+                GameObject
+                    .Find("headCursor")
+                    .GetComponent<Renderer>()
+                    .enabled = false;
                 break;
         }
     }

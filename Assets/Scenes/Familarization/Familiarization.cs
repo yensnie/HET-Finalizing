@@ -103,78 +103,29 @@ public class Familiarization : MonoBehaviour
     // TODO: record the head with a button tap
     private void nodRecognition()
     {
+        HeadHandler handler = GameObject
+            .Find("headCursor")
+            .GetComponent<HeadHandler>();
+        
         if (Input.GetKey(KeyCode.C))
         {
-            if (currentRecordState == RecordState.Off)
+            if (!handler.isObserving)
             {
-                currentRecordState = RecordState.On;
-                currentStablePitch = currentPitchValue;
-                background.GetComponent<SpriteRenderer>().sprite = backgroundRecording;
-            }
-
-            if (currentRecordState == RecordState.On)
-            {
-                if (currentPitchValue <= currentStablePitch - estimatePitchDifference)
-                {
-                    tempPetchValues.Add(HeadState.Up);
-                }
-                else if (currentPitchValue >= currentStablePitch + estimatePitchDifference)
-                {
-                    tempPetchValues.Add(HeadState.Down);
-                }
-                else
-                {
-                    tempPetchValues.Add(HeadState.Stable);
-                }
+                handler.isObserving = true;
             }
         }
 
         if (Input.GetKeyUp(KeyCode.C)) 
         {
-            // turn to Off
-            if (currentRecordState == RecordState.On)
+            if (handler.isObserving)
             {
-                currentRecordState = RecordState.Off;
-                background.GetComponent<SpriteRenderer>().sprite = backgroundNormal;
-                // save data
-                string textToSave = "";
-                foreach (HeadState value in tempPetchValues)
-                {
-                    var result = "";
-                    switch (value)
-                    {
-                        case HeadState.Up:
-                            result = "Up";
-                            break;
-                        case HeadState.Down:
-                            result = "Down";
-                            break;
-                        case HeadState.Stable:
-                            result = "Stable";
-                            break;
-                    }
-                    textToSave = textToSave + "  " + result;
-                }
-                string moment = DateTime.Now.ToFileTime().ToString();
-                string fileName = "data_" + moment + ".txt";
-                string directoryPath = Application.dataPath + "/" + "Saved test data";
-                string path = directoryPath  + "/" + fileName;
-
-                if (!Directory.Exists(directoryPath))
-                {
-                    Directory.CreateDirectory(directoryPath);
-                }
-
-                // This text is added only once to the file.
-                if (!File.Exists(path))
-                {
-                    // Create a file to write to.
-                    File.WriteAllText(path, textToSave);
-                }
-
-                // clear the temp array
-                tempPetchValues = new List<HeadState>();
+                handler.isObserving = false;
             }
-        }       
+        }
+
+        if (handler.didNod && !handler.isObserving)
+        {
+            background.GetComponent<SpriteRenderer>().sprite = backgroundRecording;
+        }
     }
 }
