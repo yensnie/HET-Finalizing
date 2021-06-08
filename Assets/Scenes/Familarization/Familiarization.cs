@@ -178,7 +178,28 @@ public class Familiarization : MonoBehaviour
 
     private void tryHead()
     {
+        if (this.didHeadSelect)
+        {
+            sampleObject
+                .GetComponent<SpriteRenderer>()
+                .sprite = blue;
+        }
+        else
+        {
+            confirmTime = _confirmTime;
+            sampleObject
+                .GetComponent<SpriteRenderer>()
+                .sprite = white;
+        }
 
+        confirmTime -= Time.deltaTime;
+
+        if (confirmTime <= 0)
+        {
+            sampleObject
+                .GetComponent<SpriteRenderer>()
+                .sprite = green;
+        }
     }
 
     private void tryHeadSupportEye()
