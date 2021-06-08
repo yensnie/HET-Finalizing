@@ -115,7 +115,15 @@ public class HeadHandler : MonoBehaviour
 
     private float estimatePitchDifference = 3;
 
-    // Start is called before the first frame update
+    private void Awake() {
+        // for (int index = 0; index < templateSequences.Length; index++)
+        // {
+        //     var tempSequence = templateSequences[index];
+        //     Array.Reverse(tempSequence);
+        //     templateSequences[index] = tempSequence;
+        // }
+    }
+
     void Start()
     {
         trackData = new HeadHandler.FreeTrackData();
@@ -227,24 +235,40 @@ public class HeadHandler : MonoBehaviour
                 stateSequence.Enqueue(HeadState.Stable);
                 break;
         }
-        // if (stateSequence.Count == stateSequenceLimit)
-        // {
-        //     var sequence = Array.ConvertAll(stateSequence.ToArray(), item => (HeadState)item);
 
-        //     Array.Reverse(sequence);
+        var currentSequence = Array.ConvertAll(stateSequence.ToArray(), item => (HeadState)item);
+        // we need to reverse ince the queue will be from right to left, not left to right
+        Array.Reverse(currentSequence);
 
-        //     foreach (HeadState[] templateSequence in templateSequences)
-        //     {
-        //         if (sequence.SequenceEqual(templateSequence))
-        //         {
-        //             this.didNod = true;
-        //             break;
-        //         }
-        //     }
-        // }
+        foreach (HeadState[] pattern in templateSequences)
+        {
+            if (checkContained(currentSequence, pattern))
+            {
+                // TODO: stop the loop and register the didNod value & handle
+            }
+        }
     }
 
-    public static HeadState[][] templateSequences = new HeadState[][]
+    private bool checkContained(HeadState[] lhs, HeadState[] rhs)
+    {
+        
+
+        if (lhs.Length < rhs.Length)
+        {
+            return false;
+        }
+
+        // TODO: finish the logic
+        // get the diference in lenght to get max tries based on the indexes
+
+        // increase the index, split the lhs at that index with same lenght of rhs and compare
+        // return true and stop if rhs = the splited array
+
+        return false;
+    }
+
+    // *** these patterns's elements will be reversed at scene awake to use with the Queue.
+    public HeadState[][] templateSequences = new HeadState[][]
     {
         new HeadState[]
         {
