@@ -114,7 +114,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
     void Start()
     {
         fillObjectsToPattern();
-        frefillObjects();
+        fillObjectsSprite();
         prepareComponents();
         Helper.prepareCursors();
     }

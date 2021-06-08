@@ -134,7 +134,7 @@ public class Familiarization : MonoBehaviour
 
     private void tryEyes()
     {
-
+        
     }
 
     private void tryHead()
