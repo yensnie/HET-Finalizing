@@ -60,12 +60,16 @@ public class Familiarization : MonoBehaviour
         switch (Global.currentState)
         {
             case TrialState.Eye:
+                tryEyes();
                 break;
             case TrialState.Head:
+                tryHead();
                 break;
             case TrialState.HeadEye:
+                tryHeadSupportEye();
                 break;
             case TrialState.Order:
+                tryEyeHeadOrder();
                 break;
             case TrialState.Trial:
                 nodRecognition();
@@ -98,9 +102,6 @@ public class Familiarization : MonoBehaviour
         }
     }
 
-    // TODO: 4 conditions
-
-    // TODO: record the head with a button tap
     private void nodRecognition()
     {
         HeadHandler handler = GameObject
@@ -127,5 +128,27 @@ public class Familiarization : MonoBehaviour
         {
             background.GetComponent<SpriteRenderer>().sprite = backgroundRecording;
         }
+    }
+
+    // ---------------------- conditions
+
+    private void tryEyes()
+    {
+
+    }
+
+    private void tryHead()
+    {
+
+    }
+
+    private void tryHeadSupportEye()
+    {
+
+    }
+
+    private void tryEyeHeadOrder()
+    {
+
     }
 }
