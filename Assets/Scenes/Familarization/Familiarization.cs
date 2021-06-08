@@ -25,8 +25,12 @@ public class Familiarization : MonoBehaviour
     [HideInInspector]
     public bool didEyeSelect = false;
 
+    private bool didEyeConfirm = false;
+
     [HideInInspector]
     public bool didHeadSelect = true;
+
+    private bool didHeadConfirm = false;
 
     private RecordState currentRecordState = RecordState.Off;
 
@@ -39,6 +43,17 @@ public class Familiarization : MonoBehaviour
 
     private float estimatePitchDifference = 3;
 
+    private double _confirmTime = 0.7;
+
+    private double confirmTime = 0;
+
+    public Sprite white;
+    public Sprite blue;
+    public Sprite yellow;
+    public Sprite green;
+    public Sprite red;
+    public Sprite purple;
+
     public void Awake() {
         QualitySettings.vSyncCount = 0;     // disable vSync
         Application.targetFrameRate = 30;
@@ -48,6 +63,7 @@ public class Familiarization : MonoBehaviour
     {
         Helper.prepareCursors();
         randomizePosition();
+        confirmTime = _confirmTime;
     }
 
     void Update()
@@ -126,7 +142,9 @@ public class Familiarization : MonoBehaviour
 
         if (handler.didNod && !handler.isObserving)
         {
-            background.GetComponent<SpriteRenderer>().sprite = backgroundRecording;
+            background
+                .GetComponent<SpriteRenderer>()
+                .sprite = backgroundRecording;
         }
     }
 
@@ -134,7 +152,28 @@ public class Familiarization : MonoBehaviour
 
     private void tryEyes()
     {
-        
+        if (this.didEyeSelect)
+        {
+            sampleObject
+                .GetComponent<SpriteRenderer>()
+                .sprite = blue;
+        }
+        else
+        {
+            confirmTime = _confirmTime;
+            sampleObject
+                .GetComponent<SpriteRenderer>()
+                .sprite = white;
+        }
+
+        confirmTime -= Time.deltaTime;
+
+        if (confirmTime <= 0)
+        {
+            sampleObject
+                .GetComponent<SpriteRenderer>()
+                .sprite = green;
+        }
     }
 
     private void tryHead()

@@ -106,18 +106,6 @@ public class EyeOnlyBaseRunner : MonoBehaviour
     [HideInInspector]
     public double delayTime = 2.5;
 
-    [HideInInspector]
-    public var didEyeSelect = false;
-
-    [HideInInspector]
-    public var didEyeConfirm = false;
-
-    [HideInInspector]
-    public var didHeadSelect = false;
-
-    [HideInInspector]
-    public var didHeadConfirm = false;
-
     public void Awake() {
         QualitySettings.vSyncCount = 0;     // disable vSync
         Application.targetFrameRate = 30;
