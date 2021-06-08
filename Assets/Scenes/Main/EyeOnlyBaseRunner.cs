@@ -111,6 +111,14 @@ public class EyeOnlyBaseRunner : MonoBehaviour
         Application.targetFrameRate = 30;
     }
 
+    void Start()
+    {
+        fillObjectsToPattern();
+        frefillObjects();
+        prepareComponents();
+        Helper.prepareCursors();
+    }
+
     void Update()
     {
         Debug.Log(((int)(1.0f / Time.smoothDeltaTime)).ToString());
@@ -190,6 +198,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
                 .gameObject
                 .GetComponent<SpriteRenderer>()
                 .sprite = green;
+
                 result = Result.Correct;
                 var takenTime = _timeLeft - timeLeft;
                 trialDoneHandle(result, takenTime);
@@ -203,6 +212,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
                 .gameObject
                 .GetComponent<SpriteRenderer>()
                 .sprite = red;
+
                 result = Result.Incorrect;
                 var takenTime = _timeLeft - timeLeft;
                 trialDoneHandle(result, takenTime);
@@ -256,6 +266,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
                     .gameObject
                     .GetComponent<SpriteRenderer>()
                     .sprite = green;
+                
                 result = Result.Correct;
                 var takenTime = _timeLeft - timeLeft;
                 trialDoneHandle(result, takenTime);
@@ -269,6 +280,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
                     .gameObject
                     .GetComponent<SpriteRenderer>()
                     .sprite = red;
+                
                 result = Result.Incorrect;
                 var takenTime = _timeLeft - timeLeft;
                 trialDoneHandle(result, takenTime);
@@ -286,7 +298,6 @@ public class EyeOnlyBaseRunner : MonoBehaviour
     count as a nod detected. The requirement for the observation in this scenario is only 
     when the eye cursor is aiming at an object, or is selecting a pattern.
     */
-    // TODO: when start eye select, set current pitch as stable state
     private void updateHeadSupportEye()
     {
         HeadHandler trackerInstance = GameObject
@@ -329,6 +340,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
                             .gameObject
                             .GetComponent<SpriteRenderer>()
                             .sprite = green;
+                        
                         result = Result.Correct;
                         var takenTime = _timeLeft - timeLeft;
                         trialDoneHandle(result, takenTime);
@@ -342,6 +354,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
                             .gameObject
                             .GetComponent<SpriteRenderer>()
                             .sprite = red;
+                        
                         result = Result.Incorrect;
                         var takenTime = _timeLeft - timeLeft;
                         trialDoneHandle(result, takenTime);
@@ -498,7 +511,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
             trialDone = false;
 
             // reshuffle for new sprites
-            //fillObjectsWithSprites(2, 2);
+            fillObjectsSprite();
 
             // reset
             timeLeft = _timeLeft;
@@ -512,6 +525,10 @@ public class EyeOnlyBaseRunner : MonoBehaviour
                 .didNod = false;
         }
     }
+
+    public virtual void fillObjectsSprite() {}
+
+    public virtual void fillObjectsToPattern() {}
 
     private void saveTrialData(TrialData data)
     {

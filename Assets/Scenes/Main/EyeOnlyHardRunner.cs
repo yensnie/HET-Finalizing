@@ -2,37 +2,15 @@
 
 public class EyeOnlyHardRunner : EyeOnlyBaseRunner
 {
-    void Start()
+    public override void fillObjectsToPattern()
     {
+        base.fillObjectsToPattern();
         fillGameObjectsToPattern(8, 4);
-        fillObjectsWithSprites(8, 4);
-        prepareComponents();
-        Helper.prepareCursors();
     }
 
-    public override void trialFinish()
+    public override void fillObjectsSprite()
     {
-        if (trialCount == maxTrialsNumber)
-        {
-            // TODO: finish the scene
-        }
-        else
-        {
-            trialDone = false;
-
-            // reshuffle for new sprites
-            fillObjectsWithSprites(8, 4);
-
-            // reset
-            timeLeft = _timeLeft;
-            delayTime = 2.5;
-            resetLockTime();
-
-            // reset HeadHandler state in HeadEye mode
-            GameObject
-                .Find("headCursor")
-                .GetComponent<HeadHandler>()
-                .didNod = false;
-        }
+        base.fillObjectsSprite();
+        fillObjectsWithSprites(8, 4);
     }
 }
