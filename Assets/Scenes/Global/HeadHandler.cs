@@ -249,12 +249,28 @@ public class HeadHandler : MonoBehaviour
             return false;
         }
 
-        // TODO: finish the logic
         // get the diference in lenght to get max tries based on the indexes
+        int differenceLength = lhs.Length - rhs.Length;
+        
+        /*
+        the maximum tries is  difirence length + 1.
+        For example lhs = rhs (diffirence length = 0) which meean we jsut need to compare 1 time from index 0 of lhs
+        If lhs has 1 element longer than rhs, then will be 2 compare(at index 0 and 1)
+        */
+        for (int index = 0; index <= differenceLength; index++)
+        {
+            // cut the lhs to size of rhs from index
+            var segment = new ArraySegment<HeadState>(lhs, index, rhs.Length).ToArray<HeadState>();
 
-        // increase the index, split the lhs at that index with same lenght of rhs and compare
-        // return true and stop if rhs = the splited array
+            // check if this cut is equal with rhs, stop the loop and return true
+            // otherwise continue the loop
+            if (segment.SequenceEqual(rhs))
+            {
+                return true;
+            }
+        }
 
+        // return false if there is no equal is found
         return false;
     }
 
