@@ -115,15 +115,6 @@ public class HeadHandler : MonoBehaviour
 
     private float estimatePitchDifference = 3;
 
-    private void Awake() {
-        // for (int index = 0; index < templateSequences.Length; index++)
-        // {
-        //     var tempSequence = templateSequences[index];
-        //     Array.Reverse(tempSequence);
-        //     templateSequences[index] = tempSequence;
-        // }
-    }
-
     void Start()
     {
         trackData = new HeadHandler.FreeTrackData();
