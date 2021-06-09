@@ -689,7 +689,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
             {
                 subFrame[index]
                     .GetComponent<ColliderHandleHard>()
-                    .selectedPatternSet = subObjsGroup.patterns[index];
+                    .representPatternSet = subObjsGroup.patterns[index];
             }
             catch
             {

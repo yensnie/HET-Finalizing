@@ -2,7 +2,8 @@
 
 public class ColliderHandleHard : MonoBehaviour
 {
-    public Global.GameObjectPattern selectedPatternSet;
+    // the pattern that this object represent
+    public Global.GameObjectPattern representPatternSet;
 
     private void registerSelectedObject() {
         EyeOnlyHardRunner runnerInstance = GameObject
@@ -21,14 +22,14 @@ public class ColliderHandleHard : MonoBehaviour
             !runnerInstance.trialDone && 
             Global.currentState != TrialState.Head)
         {
-            runnerInstance.selectedPatternSet = selectedPatternSet;
+            runnerInstance.selectedPatternSet = representPatternSet;
         }
 
         if (runnerEasyInstance != null && 
             !runnerEasyInstance.trialDone && 
             Global.currentState != TrialState.Head)
         {
-            runnerEasyInstance.selectedPatternSet = selectedPatternSet;
+            runnerEasyInstance.selectedPatternSet = representPatternSet;
         }
 
         if (runnerTrialInstance != null)
@@ -121,15 +122,15 @@ public class ColliderHandleHard : MonoBehaviour
             GetComponent<Familiarization>();
 
         if (runnerInstance != null && 
-            runnerInstance.selectedPatternSet == selectedPatternSet) 
+            runnerInstance.selectedPatternSet == representPatternSet) 
         {
-            runnerInstance.headSelectedPatternSet = selectedPatternSet;
+            runnerInstance.headSelectedPatternSet = representPatternSet;
         }
         
         if (runnerEasyInstance != null && 
-            runnerEasyInstance.selectedPatternSet == selectedPatternSet) 
+            runnerEasyInstance.selectedPatternSet == representPatternSet) 
         {
-            runnerEasyInstance.headSelectedPatternSet = selectedPatternSet;
+            runnerEasyInstance.headSelectedPatternSet = representPatternSet;
         }
 
         if (runnerTrialInstance != null)
@@ -166,7 +167,7 @@ public class ColliderHandleHard : MonoBehaviour
             GetComponent<Familiarization>();
 
         if (runnerInstance != null && 
-            runnerInstance.selectedPatternSet == selectedPatternSet) 
+            runnerInstance.selectedPatternSet == representPatternSet) 
         {
             if (Global.currentState == TrialState.Head && 
                 !runnerInstance.trialDone)
@@ -178,7 +179,7 @@ public class ColliderHandleHard : MonoBehaviour
         }
         
         if (runnerEasyInstance != null && 
-            runnerEasyInstance.selectedPatternSet == selectedPatternSet) 
+            runnerEasyInstance.selectedPatternSet == representPatternSet) 
         {
             if (Global.currentState == TrialState.Head && 
                 !runnerEasyInstance.trialDone)
