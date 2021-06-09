@@ -47,7 +47,12 @@ public class CalibrationRunner : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.C) && (eyeTracker != null))
+
+    }
+
+    public void startCalibration()
+    {
+        if (eyeTracker != null)
         {
             StartCoroutine(Execute(eyeTracker));
         }

@@ -76,7 +76,7 @@ public class Runner : MonoBehaviour
                 GameObject
                     .Find("Calibration")
                     .GetComponent<CalibrationRunner>()
-                    .isCalibrating = true;
+                    .startCalibration();
                 break;
             default:
                 return;
