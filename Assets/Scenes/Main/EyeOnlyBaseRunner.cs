@@ -111,7 +111,6 @@ public class EyeOnlyBaseRunner : MonoBehaviour
         QualitySettings.vSyncCount = 0;     // disable vSync
         Application.targetFrameRate = 30;
     }
-
     void Start()
     {
         fillObjectsToPattern();
@@ -518,6 +517,10 @@ public class EyeOnlyBaseRunner : MonoBehaviour
             timeLeft = _timeLeft;
             delayTime = 5;
             resetLockTime();
+
+            // reset selected pattern if needed
+            this.selectedPatternSet = null;
+            this.headSelectedPatternSet = null;
 
             // reset HeadHandler state in HeadEye mode
             GameObject
