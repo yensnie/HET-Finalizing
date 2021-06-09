@@ -166,6 +166,8 @@ public class Familiarization : MonoBehaviour
                 .sprite = white;
         }
 
+        // eye lock time counting down, but will reset 
+        // and stop the in next frame if there is no selected object
         confirmTime -= Time.deltaTime;
 
         if (confirmTime <= 0)
@@ -192,6 +194,8 @@ public class Familiarization : MonoBehaviour
                 .sprite = white;
         }
 
+        // head lock time counting down, but will reset 
+        // and stop in the next frame if there is no selected object
         confirmTime -= Time.deltaTime;
 
         if (confirmTime <= 0)
@@ -204,7 +208,48 @@ public class Familiarization : MonoBehaviour
 
     private void tryHeadSupportEye()
     {
+        HeadHandler trackerInstance = GameObject
+            .Find("headCursor")
+            .GetComponent<HeadHandler>();
+        
+        if (this.didEyeSelect)
+        {
+            sampleObject
+                .GetComponent<SpriteRenderer>()
+                .sprite = blue;
+        }
+        else
+        {
+            confirmTime = _confirmTime;
+            trackerInstance.isObserving = false;
+            sampleObject
+                .GetComponent<SpriteRenderer>()
+                .sprite = white;
+        }
 
+        // eye lock time counting down, but will reset 
+        // and stop the in next frame if there is no selected object
+        confirmTime -= Time.deltaTime;
+
+        if (confirmTime <= 0)
+        {
+            sampleObject
+                .GetComponent<SpriteRenderer>()
+                .sprite = purple;
+            
+            if (trackerInstance.isObserving)
+            {
+                // start observe the nod
+                trackerInstance.isObserving = true;
+            }
+
+            if (trackerInstance.didNod)
+            {
+                sampleObject
+                    .GetComponent<SpriteRenderer>()
+                    .sprite = green;
+            }
+        }
     }
 
     private void tryEyeHeadOrder()

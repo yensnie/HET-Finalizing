@@ -183,7 +183,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
         }
 
         // eye lock time counting down, but will reset 
-        // and stop the next seps if there is no selected object
+        // and stop the in next frame if there is no selected object
         lockTime -= Time.deltaTime;
 
         if (lockTime <= 0)
@@ -252,7 +252,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
         }
 
         // head lock time counting down, but will reset 
-        // and stop the next seps if there is no selected object
+        // and stop in the next frame if there is no selected object
         lockTime -= Time.deltaTime;
 
         if (lockTime <= 0)
@@ -301,8 +301,8 @@ public class EyeOnlyBaseRunner : MonoBehaviour
     private void updateHeadSupportEye()
     {
         HeadHandler trackerInstance = GameObject
-        .Find("headCursor")
-        .GetComponent<HeadHandler>();
+            .Find("headCursor")
+            .GetComponent<HeadHandler>();
 
         if (trialDone)
         {
@@ -523,6 +523,12 @@ public class EyeOnlyBaseRunner : MonoBehaviour
                 .Find("headCursor")
                 .GetComponent<HeadHandler>()
                 .didNod = false;
+            
+            // stop the Observe if needed
+            GameObject
+                .Find("headCursor")
+                .GetComponent<HeadHandler>()
+                .isObserving = false;
         }
     }
 

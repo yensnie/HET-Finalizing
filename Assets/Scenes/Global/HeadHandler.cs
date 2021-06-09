@@ -174,12 +174,12 @@ public class HeadHandler : MonoBehaviour
 
         if (runnerInstance != null)
         {
-            // TODO: handle a variable for condition 3
+            // handle a variable for condition 3
         }
 
         if (runnerEasyInstance != null)
         {
-            // TODO: handle a variable for condition 3
+            // handle a variable for condition 3
         }
 
         if (runnerTrialInstance != null)
