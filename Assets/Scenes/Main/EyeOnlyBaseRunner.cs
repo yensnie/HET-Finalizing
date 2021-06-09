@@ -105,7 +105,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
 
     // 2s for state delay, 0.5 for baseline screen
     [HideInInspector]
-    public double delayTime = 2.5;
+    public double delayTime = 5;
 
     public void Awake() {
         QualitySettings.vSyncCount = 0;     // disable vSync
@@ -475,7 +475,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
         if (trialDone)
         {
             delayTime -= Time.deltaTime;
-            if (delayTime > 0 && delayTime <= 0.5)
+            if (delayTime > 0 && delayTime <= 3)
             {
                 mainFrame.SetActive(false);
                 foreach (GameObject frame in subFrame)
@@ -516,7 +516,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
 
             // reset
             timeLeft = _timeLeft;
-            delayTime = 2.5;
+            delayTime = 5;
             resetLockTime();
 
             // reset HeadHandler state in HeadEye mode

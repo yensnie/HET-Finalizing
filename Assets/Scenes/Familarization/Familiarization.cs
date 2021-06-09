@@ -20,6 +20,7 @@ public class Familiarization : MonoBehaviour
     public GameObject sampleObject;
 
     public Sprite backgroundNormal;
+    
     public Sprite backgroundRecording;
 
     [HideInInspector]
