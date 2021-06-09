@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EyeOnlyBaseRunner : MonoBehaviour
 {
@@ -126,7 +127,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
         {
             if (!Application.isEditor)
             {
-                Application.Quit();
+                SceneManager.LoadScene("Menu & Calibration");
             }
         }
 
@@ -504,7 +505,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
     {
         if (trialCount == maxTrialsNumber)
         {
-            // TODO: finish the scene
+            SceneManager.LoadScene("Menu & Calibration");
         }
         else
         {

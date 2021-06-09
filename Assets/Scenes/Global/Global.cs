@@ -18,7 +18,7 @@ public enum AttemptState
 }
 public static class Global
 {
-    public static string participantName = "Empty";
+    public static string participantName = "";
     public static TrialState currentState = TrialState.Trial;
 
     public static TrialLevel currentLevel = TrialLevel.Familization;

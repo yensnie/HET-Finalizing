@@ -59,15 +59,22 @@ public class Runner : MonoBehaviour
         }
     }
 
+    public void onNameFieldChange()
+    {
+        GameObject.Find("Manager").GetComponent<MenuManager>().saveCurrentName();
+        //Global.participantName = name;
+        Debug.Log("On value changed " + Global.participantName);
+    }
+    
     public void changeScene()
     {
         switch (Global.currentLevel)
         {
             case TrialLevel.Easy:
-                SceneManager.LoadScene("EyeOnluSceneEasy");
+                SceneManager.LoadScene("Prepare");
                 break;
             case TrialLevel.Hard:
-                SceneManager.LoadScene("EyeOnlySceneHard");
+                SceneManager.LoadScene("Prepare");
                 break;
             case TrialLevel.Familization:
                 SceneManager.LoadScene("Familiarization");
