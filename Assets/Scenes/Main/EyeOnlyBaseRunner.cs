@@ -158,6 +158,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
     // Condition 1
     private void updateInEyeOnly()
     {
+        // FIXME: in the first trial, the result color (green/ red) does not showed at all.
 
         if (trialDone)
         {
