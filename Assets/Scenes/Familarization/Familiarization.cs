@@ -254,6 +254,32 @@ public class Familiarization : MonoBehaviour
 
     private void tryEyeHeadOrder()
     {
-
+        if (this.didEyeSelect)
+        {
+            if (this.didHeadSelect)
+            {
+                confirmTime -= Time.deltaTime;
+                if (confirmTime <= 0)
+                {
+                    sampleObject
+                        .GetComponent<SpriteRenderer>()
+                        .sprite = green;
+                }
+            }
+            else
+            {
+                confirmTime = _confirmTime;
+                sampleObject
+                    .GetComponent<SpriteRenderer>()
+                    .sprite = blue;
+            }
+        } 
+        else
+        {
+            confirmTime = _confirmTime;
+            sampleObject
+                .GetComponent<SpriteRenderer>()
+                .sprite = white;
+        }
     }
 }
