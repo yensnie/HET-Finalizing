@@ -705,13 +705,13 @@ public class EyeOnlyBaseRunner : MonoBehaviour
     {
         //------------------------- Main object set up
         // this pattern store x game objects component repesented x spirtes
-        mainObjPattern = new Global.GameObjectPattern();
+        mainObjPattern = new Global.GameObjectPattern(components);
         mainObjPattern.objects = mainObj;
 
         //------------------------- Sub objects group set up
         // this pattern store 4 game objects repesented 4 spirtes
         // this group has 8 gameObjectPattern-s
-        subObjsGroup = new Global.GameObjectPatternGroup(groups);
+        subObjsGroup = new Global.GameObjectPatternGroup(groups, components);
 
         var groupIndex = 0;
         var tempArray = new GameObject[components];

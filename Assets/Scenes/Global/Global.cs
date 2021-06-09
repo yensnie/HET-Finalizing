@@ -26,7 +26,7 @@ public static class Global
     public class GameObjectPattern
     {
         public int[] order;
-        public GameObject[] objects = new GameObject[4];
+        public GameObject[] objects;
 
         public Sprite[] convertToSprites()
         {
@@ -46,18 +46,23 @@ public static class Global
             }
             return result;
         }
+
+        public GameObjectPattern(int components)
+        {
+            this.objects = new GameObject[components];
+        }
     }
 
     public class GameObjectPatternGroup
     {
         public GameObjectPattern[] patterns;
 
-        public GameObjectPatternGroup(int groups)
+        public GameObjectPatternGroup(int groups, int components)
         {
             this.patterns = new GameObjectPattern[groups];
             for (int index = 0; index < groups; index++)
             {
-                this.patterns[index] = new GameObjectPattern();
+                this.patterns[index] = new GameObjectPattern(components);
             }
         }
     }
