@@ -8,10 +8,7 @@ public class Runner : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (!Application.isEditor)
-            {
-                Application.Quit();
-            }
+            Application.Quit();
         }
     }
     public void quit()
@@ -22,37 +19,68 @@ public class Runner : MonoBehaviour
         }
     }
 
-    public void changeScene(string scene)
+    public void setState(string state)
     {
-        var simpleScene = "EyeOnlySceneSimple";
-        var hardScene = "EyeOnlySceneHard";
-        var sceneName = "";
-        switch (scene)
+        switch (state)
         {
-            case "EyeEasy":
-                sceneName = simpleScene;
+            case "Eye":
                 Global.currentState = TrialState.Eye;
                 break;
-            case "EyeHard":
-                sceneName = hardScene;
-                Global.currentState = TrialState.Eye;
+            case "Head":
+                Global.currentState = TrialState.Head;
                 break;
-            case "HeadEyeEasy":
-                sceneName = simpleScene;
+            case "HeadEye":
                 Global.currentState = TrialState.HeadEye;
                 break;
-            case "HeadEyeHard":
-                sceneName = hardScene;
-                Global.currentState = TrialState.HeadEye;
+            case "Order":
+                Global.currentState = TrialState.Order;
                 break;
             default:
                 return;
         }
-        SceneManager.LoadScene(sceneName);
     }
 
-    public void toFamilirization(string scene)
+    public void setLevel(string level)
     {
-        SceneManager.LoadScene(scene);
+        switch (level)
+        {
+            case "Easy":
+                Global.currentLevel = TrialLevel.Easy;
+                break;
+            case "Hard":
+                Global.currentLevel = TrialLevel.Hard;
+                break;
+            case "Familization":
+                Global.currentLevel = TrialLevel.Familization;
+                break;
+            default:
+                Global.currentLevel = TrialLevel.Calibration;
+                break;
+        }
+    }
+
+    public void changeScene()
+    {
+        switch (Global.currentLevel)
+        {
+            case TrialLevel.Easy:
+                SceneManager.LoadScene("EyeOnluSceneEasy");
+                break;
+            case TrialLevel.Hard:
+                SceneManager.LoadScene("EyeOnlySceneHard");
+                break;
+            case TrialLevel.Familization:
+                SceneManager.LoadScene("Familiarization");
+                break;
+            case TrialLevel.Calibration:
+                GameObject
+                    .Find("Calibration")
+                    .GetComponent<CalibrationRunner>()
+                    .isCalibrating = true;
+                break;
+            default:
+                return;
+        }
+        
     }
 }

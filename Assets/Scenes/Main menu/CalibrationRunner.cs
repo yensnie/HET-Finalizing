@@ -40,7 +40,8 @@ public class CalibrationRunner : MonoBehaviour
 
     void Start()
     {
-        pointScript = calibrationRepresentPoint.GetComponent<Tobii.Research.Unity.CalibrationPoint>();
+        pointScript = calibrationRepresentPoint
+            .GetComponent<Tobii.Research.Unity.CalibrationPoint>();
         isCalibrating = false;
     }
 
@@ -109,7 +110,8 @@ public class CalibrationRunner : MonoBehaviour
         yield return StartCoroutine(waitForResult(result));
 
         // Define the points on screen we should calibrate at.
-        // The coordinates are normalized, i.e. (0.0f, 0.0f) is the upper left corner and (1.0f, 1.0f) is the lower right corner.
+        // The coordinates are normalized, i.e. (0.0f, 0.0f) 
+        // is the upper left corner and (1.0f, 1.0f) is the lower right corner.
         var pointsToCalibrate = new NormalizedPoint2D[] {
                 new NormalizedPoint2D(0.5f, 0.5f),
                 new NormalizedPoint2D(0.1f, 0.1f),
@@ -131,8 +133,10 @@ public class CalibrationRunner : MonoBehaviour
             // Wait for animation.
             yield return new WaitForSeconds(1f);
 
-             // As of this writing, adding a point takes about 175 ms. A failing add can take up to 3000 ms.
-            var resultCollection = calibrationThread.CollectData(new CalibrationThread.Point(vector));
+             // As of this writing, adding a point takes about 175 ms. 
+             // A failing add can take up to 3000 ms.
+            var resultCollection = calibrationThread
+                .CollectData(new CalibrationThread.Point(vector));
 
             // Wait for the call to finish
             yield return StartCoroutine(waitForResult(resultCollection));
@@ -140,7 +144,9 @@ public class CalibrationRunner : MonoBehaviour
             // React to the result of adding a point.
             if (resultCollection.Status == CalibrationStatus.Failure)
             {
-                Debug.Log("There was an error gathering data for this calibration point: " + vector);
+                Debug.Log(
+                    "There was an error gathering data for this calibration point: " + vector
+                    );
             }
         }
 
