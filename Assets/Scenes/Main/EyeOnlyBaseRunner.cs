@@ -536,20 +536,19 @@ public class EyeOnlyBaseRunner : MonoBehaviour
             resetLockTime();
 
             // reset selected pattern if needed
-            this.selectedPatternSet = null;
-            this.headSelectedPatternSet = null;
+            selectedPatternSet = null;
+            headSelectedPatternSet = null;
 
             // reset HeadHandler state in HeadEye mode
-            GameObject
+            var head = GameObject
                 .Find("headCursor")
-                .GetComponent<HeadHandler>()
-                .didNod = false;
-
-            // stop the Observe if needed
-            GameObject
-                .Find("headCursor")
-                .GetComponent<HeadHandler>()
-                .isObserving = false;
+                .GetComponent<HeadHandler>();
+            
+            if (head != null)
+            {
+                head.didNod = false;
+                head.isObserving = false;   // stop the Observe if needed
+            }
         }
     }
 
