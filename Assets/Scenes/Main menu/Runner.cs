@@ -69,10 +69,10 @@ public class Runner : MonoBehaviour
         switch (Global.currentLevel)
         {
             case TrialLevel.Easy:
-                SceneManager.LoadScene("Prepare");
+                SceneManager.LoadScene("EyeOnluSceneEasy");
                 break;
             case TrialLevel.Hard:
-                SceneManager.LoadScene("Prepare");
+                SceneManager.LoadScene("EyeOnlySceneHard");
                 break;
             case TrialLevel.Familization:
                 SceneManager.LoadScene("Familiarization");

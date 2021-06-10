@@ -1,33 +1,36 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public struct TrialData
+{
+    private double time;
+    private Result result;
+
+    public TrialData(Result result, double time)
+    {
+        this.time = time;
+        this.result = result;
+    }
+
+    public double getTime()
+    {
+        return this.time;
+    }
+
+    public Result getResult()
+    {
+        return this.result;
+    }
+}
+public enum Result
+{
+    Correct, Incorrect, Overtime
+}
+
 public class EyeOnlyBaseRunner : MonoBehaviour
 {
-    public struct TrialData
-    {
-        private double time;
-        private Result result;
 
-        public TrialData(Result result, double time)
-        {
-            this.time = time;
-            this.result = result;
-        }
-
-        public double getTime()
-        {
-            return this.time;
-        }
-
-        public Result getResult()
-        {
-            return this.result;
-        }
-    }
-    public enum Result
-    {
-        Correct, Incorrect, Overtime
-    }
+    private bool ready = false;
 
     [HideInInspector]
     public Result result = Result.Overtime;
@@ -107,10 +110,12 @@ public class EyeOnlyBaseRunner : MonoBehaviour
     [HideInInspector]
     public double delayTime = 5;
 
-    public void Awake() {
+    public void Awake()
+    {
         QualitySettings.vSyncCount = 0;     // disable vSync
         Application.targetFrameRate = 30;
     }
+
     void Start()
     {
         fillObjectsToPattern();
@@ -121,13 +126,24 @@ public class EyeOnlyBaseRunner : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(((int)(1.0f / Time.smoothDeltaTime)).ToString());
+        // Debug.Log(((int)(1.0f / Time.smoothDeltaTime)).ToString());
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (!Application.isEditor)
             {
                 SceneManager.LoadScene("Menu & Calibration");
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space) && !ready)
+        {
+            ready = true;
+            GameObject.Find("Canvas").GetComponent<Canvas> ().enabled = false;
+        }
+
+        if (!ready)
+        {
+            return;
         }
 
         trialTimeHandle();
@@ -267,7 +283,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
                     .gameObject
                     .GetComponent<SpriteRenderer>()
                     .sprite = green;
-                
+
                 result = Result.Correct;
                 var takenTime = _timeLeft - timeLeft;
                 trialDoneHandle(result, takenTime);
@@ -281,7 +297,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
                     .gameObject
                     .GetComponent<SpriteRenderer>()
                     .sprite = red;
-                
+
                 result = Result.Incorrect;
                 var takenTime = _timeLeft - timeLeft;
                 trialDoneHandle(result, takenTime);
@@ -323,7 +339,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
                     .gameObject
                     .GetComponent<SpriteRenderer>()
                     .sprite = purple;
-                
+
                 if (!trackerInstance.isObserving)
                 {
                     // start observe the nod
@@ -341,7 +357,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
                             .gameObject
                             .GetComponent<SpriteRenderer>()
                             .sprite = green;
-                        
+
                         result = Result.Correct;
                         var takenTime = _timeLeft - timeLeft;
                         trialDoneHandle(result, takenTime);
@@ -355,7 +371,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
                             .gameObject
                             .GetComponent<SpriteRenderer>()
                             .sprite = red;
-                        
+
                         result = Result.Incorrect;
                         var takenTime = _timeLeft - timeLeft;
                         trialDoneHandle(result, takenTime);
@@ -528,7 +544,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
                 .Find("headCursor")
                 .GetComponent<HeadHandler>()
                 .didNod = false;
-            
+
             // stop the Observe if needed
             GameObject
                 .Find("headCursor")
@@ -537,9 +553,9 @@ public class EyeOnlyBaseRunner : MonoBehaviour
         }
     }
 
-    public virtual void fillObjectsSprite() {}
+    public virtual void fillObjectsSprite() { }
 
-    public virtual void fillObjectsToPattern() {}
+    public virtual void fillObjectsToPattern() { }
 
     private void saveTrialData(TrialData data)
     {
@@ -694,7 +710,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
             catch
             {
                 Debug.Log(
-                    "Cannot apply for `ColliderHandleHard` of subframe object at index " 
+                    "Cannot apply for `ColliderHandleHard` of subframe object at index "
                         + index
                 );
             }
