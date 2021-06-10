@@ -12,9 +12,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Familarization/Familiarization.unity
     guid: ea1bcb94ec4774bf790d761eb8e61f3e
   - enabled: 1
-    path: Assets/Scenes/Main menu/Prepare.unity
-    guid: 2105d483f5cac478ab21492a9124850e
-  - enabled: 1
     path: Assets/Scenes/Main/EyeOnluSceneEasy.unity
     guid: 2d94729722b12477bb23c265347e688a
   - enabled: 1
