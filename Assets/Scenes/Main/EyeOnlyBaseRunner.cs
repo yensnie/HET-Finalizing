@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public struct TrialData
 {
@@ -29,6 +30,7 @@ public enum Result
 
 public class EyeOnlyBaseRunner : MonoBehaviour
 {
+    public Text debugText;
 
     private bool ready = false;
 
@@ -205,9 +207,9 @@ public class EyeOnlyBaseRunner : MonoBehaviour
 
         if (lockTime <= 0)
         {
-
             if (Helper.samePattern(selectedPatternSet, mainObjPattern))
             {
+                debugText.text = "correct";
                 selectedPatternSet
                 .objects[0]
                 .transform
@@ -222,6 +224,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
             }
             else
             {
+                debugText.text = "incorrect";
                 selectedPatternSet
                 .objects[0]
                 .transform
@@ -526,7 +529,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
         else
         {
             trialDone = false;
-
+            debugText.text = "status";
             // reshuffle for new sprites
             fillObjectsSprite();
 
