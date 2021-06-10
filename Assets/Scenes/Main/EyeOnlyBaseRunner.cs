@@ -120,7 +120,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
 
     void Start()
     {
-        // no idea why delay time is turned to 2.5 at first 
+        // no idea why delay time is turned to 2.5 at initializing step 
         // so need to set it in Start()
         delayTime = 5;
 
@@ -483,6 +483,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
 
     private void trialDoneHandle(Result result, double time)
     {
+        debugText.text = "result: " + result.ToString() + " - time: " + time.ToString() + " - trialCount: " + trialCount.ToString() + "/" + maxTrialsNumber.ToString();
         if (trialCount >= maxTrialsNumber)
         {
             saveTrialData(new TrialData(result, time));
