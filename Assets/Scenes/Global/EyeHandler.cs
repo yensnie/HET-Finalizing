@@ -60,12 +60,15 @@ public class EyeHandler : MonoBehaviour
         ) / 2f;
 
         // translate to scene's coordinate system to get the display gaze point on screen
-        var position = Camera.main.ScreenToWorldPoint(
-            new Vector3(
-                Screen.width * combinedEyeGazePoint.x, 
-                Screen.height * (1 - combinedEyeGazePoint.y), 
-                10)
-        ); 
+        var position = Camera
+            .main
+            .ScreenToWorldPoint(
+                new Vector3(
+                    Screen.width * combinedEyeGazePoint.x, 
+                    Screen.height * (1 - combinedEyeGazePoint.y), 
+                    10
+                )
+            ); 
 
         currentPosition = position;
     }
