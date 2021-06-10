@@ -120,6 +120,15 @@ public class EyeOnlyBaseRunner : MonoBehaviour
 
     void Start()
     {
+        // no idea why delay time is turned to 2.5 at first 
+        // so need to set it in Start()
+        delayTime = 5;
+
+        if (!Global.inDebugMode)
+        {
+            debugText.enabled = false;
+        }
+
         fillObjectsToPattern();
         fillObjectsSprite();
         prepareComponents();
@@ -128,6 +137,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
 
     void Update()
     {
+        debugText.text = trialCount.ToString();
         // Debug.Log(((int)(1.0f / Time.smoothDeltaTime)).ToString());
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -140,7 +150,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && !ready)
         {
             ready = true;
-            GameObject.Find("Canvas").GetComponent<Canvas> ().enabled = false;
+            GameObject.Find("Canvas").GetComponent<Canvas>().enabled = false;
         }
 
         if (!ready)
@@ -176,15 +186,14 @@ public class EyeOnlyBaseRunner : MonoBehaviour
     // Condition 1
     private void updateInEyeOnly()
     {
-        // FIXME: in the first trial, the result color (green/ red) does not showed at all.
-
         if (trialDone)
         {
             return;
         }
 
         if (selectedPatternSet != null
-            && selectedPatternSet.objects.Length > 0)
+            && selectedPatternSet.objects.Length > 0 
+            && lockTime > 0)
         {
             selectedPatternSet
                 .objects[0]
@@ -205,18 +214,17 @@ public class EyeOnlyBaseRunner : MonoBehaviour
         // and stop the in next frame if there is no selected object
         lockTime -= Time.deltaTime;
 
-        if (lockTime <= 0)
+        if (selectedPatternSet != null && lockTime <= 0)
         {
             if (Helper.samePattern(selectedPatternSet, mainObjPattern))
             {
-                debugText.text = "correct";
                 selectedPatternSet
-                .objects[0]
-                .transform
-                .parent
-                .gameObject
-                .GetComponent<SpriteRenderer>()
-                .sprite = green;
+                    .objects[0]
+                    .transform
+                    .parent
+                    .gameObject
+                    .GetComponent<SpriteRenderer>()
+                    .sprite = green;
 
                 result = Result.Correct;
                 var takenTime = _timeLeft - timeLeft;
@@ -224,14 +232,13 @@ public class EyeOnlyBaseRunner : MonoBehaviour
             }
             else
             {
-                debugText.text = "incorrect";
                 selectedPatternSet
-                .objects[0]
-                .transform
-                .parent
-                .gameObject
-                .GetComponent<SpriteRenderer>()
-                .sprite = red;
+                    .objects[0]
+                    .transform
+                    .parent
+                    .gameObject
+                    .GetComponent<SpriteRenderer>()
+                    .sprite = red;
 
                 result = Result.Incorrect;
                 var takenTime = _timeLeft - timeLeft;
@@ -529,7 +536,6 @@ public class EyeOnlyBaseRunner : MonoBehaviour
         else
         {
             trialDone = false;
-            debugText.text = "status";
             // reshuffle for new sprites
             fillObjectsSprite();
 
@@ -546,7 +552,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
             var head = GameObject
                 .Find("headCursor")
                 .GetComponent<HeadHandler>();
-            
+
             if (head != null)
             {
                 head.didNod = false;

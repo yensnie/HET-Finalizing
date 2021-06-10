@@ -1185,6 +1185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 931599835f122404c9b2686eb3f5bbc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debugText: {fileID: 978893298}
   result: 2
   mainObj:
   - {fileID: 1590980788}
