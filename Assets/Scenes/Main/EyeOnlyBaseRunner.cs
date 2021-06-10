@@ -192,7 +192,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
         }
 
         if (selectedPatternSet != null
-            && selectedPatternSet.objects.Length > 0 
+            && selectedPatternSet.objects.Length > 0
             && lockTime > 0)
         {
             selectedPatternSet
@@ -517,10 +517,13 @@ public class EyeOnlyBaseRunner : MonoBehaviour
                     rect.GetComponent<SpriteRenderer>().sprite = white;
                 }
 
-                mainFrame.SetActive(true);
-                foreach (GameObject frame in subFrame)
+                if (trialCount <= maxTrialsNumber)
                 {
-                    frame.SetActive(true);
+                    mainFrame.SetActive(true);
+                    foreach (GameObject frame in subFrame)
+                    {
+                        frame.SetActive(true);
+                    }
                 }
                 trialFinish();
             }
