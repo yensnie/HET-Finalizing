@@ -487,6 +487,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
         {
             saveTrialData(new TrialData(result, time));
             saveData();
+            trialCount++;
         }
         else if (trialCount < maxTrialsNumber)
         {
