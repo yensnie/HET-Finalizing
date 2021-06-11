@@ -121,16 +121,40 @@ public class ColliderHandleHard : MonoBehaviour
             .Find("GameRunner").
             GetComponent<Familiarization>();
 
-        if (runnerInstance != null && 
-            runnerInstance.selectedPatternSet == representPatternSet) 
+        if (runnerInstance != null)
         {
-            runnerInstance.headSelectedPatternSet = representPatternSet;
+            switch (Global.currentState)
+            {
+                case TrialState.Head:
+                    runnerInstance.headSelectedPatternSet = representPatternSet;
+                    break;
+                case TrialState.Order:
+                    if (runnerInstance.selectedPatternSet == representPatternSet)
+                    {
+                        runnerInstance.headSelectedPatternSet = representPatternSet;
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
         
-        if (runnerEasyInstance != null && 
-            runnerEasyInstance.selectedPatternSet == representPatternSet) 
+        if (runnerEasyInstance != null)
         {
-            runnerEasyInstance.headSelectedPatternSet = representPatternSet;
+            switch (Global.currentState)
+            {
+                case TrialState.Head:
+                    runnerEasyInstance.headSelectedPatternSet = representPatternSet;
+                    break;
+                case TrialState.Order:
+                    if (runnerEasyInstance.selectedPatternSet == representPatternSet)
+                    {
+                        runnerEasyInstance.headSelectedPatternSet = representPatternSet;
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
 
         if (runnerTrialInstance != null)
@@ -165,29 +189,49 @@ public class ColliderHandleHard : MonoBehaviour
         Familiarization runnerTrialInstance = GameObject
             .Find("GameRunner").
             GetComponent<Familiarization>();
-
-        if (runnerInstance != null && 
-            runnerInstance.selectedPatternSet == representPatternSet) 
+        
+        if (runnerInstance != null)
         {
-            if (Global.currentState == TrialState.Head && 
-                !runnerInstance.trialDone)
+            switch(Global.currentState)
             {
-                this.gameObject.GetComponent<SpriteRenderer>().sprite 
-                    = runnerInstance.white;
+                case TrialState.Head:
+                    if (!runnerInstance.trialDone)
+                    {
+                        this
+                            .gameObject
+                            .GetComponent<SpriteRenderer>()
+                            .sprite = runnerInstance.white;
+                        runnerInstance.headSelectedPatternSet = null;
+                    }
+                    break;
+                case TrialState.Order:
+                    runnerInstance.headSelectedPatternSet = null;
+                    break;
+                default:
+                    break;
             }
-            runnerInstance.headSelectedPatternSet = null;
         }
         
-        if (runnerEasyInstance != null && 
-            runnerEasyInstance.selectedPatternSet == representPatternSet) 
+        if (runnerEasyInstance != null)
         {
-            if (Global.currentState == TrialState.Head && 
-                !runnerEasyInstance.trialDone)
+            switch(Global.currentState)
             {
-                this.gameObject.GetComponent<SpriteRenderer>().sprite 
-                    = runnerEasyInstance.white;
+                case TrialState.Head:
+                    if (!runnerEasyInstance.trialDone)
+                    {
+                        this
+                            .gameObject
+                            .GetComponent<SpriteRenderer>()
+                            .sprite = runnerEasyInstance.white;
+                        runnerEasyInstance.headSelectedPatternSet = null;
+                    }
+                    break;
+                case TrialState.Order:
+                    runnerEasyInstance.headSelectedPatternSet = null;
+                    break;
+                default:
+                    break;
             }
-            runnerEasyInstance.headSelectedPatternSet = null;
         }
 
         if (runnerTrialInstance != null)
