@@ -61,6 +61,7 @@ public class CSVManager
 
     public static void appendtoFile(string fileName, string[] entries)
     {
+        fileName = fileName + ".csv";
         verifyDirectory();
         verifyFile(fileName);
         using (StreamWriter streamWriter = File.AppendText(getFilePath(fileName)))
