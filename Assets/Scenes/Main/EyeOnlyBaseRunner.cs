@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System;
 
 public struct TrialData
 {
@@ -482,7 +483,11 @@ public class EyeOnlyBaseRunner : MonoBehaviour
 
     private void trialDoneHandle(Result result, double time)
     {
-        debugText.text = "result: " + result.ToString() + " - time: " + time.ToString() + " - trialCount: " + trialCount.ToString() + "/" + maxTrialsNumber.ToString();
+        time = Math.Round(time, 2);
+        debugText.text = "result: " + result.ToString() + 
+            " - time: " + time.ToString() + "s - trialCount: " + 
+            trialCount.ToString() + "/" + maxTrialsNumber.ToString();
+        
         if (trialCount == maxTrialsNumber)
         {
             saveTrialData(new TrialData(result, time));
@@ -619,7 +624,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
                 time.ToString()
             };
 
-            string fileName = Global.participantName + "_" + methodName;
+            string fileName = Global.participantName + " - " + methodName;
             CSVManager.appendtoFile(fileName, data);
         }
     }
