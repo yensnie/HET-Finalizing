@@ -69,9 +69,9 @@ public class Familiarization : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !Application.isEditor)
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Application.Quit();
+            SceneManager.LoadScene("Menu & Calibration");
         }
 
         switch (Global.currentState)

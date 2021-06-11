@@ -141,10 +141,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
         // Debug.Log(((int)(1.0f / Time.smoothDeltaTime)).ToString());
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (!Application.isEditor)
-            {
-                SceneManager.LoadScene("Menu & Calibration");
-            }
+            SceneManager.LoadScene("Menu & Calibration");
         }
 
         if (Input.GetKeyDown(KeyCode.Space) && !ready)
