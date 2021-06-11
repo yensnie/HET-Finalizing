@@ -51,6 +51,16 @@ public class ColliderHandleHard : MonoBehaviour
         Familiarization runnerTrialInstance = GameObject
             .Find("GameRunner").
             GetComponent<Familiarization>();
+
+        HeadHandler trackerInstance = GameObject
+            .Find("headCursor")
+            .GetComponent<HeadHandler>();
+
+        if (Global.currentState == TrialState.HeadEye && 
+            trackerInstance.isObserving)
+        {
+            trackerInstance.isObserving = false;
+        }
         
         // change background
         if (runnerInstance != null && 

@@ -113,7 +113,7 @@ public class HeadHandler : MonoBehaviour
 
     private float currentStablePitch = 0F;
 
-    private float estimatePitchDifference = 3;
+    private float estimatePitchDifference = 2.5f;
 
     void Start()
     {

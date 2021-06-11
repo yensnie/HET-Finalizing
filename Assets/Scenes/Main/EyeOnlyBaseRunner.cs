@@ -116,7 +116,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
     public void Awake()
     {
         QualitySettings.vSyncCount = 0;     // disable vSync
-        Application.targetFrameRate = 30;
+        Application.targetFrameRate = 60;
     }
 
     void Start()
@@ -174,7 +174,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
             case TrialState.Trial:
                 break;
         }
-
+        debugText.text = timeLeft.ToString();
         trialDoneTimeHandle();
     }
 
@@ -471,8 +471,11 @@ public class EyeOnlyBaseRunner : MonoBehaviour
     // ------------------------------- essentials
     private void trialTimeHandle()
     {
-        timeLeft -= Time.deltaTime;
-        if (timeLeft <= 0 && !trialDone && result == Result.Overtime)
+        if (!trialDone)
+        {
+            timeLeft -= Time.deltaTime;
+        }
+        if (timeLeft <= 0 && !trialDone)
         {
             trialDoneHandle(Result.Overtime, 25.0);
         }
@@ -480,10 +483,10 @@ public class EyeOnlyBaseRunner : MonoBehaviour
 
     private void trialDoneHandle(Result result, double time)
     {
-        time = Math.Round(time, 2);
-        debugText.text = "result: " + result.ToString() + 
-            " - time: " + time.ToString() + "s - trialCount: " + 
-            trialCount.ToString() + "/" + maxTrialsNumber.ToString();
+        // time = Math.Round(time, 2);
+        // debugText.text = "result: " + result.ToString() + 
+        //     " - time: " + time.ToString() + "s - trialCount: " + 
+        //     trialCount.ToString() + "/" + maxTrialsNumber.ToString();
         
         if (trialCount == maxTrialsNumber)
         {
