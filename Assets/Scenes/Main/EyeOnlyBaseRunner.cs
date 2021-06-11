@@ -137,7 +137,6 @@ public class EyeOnlyBaseRunner : MonoBehaviour
 
     void Update()
     {
-        debugText.text = trialCount.ToString();
         // Debug.Log(((int)(1.0f / Time.smoothDeltaTime)).ToString());
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -484,12 +483,12 @@ public class EyeOnlyBaseRunner : MonoBehaviour
     private void trialDoneHandle(Result result, double time)
     {
         debugText.text = "result: " + result.ToString() + " - time: " + time.ToString() + " - trialCount: " + trialCount.ToString() + "/" + maxTrialsNumber.ToString();
-        if (trialCount >= maxTrialsNumber)
+        if (trialCount == maxTrialsNumber)
         {
             saveTrialData(new TrialData(result, time));
             saveData();
         }
-        else
+        else if (trialCount < maxTrialsNumber)
         {
             saveTrialData(new TrialData(result, time));
             trialCount++;
@@ -533,7 +532,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
 
     public virtual void trialFinish()
     {
-        if (trialCount == maxTrialsNumber)
+        if (trialCount > maxTrialsNumber)
         {
             SceneManager.LoadScene("Menu & Calibration");
         }
