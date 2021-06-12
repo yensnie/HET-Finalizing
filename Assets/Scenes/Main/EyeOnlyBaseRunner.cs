@@ -111,7 +111,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
 
     // 2s for state delay, 0.5 for baseline screen
     [HideInInspector]
-    public double delayTime = 5;
+    public double delayTime = 4;
 
     private double readyTime = 2.5;
 
@@ -125,7 +125,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
     {
         // no idea why delay time is turned to 2.5 at initializing step 
         // so need to set it in Start()
-        delayTime = 5;
+        delayTime = 4;
 
         if (!Global.inDebugMode)
         {
@@ -527,7 +527,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
         if (trialDone)
         {
             delayTime -= Time.deltaTime;
-            if (delayTime > 0 && delayTime <= 3)
+            if (delayTime > 0 && delayTime <= 2)
             {
                 mainFrame.SetActive(false);
                 foreach (GameObject frame in subFrame)
