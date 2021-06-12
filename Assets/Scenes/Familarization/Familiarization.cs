@@ -249,6 +249,7 @@ public class Familiarization : MonoBehaviour
         {
             confirmTime = _confirmTime;
             trackerInstance.isObserving = false;
+            trackerInstance.didNod = false;
             sampleObject
                 .GetComponent<SpriteRenderer>()
                 .sprite = white;
