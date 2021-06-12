@@ -57,7 +57,7 @@ public class Familiarization : MonoBehaviour
 
     public void Awake() {
         QualitySettings.vSyncCount = 0;     // disable vSync
-        Application.targetFrameRate = 30;
+        Application.targetFrameRate = 60;
     }
 
     void Start()
