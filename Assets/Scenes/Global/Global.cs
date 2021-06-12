@@ -18,7 +18,7 @@ public enum AttemptState
 }
 public static class Global
 {
-    public static bool inDebugMode = true;
+    public static bool inDebugMode = false;
     public static string participantName = "";
     public static TrialState currentState = TrialState.Trial;
 
