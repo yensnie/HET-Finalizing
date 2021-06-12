@@ -648,7 +648,20 @@ public class EyeOnlyBaseRunner : MonoBehaviour
                 time.ToString()
             };
 
-            string fileName = Global.participantName + " - " + methodName;
+            var level = "";
+            switch (Global.currentLevel)
+            {
+                case TrialLevel.Easy:
+                    level = "Easy";
+                    break;
+                case TrialLevel.Hard:
+                    level = "Hard";
+                    break;
+                default:
+                    break;
+            }
+
+            string fileName = Global.participantName + " - " + methodName + "-" + level;
             CSVManager.appendtoFile(fileName, data);
         }
     }
