@@ -504,9 +504,13 @@ public class EyeOnlyBaseRunner : MonoBehaviour
     private void trialDoneHandle(Result result, double time)
     {
         time = Math.Round(time, 2);
-        debugText.text = "result: " + result.ToString() +
-            " - time: " + time.ToString() + "s - trialCount: " +
-            trialCount.ToString() + "/" + maxTrialsNumber.ToString();
+        try
+        {
+            debugText.text = "result: " + result.ToString() +
+                " - time: " + time.ToString() + "s - trialCount: " +
+                trialCount.ToString() + "/" + maxTrialsNumber.ToString();
+            }
+        catch (Exception e) {}
 
         if (trialCount == maxTrialsNumber)
         {
