@@ -113,6 +113,8 @@ public class EyeOnlyBaseRunner : MonoBehaviour
     [HideInInspector]
     public double delayTime = 5;
 
+    private double readyTime = 2.5;
+
     public void Awake()
     {
         QualitySettings.vSyncCount = 0;     // disable vSync
@@ -150,6 +152,25 @@ public class EyeOnlyBaseRunner : MonoBehaviour
             GameObject.Find("Canvas").GetComponent<Canvas>().enabled = false;
         }
 
+        if (readyTime >= 0)
+        {
+            readyTime -= Time.deltaTime;
+            mainFrame.SetActive(false);
+            foreach (GameObject frame in subFrame)
+            {
+                frame.SetActive(false);
+            }
+            return;
+        }
+        else
+        {
+            mainFrame.SetActive(true);
+            foreach (GameObject frame in subFrame)
+            {
+                frame.SetActive(true);
+            }
+        }
+
         if (!ready)
         {
             return;
@@ -174,7 +195,6 @@ public class EyeOnlyBaseRunner : MonoBehaviour
             case TrialState.Trial:
                 break;
         }
-        // debugText.text = timeLeft.ToString();
         trialDoneTimeHandle();
     }
 
@@ -484,10 +504,10 @@ public class EyeOnlyBaseRunner : MonoBehaviour
     private void trialDoneHandle(Result result, double time)
     {
         time = Math.Round(time, 2);
-        debugText.text = "result: " + result.ToString() + 
-            " - time: " + time.ToString() + "s - trialCount: " + 
+        debugText.text = "result: " + result.ToString() +
+            " - time: " + time.ToString() + "s - trialCount: " +
             trialCount.ToString() + "/" + maxTrialsNumber.ToString();
-        
+
         if (trialCount == maxTrialsNumber)
         {
             saveTrialData(new TrialData(result, time));

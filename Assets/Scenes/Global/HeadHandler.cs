@@ -156,7 +156,7 @@ public class HeadHandler : MonoBehaviour
         x4 = trackData.x4;
         y4 = trackData.y4;
 
-        var info = string.Format("head X: {0}, head Y: {1}", X, Y);
+        //var info = string.Format("head X: {0}, head Y: {1}", X, Y);
         // Debug.Log(info);
         // Debug.Log(string.Format("Pitch: {0}", Pitch));
 
@@ -188,8 +188,11 @@ public class HeadHandler : MonoBehaviour
         }
 
         // Important: use opentrack with space shooter profile
-        transform.position = new Vector2(-RawYaw * 15, RawPitch * 15);
-
+        if (RawYaw != null && RawPitch != null)
+        {
+            transform.position = new Vector2(-RawYaw * 15, RawPitch * 15);
+        }
+        
         // Note: find out a value to replace for 15 to work perfectly 
         // with all size of screen
 
