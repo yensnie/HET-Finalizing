@@ -174,7 +174,7 @@ public class EyeOnlyBaseRunner : MonoBehaviour
             case TrialState.Trial:
                 break;
         }
-        debugText.text = timeLeft.ToString();
+        // debugText.text = timeLeft.ToString();
         trialDoneTimeHandle();
     }
 
@@ -483,10 +483,10 @@ public class EyeOnlyBaseRunner : MonoBehaviour
 
     private void trialDoneHandle(Result result, double time)
     {
-        // time = Math.Round(time, 2);
-        // debugText.text = "result: " + result.ToString() + 
-        //     " - time: " + time.ToString() + "s - trialCount: " + 
-        //     trialCount.ToString() + "/" + maxTrialsNumber.ToString();
+        time = Math.Round(time, 2);
+        debugText.text = "result: " + result.ToString() + 
+            " - time: " + time.ToString() + "s - trialCount: " + 
+            trialCount.ToString() + "/" + maxTrialsNumber.ToString();
         
         if (trialCount == maxTrialsNumber)
         {
