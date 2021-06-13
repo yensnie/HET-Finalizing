@@ -165,6 +165,7 @@ public class Familiarization : MonoBehaviour
             sampleObject
                 .GetComponent<SpriteRenderer>()
                 .sprite = white;
+            return;
         }
 
         // eye lock time counting down, but will reset 
@@ -193,6 +194,7 @@ public class Familiarization : MonoBehaviour
             sampleObject
                 .GetComponent<SpriteRenderer>()
                 .sprite = white;
+            return;
         }
 
         // head lock time counting down, but will reset 
