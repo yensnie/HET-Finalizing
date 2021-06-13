@@ -188,10 +188,7 @@ public class HeadHandler : MonoBehaviour
         }
 
         // Important: use opentrack with space shooter profile
-        if (RawYaw != null && RawPitch != null)
-        {
-            transform.position = new Vector2(-RawYaw * 15, RawPitch * 15);
-        }
+        transform.position = new Vector2(-RawYaw * 20, RawPitch * 20);
         
         // Note: find out a value to replace for 15 to work perfectly 
         // with all size of screen
