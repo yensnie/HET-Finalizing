@@ -155,9 +155,22 @@ public class Familiarization : MonoBehaviour
     {
         if (this.didEyeSelect)
         {
-            sampleObject
-                .GetComponent<SpriteRenderer>()
-                .sprite = blue;
+            // eye lock time counting down, but will reset 
+            // and stop the in next frame if there is no selected object
+            confirmTime -= Time.deltaTime;
+
+            if (confirmTime <= 0)
+            {
+                sampleObject
+                    .GetComponent<SpriteRenderer>()
+                    .sprite = green;
+            }
+            else
+            {
+                sampleObject
+                    .GetComponent<SpriteRenderer>()
+                    .sprite = blue;
+            }
         }
         else
         {
@@ -165,18 +178,6 @@ public class Familiarization : MonoBehaviour
             sampleObject
                 .GetComponent<SpriteRenderer>()
                 .sprite = white;
-            return;
-        }
-
-        // eye lock time counting down, but will reset 
-        // and stop the in next frame if there is no selected object
-        confirmTime -= Time.deltaTime;
-
-        if (confirmTime <= 0)
-        {
-            sampleObject
-                .GetComponent<SpriteRenderer>()
-                .sprite = green;
         }
     }
 
