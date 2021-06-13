@@ -47,13 +47,13 @@ public class CSVManager
         using (StreamWriter streamWriter = File.CreateText(getFilePath(fileName)))
         {
             string fileEntry = "";
-            for(int i = 0; i < fileHeaders.Length; i++)
+            for(int index = 0; index < fileHeaders.Length; index++)
             {
                 if(fileEntry != "")
                 {
-                    fileEntry += ",";
+                    fileEntry += ", ";
                 }
-                fileEntry += fileHeaders[i];
+                fileEntry += fileHeaders[index];
             }
             streamWriter.WriteLine(fileEntry);
         }
@@ -67,13 +67,13 @@ public class CSVManager
         using (StreamWriter streamWriter = File.AppendText(getFilePath(fileName)))
         {
             string fileEntry = "";
-            for (int i = 0; i < fileHeaders.Length; i++)
+            for (int index = 0; index < fileHeaders.Length; index++)
             {
                 if (fileEntry != "")
                 {
-                    fileEntry += ",";
+                    fileEntry += ", ";
                 }
-                fileEntry += entries[i];
+                fileEntry += entries[index];
             }
             streamWriter.WriteLine(fileEntry);
         }

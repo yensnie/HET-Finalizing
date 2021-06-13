@@ -10,13 +10,17 @@ public class MenuManager : MonoBehaviour
     {
         Global.participantName = nameField.text;
     }
-
+    void Awake()
+    {
+        // TODO: need to test
+        nameField.text = Global.participantName;
+    }
     void Update()
     {
-         if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Global.currentState = TrialState.Trial;
-            SceneManager.LoadScene("Familiarization");
-        }
+        // if (Input.GetKeyDown(KeyCode.Space))
+        // {
+        //     Global.currentState = TrialState.Trial;
+        //     SceneManager.LoadScene("Familiarization");
+        // }
     }
 }

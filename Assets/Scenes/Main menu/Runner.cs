@@ -57,13 +57,6 @@ public class Runner : MonoBehaviour
                 break;
         }
     }
-
-    public void onNameFieldChange()
-    {
-        GameObject.Find("Manager").GetComponent<MenuManager>().saveCurrentName();
-        //Global.participantName = name;
-        Debug.Log("On value changed " + Global.participantName);
-    }
     
     public void changeScene()
     {
