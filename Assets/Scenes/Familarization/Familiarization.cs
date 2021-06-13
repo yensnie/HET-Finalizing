@@ -26,12 +26,8 @@ public class Familiarization : MonoBehaviour
     [HideInInspector]
     public bool didEyeSelect = false;
 
-    private bool didEyeConfirm = false;
-
     [HideInInspector]
-    public bool didHeadSelect = true;
-
-    private bool didHeadConfirm = false;
+    public bool didHeadSelect = false;
 
     private RecordState currentRecordState = RecordState.Off;
 
@@ -185,9 +181,22 @@ public class Familiarization : MonoBehaviour
     {
         if (this.didHeadSelect)
         {
-            sampleObject
-                .GetComponent<SpriteRenderer>()
-                .sprite = blue;
+            // head lock time counting down, but will reset 
+            // and stop in the next frame if there is no selected object
+            confirmTime -= Time.deltaTime;
+
+            if (confirmTime <= 0)
+            {
+                sampleObject
+                    .GetComponent<SpriteRenderer>()
+                    .sprite = green;
+            }
+            else
+            {
+                sampleObject
+                    .GetComponent<SpriteRenderer>()
+                    .sprite = blue;
+            }
         }
         else
         {
@@ -196,17 +205,6 @@ public class Familiarization : MonoBehaviour
                 .GetComponent<SpriteRenderer>()
                 .sprite = white;
             return;
-        }
-
-        // head lock time counting down, but will reset 
-        // and stop in the next frame if there is no selected object
-        confirmTime -= Time.deltaTime;
-
-        if (confirmTime <= 0)
-        {
-            sampleObject
-                .GetComponent<SpriteRenderer>()
-                .sprite = green;
         }
     }
 
