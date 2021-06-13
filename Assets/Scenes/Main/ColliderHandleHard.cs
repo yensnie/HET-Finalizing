@@ -6,32 +6,56 @@ public class ColliderHandleHard : MonoBehaviour
     public Global.GameObjectPattern representPatternSet;
 
     private void registerSelectedObject() {
-        EyeOnlyHardRunner runnerInstance = GameObject
-            .Find("GameRunner")
-            .GetComponent<EyeOnlyHardRunner>();
-        
+        switch (Global.currentLevel)
+        {
+            case TrialLevel.Hard:
+                hardEyeRegister();
+                break;
+            case TrialLevel.Easy:
+                easyEyeRegister();
+                break;
+            case TrialLevel.Familization:
+                familizationEyeRegister();
+                break;
+            default:
+                return;
+        }
+    }
+
+    private void easyEyeRegister()
+    {
         EyeOnlyEasyRunner runnerEasyInstance = GameObject
             .Find("GameRunner").
             GetComponent<EyeOnlyEasyRunner>();
-
-        Familiarization runnerTrialInstance = GameObject
-            .Find("GameRunner").
-            GetComponent<Familiarization>();
-
-        if (runnerInstance != null && 
-            !runnerInstance.trialDone && 
-            Global.currentState != TrialState.Head)
-        {
-            runnerInstance.selectedPatternSet = representPatternSet;
-        }
-
+        
         if (runnerEasyInstance != null && 
             !runnerEasyInstance.trialDone && 
             Global.currentState != TrialState.Head)
         {
             runnerEasyInstance.selectedPatternSet = representPatternSet;
         }
+    }
 
+    private void hardEyeRegister()
+    {
+        EyeOnlyHardRunner runnerInstance = GameObject
+            .Find("GameRunner")
+            .GetComponent<EyeOnlyHardRunner>();
+        
+        if (runnerInstance != null && 
+            !runnerInstance.trialDone && 
+            Global.currentState != TrialState.Head)
+        {
+            runnerInstance.selectedPatternSet = representPatternSet;
+        }
+    }
+
+    private void familizationEyeRegister()
+    {
+        Familiarization runnerTrialInstance = GameObject
+            .Find("GameRunner").
+            GetComponent<Familiarization>();
+        
         if (runnerTrialInstance != null)
         {
             runnerTrialInstance.didEyeSelect = true;
@@ -39,18 +63,21 @@ public class ColliderHandleHard : MonoBehaviour
     }
 
     private void deRegisterSelectedObject() {
-        // get runner instance
-        EyeOnlyHardRunner runnerInstance = GameObject
-            .Find("GameRunner")
-            .GetComponent<EyeOnlyHardRunner>();
 
-        EyeOnlyEasyRunner runnerEasyInstance = GameObject
-            .Find("GameRunner").
-            GetComponent<EyeOnlyEasyRunner>();
-        
-        Familiarization runnerTrialInstance = GameObject
-            .Find("GameRunner").
-            GetComponent<Familiarization>();
+        switch (Global.currentLevel)
+        {
+            case TrialLevel.Hard:
+                hardEyeDeRegister();
+                break;
+            case TrialLevel.Easy:
+                easyEyeDeRegister();
+                break;
+            case TrialLevel.Familization:
+                familizationEyeDeRegister();
+                break;
+            default:
+                return;
+        }
 
         HeadHandler trackerInstance = GameObject
             .Find("headCursor")
@@ -62,37 +89,6 @@ public class ColliderHandleHard : MonoBehaviour
             trackerInstance.isObserving = false;
         }
         
-        // change background
-        if (runnerInstance != null && 
-            !runnerInstance.trialDone && 
-            Global.currentState != TrialState.Head)
-        {
-            this.gameObject.GetComponent<SpriteRenderer>().sprite 
-                =  runnerInstance.white;
-            
-            runnerInstance.selectedPatternSet = null;
-        }
-
-        if (runnerEasyInstance != null && 
-            !runnerEasyInstance.trialDone && 
-            Global.currentState != TrialState.Head)
-        {
-            this.gameObject.GetComponent<SpriteRenderer>().sprite 
-                =  runnerEasyInstance.white;
-            
-            runnerEasyInstance.selectedPatternSet = null;
-        }
-
-        if (runnerTrialInstance != null)
-        {
-            runnerTrialInstance.didEyeSelect = false;
-            if (Global.currentState != TrialState.Head)
-            {
-                this.gameObject.GetComponent<SpriteRenderer>().sprite 
-                    = runnerTrialInstance.white;
-            }
-        }
-
         // observing handle in HeadEye case
         if (Global.currentState == TrialState.HeadEye) 
         { 
@@ -106,6 +102,57 @@ public class ColliderHandleHard : MonoBehaviour
                 .GetComponent<HeadHandler>()
                 .stateSequence
                 .Clear();
+        }
+    }
+
+    private void hardEyeDeRegister()
+    {
+        EyeOnlyHardRunner runnerInstance = GameObject
+            .Find("GameRunner")
+            .GetComponent<EyeOnlyHardRunner>();
+        
+        if (runnerInstance != null && 
+            !runnerInstance.trialDone && 
+            Global.currentState != TrialState.Head)
+        {
+            this.gameObject.GetComponent<SpriteRenderer>().sprite 
+                =  runnerInstance.white;
+            
+            runnerInstance.selectedPatternSet = null;
+        }
+    }
+
+    private void easyEyeDeRegister()
+    {
+        EyeOnlyEasyRunner runnerEasyInstance = GameObject
+            .Find("GameRunner").
+            GetComponent<EyeOnlyEasyRunner>();
+        
+        if (runnerEasyInstance != null && 
+            !runnerEasyInstance.trialDone && 
+            Global.currentState != TrialState.Head)
+        {
+            this.gameObject.GetComponent<SpriteRenderer>().sprite 
+                =  runnerEasyInstance.white;
+            
+            runnerEasyInstance.selectedPatternSet = null;
+        }
+    }
+
+    private void familizationEyeDeRegister()
+    {
+        Familiarization runnerTrialInstance = GameObject
+            .Find("GameRunner").
+            GetComponent<Familiarization>();
+        
+        if (runnerTrialInstance != null)
+        {
+            runnerTrialInstance.didEyeSelect = false;
+            if (Global.currentState != TrialState.Head)
+            {
+                this.gameObject.GetComponent<SpriteRenderer>().sprite 
+                    = runnerTrialInstance.white;
+            }
         }
     }
 
@@ -124,36 +171,28 @@ public class ColliderHandleHard : MonoBehaviour
                 break;
         }
 
-        EyeOnlyHardRunner runnerInstance = GameObject
-            .Find("GameRunner")
-            .GetComponent<EyeOnlyHardRunner>();
-        
+        switch (Global.currentLevel)
+        {
+            case TrialLevel.Hard:
+                hardHeadRegister();
+                break;
+            case TrialLevel.Easy:
+                easyHeadRegister();
+                break;
+            case TrialLevel.Familization:
+                familizationHeadRegister();
+                break;
+            default:
+                return;
+        }
+    }
+
+    private void easyHeadRegister()
+    {
         EyeOnlyEasyRunner runnerEasyInstance = GameObject
             .Find("GameRunner").
             GetComponent<EyeOnlyEasyRunner>();
-        
-        Familiarization runnerTrialInstance = GameObject
-            .Find("GameRunner").
-            GetComponent<Familiarization>();
 
-        if (runnerInstance != null)
-        {
-            switch (Global.currentState)
-            {
-                case TrialState.Head:
-                    runnerInstance.headSelectedPatternSet = representPatternSet;
-                    break;
-                case TrialState.Order:
-                    if (runnerInstance.selectedPatternSet == representPatternSet)
-                    {
-                        runnerInstance.headSelectedPatternSet = representPatternSet;
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-        
         if (runnerEasyInstance != null)
         {
             switch (Global.currentState)
@@ -171,6 +210,39 @@ public class ColliderHandleHard : MonoBehaviour
                     break;
             }
         }
+    }
+
+    private void hardHeadRegister()
+    {
+        EyeOnlyHardRunner runnerInstance = GameObject
+            .Find("GameRunner")
+            .GetComponent<EyeOnlyHardRunner>();
+
+        if (runnerInstance != null)
+        {
+            switch (Global.currentState)
+            {
+                case TrialState.Head:
+                    runnerInstance.headSelectedPatternSet = representPatternSet;
+                    break;
+                case TrialState.Order:
+                    if (runnerInstance.selectedPatternSet == representPatternSet)
+                    {
+                        runnerInstance.headSelectedPatternSet = representPatternSet;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        };
+    }
+
+    private void familizationHeadRegister()
+    {
+        Familiarization runnerTrialInstance = GameObject
+            .Find("GameRunner").
+            GetComponent<Familiarization>();
+        
 
         if (runnerTrialInstance != null)
         {
@@ -193,39 +265,27 @@ public class ColliderHandleHard : MonoBehaviour
                 break;
         }
 
-        EyeOnlyHardRunner runnerInstance = GameObject
-            .Find("GameRunner")
-            .GetComponent<EyeOnlyHardRunner>();
-        
+        switch (Global.currentLevel)
+        {
+            case TrialLevel.Hard:
+                hardHeadDeRegister();
+                break;
+            case TrialLevel.Easy:
+                easyHeadDeRegister();
+                break;
+            case TrialLevel.Familization:
+                familizationHeadDeRegister();
+                break;
+            default:
+                return;
+        }
+    }
+
+    private void easyHeadDeRegister()
+    {
         EyeOnlyEasyRunner runnerEasyInstance = GameObject
             .Find("GameRunner").
             GetComponent<EyeOnlyEasyRunner>();
-        
-        Familiarization runnerTrialInstance = GameObject
-            .Find("GameRunner").
-            GetComponent<Familiarization>();
-        
-        if (runnerInstance != null)
-        {
-            switch(Global.currentState)
-            {
-                case TrialState.Head:
-                    if (!runnerInstance.trialDone)
-                    {
-                        this
-                            .gameObject
-                            .GetComponent<SpriteRenderer>()
-                            .sprite = runnerInstance.white;
-                        runnerInstance.headSelectedPatternSet = null;
-                    }
-                    break;
-                case TrialState.Order:
-                    runnerInstance.headSelectedPatternSet = null;
-                    break;
-                default:
-                    break;
-            }
-        }
         
         if (runnerEasyInstance != null)
         {
@@ -248,6 +308,42 @@ public class ColliderHandleHard : MonoBehaviour
                     break;
             }
         }
+    }
+
+    private void hardHeadDeRegister()
+    {
+        EyeOnlyHardRunner runnerInstance = GameObject
+            .Find("GameRunner")
+            .GetComponent<EyeOnlyHardRunner>();
+
+        if (runnerInstance != null)
+        {
+            switch(Global.currentState)
+            {
+                case TrialState.Head:
+                    if (!runnerInstance.trialDone)
+                    {
+                        this
+                            .gameObject
+                            .GetComponent<SpriteRenderer>()
+                            .sprite = runnerInstance.white;
+                        runnerInstance.headSelectedPatternSet = null;
+                    }
+                    break;
+                case TrialState.Order:
+                    runnerInstance.headSelectedPatternSet = null;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    private void familizationHeadDeRegister()
+    {
+        Familiarization runnerTrialInstance = GameObject
+            .Find("GameRunner").
+            GetComponent<Familiarization>();
 
         if (runnerTrialInstance != null)
         {
