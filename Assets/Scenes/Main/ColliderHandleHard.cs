@@ -86,6 +86,11 @@ public class ColliderHandleHard : MonoBehaviour
         if (runnerTrialInstance != null)
         {
             runnerTrialInstance.didEyeSelect = false;
+            if (Global.currentState != TrialState.Head)
+            {
+                this.gameObject.GetComponent<SpriteRenderer>().sprite 
+                    = runnerTrialInstance.white;
+            }
         }
 
         // observing handle in HeadEye case
@@ -247,6 +252,21 @@ public class ColliderHandleHard : MonoBehaviour
         if (runnerTrialInstance != null)
         {
             runnerTrialInstance.didHeadSelect = false;
+            switch(Global.currentState)
+            {
+                case TrialState.Head:
+                    this
+                        .gameObject
+                        .GetComponent<SpriteRenderer>()
+                        .sprite = runnerTrialInstance.white;
+                    runnerTrialInstance.didHeadSelect = false;
+                    break;
+                case TrialState.Order:
+                    runnerTrialInstance.didHeadSelect = false;
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
